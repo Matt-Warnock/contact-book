@@ -3,5 +3,5 @@
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
-require 'example'
-puts(Example.new.hello)
+require 'user_interface'
+UserInterface.new($stdin, $stdout).run

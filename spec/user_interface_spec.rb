@@ -3,6 +3,7 @@
 require 'user_interface'
 
 RSpec.describe UserInterface do
+  let(:error_message) { described_class::ERROR_MESSAGE }
   let(:output) { StringIO.new }
   let(:valid_input) { StringIO.new('1') }
 
@@ -36,7 +37,7 @@ RSpec.describe UserInterface do
 
     ui.run
 
-    expect(output.string).to include(described_class::ERROR_MESSAGE)
+    expect(output.string).to include(error_message)
   end
 
   it 'Validates input, only if number is 1' do
@@ -45,7 +46,7 @@ RSpec.describe UserInterface do
 
     ui.run
 
-    expect(output.string).to include(described_class::ERROR_MESSAGE)
+    expect(output.string).to include(error_message)
   end
 
   it 'Reads the input again if input is invalid' do
@@ -55,6 +56,15 @@ RSpec.describe UserInterface do
     ui.run
 
     expect(ui.user_input).to eq('1')
+  end
+
+  it 'repeats printing error message untill valid input is entered' do
+    input = StringIO.new("yes\n0\n5\n1\n")
+    ui = described_class.new(input, output)
+
+    ui.run
+
+    expect(output.string.scan(error_message).length).to eq(3)
   end
 
   it 'Returns a valid input' do
