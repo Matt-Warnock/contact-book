@@ -14,8 +14,7 @@ class UserInterface
   end
 
   def run
-    output.write CLEAR_COMMAND
-    output.print MENU_MESSAGE
+    output.print CLEAR_COMMAND, MENU_MESSAGE
 
     loop do
       @user_input = input.gets.chomp
