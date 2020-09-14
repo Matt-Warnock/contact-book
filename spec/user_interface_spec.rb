@@ -7,7 +7,7 @@ RSpec.describe UserInterface do
   let(:output) { StringIO.new }
   let(:valid_input) { StringIO.new('1') }
 
-  it 'Prints menu of options for user to choose' do
+  it 'prints menu of options for user to choose' do
     ui = described_class.new(valid_input, output)
 
     ui.run
@@ -15,23 +15,23 @@ RSpec.describe UserInterface do
     expect(output.string).to include(described_class::MENU_MESSAGE)
   end
 
-  it 'Clears the screen before printing the menu' do
+  it 'clears the screen before printing the menu' do
     ui = described_class.new(valid_input, output)
 
     ui.run
 
-    expect(output.string).to include("\033[H\033[2J")
+    expect(output.string).to include("\033[H\033[2J" + described_class::MENU_MESSAGE)
   end
 
-  it 'Reads an input from the user' do
+  it 'reads an input from the user' do
     ui = described_class.new(valid_input, output)
 
-    ui.run
+    user_input = ui.run
 
-    expect(ui.user_input).to eq('1')
+    expect(user_input).to eq('1')
   end
 
-  it 'Validates input, numbers only' do
+  it 'validates input, numbers only' do
     input = StringIO.new("a\n1\n")
     ui = described_class.new(input, output)
 
@@ -40,7 +40,7 @@ RSpec.describe UserInterface do
     expect(output.string).to include(error_message)
   end
 
-  it 'Validates input, only if number is 1' do
+  it 'validates input, only if number is 1' do
     input = StringIO.new("2\n1\n")
     ui = described_class.new(input, output)
 
@@ -49,13 +49,13 @@ RSpec.describe UserInterface do
     expect(output.string).to include(error_message)
   end
 
-  it 'Reads the input again if input is invalid' do
+  it 'reads the input again if input is invalid' do
     input = StringIO.new("yes\n1\n")
     ui = described_class.new(input, output)
 
-    ui.run
+    user_input = ui.run
 
-    expect(ui.user_input).to eq('1')
+    expect(user_input).to eq('1')
   end
 
   it 'repeats printing error message untill valid input is entered' do
@@ -67,9 +67,8 @@ RSpec.describe UserInterface do
     expect(output.string.scan(error_message).length).to eq(3)
   end
 
-  it 'Returns a valid input' do
-    input = StringIO.new('1')
-    ui = described_class.new(input, output)
+  it 'returns a valid input' do
+    ui = described_class.new(valid_input, output)
 
     expect(ui.run).to eq('1')
   end
