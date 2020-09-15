@@ -6,6 +6,10 @@ class Controler
   end
 
   def start
-    @user_interface.run
+    user_interface.run
   end
+
+  private
+
+  attr_reader :user_interface
 end
