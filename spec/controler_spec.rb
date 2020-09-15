@@ -12,6 +12,6 @@ RSpec.describe Controler do
 
     ctrl.start
 
-    expect(output.string).to include(ui::MENU_MESSAGE)
+    expect(output.string).to include('CONTACT BOOK')
   end
 end

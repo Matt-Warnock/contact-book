@@ -6,5 +6,6 @@ class Controler
   end
 
   def start
+    @user_interface.run
   end
 end
