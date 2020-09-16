@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
 class Controler
-  def initialize(user_interface)
+  def initialize(user_interface, actions)
     @user_interface = user_interface
+    @actions = actions
   end
 
   def start
-    user_interface.run
+    actions[user_interface.run.to_i - 1]
   end
 
   private
 
-  attr_reader :user_interface
+  attr_reader :user_interface, :actions
 end
