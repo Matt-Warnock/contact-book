@@ -3,5 +3,10 @@
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
+require 'controler'
+require 'null_action'
 require 'user_interface'
-UserInterface.new($stdin, $stdout).run
+
+actions = [NullAction.new]
+
+Controler.new(UserInterface.new($stdin, $stdout), actions).start
