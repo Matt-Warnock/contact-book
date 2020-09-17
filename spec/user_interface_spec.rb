@@ -28,7 +28,7 @@ RSpec.describe UserInterface do
 
     user_input = ui.run
 
-    expect(user_input).to eq('1')
+    expect(user_input).to eq(1)
   end
 
   it 'validates input, numbers only' do
@@ -55,7 +55,7 @@ RSpec.describe UserInterface do
 
     user_input = ui.run
 
-    expect(user_input).to eq('1')
+    expect(user_input).to eq(1)
   end
 
   it 'repeats printing error message untill valid input is entered' do
@@ -70,6 +70,6 @@ RSpec.describe UserInterface do
   it 'returns a valid input' do
     ui = described_class.new(valid_input, output)
 
-    expect(ui.run).to eq('1')
+    expect(ui.run).to eq(1)
   end
 end

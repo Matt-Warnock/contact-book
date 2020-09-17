@@ -2,65 +2,46 @@
 
 require 'controler'
 require 'user_interface'
+require 'null_action'
 
 RSpec.describe Controler do
-  let(:actions) { [double('NullAction')] }
+  let(:actions) { [NullAction.new] }
   let(:output) { StringIO.new }
   let(:valid_input) { StringIO.new('1') }
 
-  it 'tells the user_interface to print the menu' do
+  it 'tells the user interface to print the menu' do
     ui = UserInterface.new(valid_input, output)
-    ctrl = Controler.new(ui, actions)
+    controler = Controler.new(ui, actions)
 
-    allow(actions[0]).to receive(:run)
+    controler.start
 
-    ctrl.start
-
-    expect(output.string).to include(MENU_MESSAGE)
+    expect(output.string).to include(UserInterface::MENU_MESSAGE)
   end
 
-  it 'receives the input from the user_interface' do
-    input = StringIO.new("2\n1\n")
-    ui = UserInterface.new(input, output)
-    ctrl = Controler.new(ui, actions)
+  it 'receives the input from the user interface' do
+    ui_double = double('UserInterface', run: 1)
+    controler = Controler.new(ui_double, actions)
 
-    allow(actions[0]).to receive(:run)
+    controler.start
 
-    ctrl.start
-
-    expect(output.string).to include(ERROR_MESSAGE)
+    expect(ui_double).to have_received(:run).once
   end
 
   it 'selects correct action to perform according to input' do
     ui = UserInterface.new(valid_input, output)
-    ctrl = Controler.new(ui, actions)
+    controler = Controler.new(ui, actions)
 
-    allow(actions[0]).to receive(:run)
-
-    expect(ctrl.start).to eq(nil)
+    expect(controler.start).to eq(nil)
   end
 
   it 'runs the action' do
+    action_double = double('NullAction', run: nil)
+
     ui = UserInterface.new(valid_input, output)
-    ctrl = Controler.new(ui, actions)
+    controler = Controler.new(ui, [action_double])
 
-    allow(actions[0]).to receive(:run)
+    controler.start
 
-    ctrl.start
-
-    expect(actions[0]).to have_received(:run)
+    expect(action_double).to have_received(:run).once
   end
-
-  ERROR_MESSAGE = 'Wrong input. Please try again: '
-  MENU_MESSAGE = %{
-    ---------------------
-
-        CONTACT BOOK
-
-    ---------------------
-
-
-  1) Exit the program
-
-  Choose a menu option: }
 end
