@@ -74,13 +74,40 @@ RSpec.describe UserInterface do
   end
 
   describe 'ask for fields method' do
-    it 'asks user for contact name' do
-      input = StringIO.new
-      ui = described_class.new(input, output)
+    let(:input) { StringIO.new(contact_input) }
+    let(:ui) { described_class.new(input, output) }
 
+    it 'asks user for contact name' do
       ui.ask_for_fields
 
-      expect(output.string).to include('Contact name:')
+      expect(output.string).to include(described_class::FIELDS_TO_PROMPTS[:name])
     end
+
+    it 'reads the input for contact name' do
+      user_input = ui.ask_for_fields
+
+      expect(user_input[:name]).to include(TEST_DETAILS[:name])
+    end
+
+    it 'asks user for adress' do
+      ui.ask_for_fields
+
+      expect(output.string).to include(described_class::FIELDS_TO_PROMPTS[:address])
+    end
+
+    it 'reads the input for contact address' do
+      user_input = ui.ask_for_fields
+
+      expect(user_input[:address]).to include(TEST_DETAILS[:address])
+    end
+  end
+
+  TEST_DETAILS = {
+    name: 'Matt Damon',
+    address: 'Some address'
+  }.freeze
+
+  def contact_input
+    TEST_DETAILS.values.join("\n")
   end
 end

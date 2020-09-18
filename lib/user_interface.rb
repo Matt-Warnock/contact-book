@@ -16,8 +16,10 @@ class UserInterface
   Choose a menu option: }
 
   NAME_PROMPT = 'Contact name: '
+  ADDRESS_PROMPT = 'Contact address: '
   FIELDS_TO_PROMPTS = {
-    name: NAME_PROMPT
+    name: NAME_PROMPT,
+    address: ADDRESS_PROMPT
   }.freeze
 
   def initialize(input, output)
@@ -39,7 +41,12 @@ class UserInterface
   end
 
   def ask_for_fields
+    contact_details = {}
     output.puts FIELDS_TO_PROMPTS[:name]
+    contact_details[:name] = input.gets.chomp
+    output.puts FIELDS_TO_PROMPTS[:address]
+    contact_details[:address] = input.gets.chomp
+    contact_details
   end
 
   private
