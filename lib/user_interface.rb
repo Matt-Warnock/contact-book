@@ -30,7 +30,7 @@ class UserInterface
 
       output.print ERROR_MESSAGE
     end
-    user_input
+    user_input.to_i
   end
 
   private
