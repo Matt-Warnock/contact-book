@@ -15,6 +15,11 @@ class UserInterface
 
   Choose a menu option: }
 
+  NAME_PROMPT = 'Contact name: '
+  FIELDS_TO_PROMPTS = {
+    name: NAME_PROMPT
+  }.freeze
+
   def initialize(input, output)
     @input = input
     @output = output
@@ -31,6 +36,10 @@ class UserInterface
       output.print ERROR_MESSAGE
     end
     user_input.to_i
+  end
+
+  def ask_for_fields
+    output.puts FIELDS_TO_PROMPTS[:name]
   end
 
   private

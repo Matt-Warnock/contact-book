@@ -72,4 +72,15 @@ RSpec.describe UserInterface do
 
     expect(ui.run).to eq(1)
   end
+
+  describe 'ask for fields method' do
+    it 'asks user for contact name' do
+      input = StringIO.new
+      ui = described_class.new(input, output)
+
+      ui.ask_for_fields
+
+      expect(output.string).to include('Contact name:')
+    end
+  end
 end
