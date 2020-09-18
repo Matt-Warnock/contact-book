@@ -17,9 +17,11 @@ class UserInterface
 
   NAME_PROMPT = 'Contact name: '
   ADDRESS_PROMPT = 'Contact address: '
+  PHONE_PROMPT = 'Contact phone: '
   FIELDS_TO_PROMPTS = {
     name: NAME_PROMPT,
-    address: ADDRESS_PROMPT
+    address: ADDRESS_PROMPT,
+    phone: PHONE_PROMPT
   }.freeze
 
   def initialize(input, output)
@@ -42,10 +44,10 @@ class UserInterface
 
   def ask_for_fields
     contact_details = {}
-    output.puts FIELDS_TO_PROMPTS[:name]
-    contact_details[:name] = input.gets.chomp
-    output.puts FIELDS_TO_PROMPTS[:address]
-    contact_details[:address] = input.gets.chomp
+    FIELDS_TO_PROMPTS.each do |key, value|
+      output.puts value
+      contact_details[key] = input.gets.chomp
+    end
     contact_details
   end
 

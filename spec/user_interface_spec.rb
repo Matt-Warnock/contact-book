@@ -89,7 +89,7 @@ RSpec.describe UserInterface do
       expect(user_input[:name]).to include(TEST_DETAILS[:name])
     end
 
-    it 'asks user for adress' do
+    it 'asks user for address' do
       ui.ask_for_fields
 
       expect(output.string).to include(described_class::FIELDS_TO_PROMPTS[:address])
@@ -100,11 +100,24 @@ RSpec.describe UserInterface do
 
       expect(user_input[:address]).to include(TEST_DETAILS[:address])
     end
+
+    it 'asks user for phone number' do
+      ui.ask_for_fields
+
+      expect(output.string).to include(described_class::FIELDS_TO_PROMPTS[:phone])
+    end
+
+    it 'reads the input for contact email' do
+      user_input = ui.ask_for_fields
+
+      expect(user_input[:phone]).to include(TEST_DETAILS[:phone])
+    end
   end
 
   TEST_DETAILS = {
     name: 'Matt Damon',
-    address: 'Some address'
+    address: 'Some address',
+    phone: '08796564231'
   }.freeze
 
   def contact_input
