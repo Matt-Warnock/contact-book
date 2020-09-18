@@ -18,10 +18,15 @@ class UserInterface
   NAME_PROMPT = 'Contact name: '
   ADDRESS_PROMPT = 'Contact address: '
   PHONE_PROMPT = 'Contact phone: '
+  EMAIL_PROMPT = 'Contact email: '
+  NOTES_PROMPT = 'Contact notes: '
+
   FIELDS_TO_PROMPTS = {
     name: NAME_PROMPT,
     address: ADDRESS_PROMPT,
-    phone: PHONE_PROMPT
+    phone: PHONE_PROMPT,
+    email: EMAIL_PROMPT,
+    notes: NOTES_PROMPT
   }.freeze
 
   def initialize(input, output)

@@ -77,47 +77,25 @@ RSpec.describe UserInterface do
     let(:input) { StringIO.new(contact_input) }
     let(:ui) { described_class.new(input, output) }
 
-    it 'asks user for contact name' do
+    it 'asks user for all fields' do
       ui.ask_for_fields
 
-      expect(output.string).to include(described_class::FIELDS_TO_PROMPTS[:name])
+      expect(output.string).to include(described_class::FIELDS_TO_PROMPTS.values.join("\n"))
     end
 
-    it 'reads the input for contact name' do
+    it 'reads the input for all prompt' do
       user_input = ui.ask_for_fields
 
-      expect(user_input[:name]).to include(TEST_DETAILS[:name])
-    end
-
-    it 'asks user for address' do
-      ui.ask_for_fields
-
-      expect(output.string).to include(described_class::FIELDS_TO_PROMPTS[:address])
-    end
-
-    it 'reads the input for contact address' do
-      user_input = ui.ask_for_fields
-
-      expect(user_input[:address]).to include(TEST_DETAILS[:address])
-    end
-
-    it 'asks user for phone number' do
-      ui.ask_for_fields
-
-      expect(output.string).to include(described_class::FIELDS_TO_PROMPTS[:phone])
-    end
-
-    it 'reads the input for contact email' do
-      user_input = ui.ask_for_fields
-
-      expect(user_input[:phone]).to include(TEST_DETAILS[:phone])
+      expect(user_input).to eq(TEST_DETAILS)
     end
   end
 
   TEST_DETAILS = {
     name: 'Matt Damon',
     address: 'Some address',
-    phone: '08796564231'
+    phone: '08796564231',
+    email: 'matt@damon.com',
+    notes: 'I think he has an Oscar'
   }.freeze
 
   def contact_input
