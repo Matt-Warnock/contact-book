@@ -29,6 +29,12 @@ class UserInterface
     notes: NOTES_PROMPT
   }.freeze
 
+  FIELDS_TO_MATCHES = {
+
+    phone: /^\d{11}$/,
+    email: /@/
+  }.freeze
+
   def initialize(input, output)
     @input = input
     @output = output
@@ -40,7 +46,7 @@ class UserInterface
 
     loop do
       user_input = input.gets.chomp
-      break if valid?(user_input)
+      break if valid_choise?(user_input)
 
       output.print ERROR_MESSAGE
     end
@@ -49,17 +55,27 @@ class UserInterface
 
   def ask_for_fields
     contact_details = {}
-    FIELDS_TO_PROMPTS.each do |key, value|
-      output.puts value
-      contact_details[key] = input.gets.chomp
+    FIELDS_TO_PROMPTS.each do |field, prompt|
+      output.puts prompt
+
+      loop do
+        contact_details[field] = input.gets.chomp
+        break if vaild_input?(contact_details, field)
+
+        output.print ERROR_MESSAGE
+      end
     end
     contact_details
   end
 
   private
 
-  def valid?(option)
+  def valid_choise?(option)
     option.match?(/^\d$/) && option == '1'
+  end
+
+  def vaild_input?(contact_details, field)
+    contact_details[field].match?(FIELDS_TO_MATCHES.fetch(field, /\w+/))
   end
 
   attr_reader :input, :output

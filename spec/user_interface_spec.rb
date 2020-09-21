@@ -74,7 +74,7 @@ RSpec.describe UserInterface do
   end
 
   describe 'ask for fields method' do
-    let(:input) { StringIO.new(contact_input) }
+    let(:input) { StringIO.new(contact_inputs(TEST_DETAILS)) }
     let(:ui) { described_class.new(input, output) }
 
     it 'asks user for all fields' do
@@ -88,6 +88,24 @@ RSpec.describe UserInterface do
 
       expect(user_input).to eq(TEST_DETAILS)
     end
+
+    it 'sends error if number is invalid' do
+      input = StringIO.new(contact_inputs(INVALID_INPUTS))
+      ui = described_class.new(input, output)
+
+      ui.ask_for_fields
+
+      expect(output.string).to include(described_class::ERROR_MESSAGE)
+    end
+
+    it 'sends error if email is invalid' do
+      input = StringIO.new(contact_inputs(INVALID_INPUTS))
+      ui = described_class.new(input, output)
+
+      ui.ask_for_fields
+
+      expect(output.string).to include(described_class::ERROR_MESSAGE)
+    end
   end
 
   TEST_DETAILS = {
@@ -98,7 +116,17 @@ RSpec.describe UserInterface do
     notes: 'I think he has an Oscar'
   }.freeze
 
-  def contact_input
-    TEST_DETAILS.values.join("\n")
+  INVALID_INPUTS = {
+    name: 'Matt Damon',
+    address: 'Some address',
+    invalid_phone: '08796564',
+    phone: '08796564231',
+    invalid_email: 'mattdamon.com',
+    email: 'matt@damon.com',
+    notes: 'I think he has an Oscar'
+  }.freeze
+
+  def contact_inputs(details)
+    details.values.join("\n")
   end
 end
