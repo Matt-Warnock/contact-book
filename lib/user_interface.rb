@@ -15,24 +15,12 @@ class UserInterface
 
   Choose a menu option: }
 
-  NAME_PROMPT = 'Contact name: '
-  ADDRESS_PROMPT = 'Contact address: '
-  PHONE_PROMPT = 'Contact phone: '
-  EMAIL_PROMPT = 'Contact email: '
-  NOTES_PROMPT = 'Contact notes: '
-
   FIELDS_TO_PROMPTS = {
-    name: NAME_PROMPT,
-    address: ADDRESS_PROMPT,
-    phone: PHONE_PROMPT,
-    email: EMAIL_PROMPT,
-    notes: NOTES_PROMPT
-  }.freeze
-
-  FIELDS_TO_MATCHES = {
-
-    phone: /^\d{11}$/,
-    email: /@/
+    name: 'Contact name: ',
+    address: 'Contact address: ',
+    phone: 'Contact phone: ',
+    email: 'Contact email: ',
+    notes: 'Contact notes: '
   }.freeze
 
   def initialize(input, output)
@@ -40,13 +28,13 @@ class UserInterface
     @output = output
   end
 
-  def run
+  def menu_choice
     output.print CLEAR_COMMAND, MENU_MESSAGE
     user_input = ''
 
     loop do
       user_input = input.gets.chomp
-      break if valid_choise?(user_input)
+      break if valid_choice?(user_input)
 
       output.print ERROR_MESSAGE
     end
@@ -54,28 +42,37 @@ class UserInterface
   end
 
   def ask_for_fields
-    contact_details = {}
-    FIELDS_TO_PROMPTS.each do |field, prompt|
+    FIELDS_TO_PROMPTS.each_with_object({}) do |(field, prompt), contact_details|
       output.puts prompt
 
       loop do
         contact_details[field] = input.gets.chomp
-        break if vaild_input?(contact_details, field)
+        break if vaild_field?(field, contact_details[field])
 
         output.print ERROR_MESSAGE
       end
     end
-    contact_details
   end
 
   private
 
-  def valid_choise?(option)
+  def valid_choice?(option)
     option.match?(/^\d$/) && option == '1'
   end
 
-  def vaild_input?(contact_details, field)
-    contact_details[field].match?(FIELDS_TO_MATCHES.fetch(field, /\w+/))
+  def vaild_field?(field, value)
+    {
+      phone: vaild_number?(value),
+      email: valid_email?(value)
+    }.fetch(field, true)
+  end
+
+  def vaild_number?(value)
+    value.match?(/^\d{11}$/)
+  end
+
+  def valid_email?(value)
+    value.match?(/@/)
   end
 
   attr_reader :input, :output

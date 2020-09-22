@@ -19,12 +19,12 @@ RSpec.describe Controler do
   end
 
   it 'receives the input from the user interface' do
-    ui_double = double('UserInterface', run: 1)
+    ui_double = double('UserInterface', menu_choice: 1)
     controler = Controler.new(ui_double, actions)
 
     controler.start
 
-    expect(ui_double).to have_received(:run).once
+    expect(ui_double).to have_received(:menu_choice).once
   end
 
   it 'selects correct action to perform according to input' do
