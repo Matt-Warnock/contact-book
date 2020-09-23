@@ -54,6 +54,16 @@ class UserInterface
     end
   end
 
+  def display_contact(contact_hash)
+    contact_hash.each do |field, value|
+      max_field_length = 8
+      field_string = field.to_s.capitalize + ':'
+
+      output.print field_string.ljust(max_field_length + 1)
+      output.puts value
+    end
+  end
+
   private
 
   def valid_choice?(option)
