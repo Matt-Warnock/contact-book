@@ -73,7 +73,7 @@ RSpec.describe UserInterface do
     expect(ui.menu_choice).to eq(1)
   end
 
-  describe '#ask for fields' do
+  describe '#ask ask_for_fields' do
     let(:input) { StringIO.new(test_details.values.join("\n")) }
     let(:ui) { described_class.new(input, output) }
 
