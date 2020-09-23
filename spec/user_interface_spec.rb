@@ -106,23 +106,23 @@ RSpec.describe UserInterface do
 
       expect(output.string).to include(described_class::ERROR_MESSAGE)
     end
+  end
 
-    describe '#display_contact' do
-      it 'prints all fields of a contact hash' do
-        input = StringIO.new
-        ui = described_class.new(input, output)
+  describe '#display_contact' do
+    it 'prints all fields of a contact hash' do
+      input = StringIO.new
+      ui = described_class.new(input, output)
 
-        ui.display_contact(test_details)
+      ui.display_contact(test_details)
 
-        expect(output.string).to eq(
-          %(Name:    Matt Damon
+      expect(output.string).to eq(
+        %(Name:    Matt Damon
 Address: Some address
 Phone:   08796564231
 Email:   matt@damon.com
 Notes:   I think he has an Oscar
 )
-        )
-      end
+      )
     end
   end
 
