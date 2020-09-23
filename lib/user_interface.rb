@@ -63,10 +63,10 @@ class UserInterface
   end
 
   def display_contact(contact_hash)
-    max_field_name_length = FIELDS_TO_FIELD_NAMES.values.max(1) { |a, b| a.length <=> b.length }[0].length
+    max_field_name = FIELDS_TO_FIELD_NAMES.values.max(1) { |a, b| a.length <=> b.length }[0]
 
     contact_hash.each do |field, value|
-      output.puts FIELDS_TO_FIELD_NAMES[field].ljust(max_field_name_length) + value
+      output.puts FIELDS_TO_FIELD_NAMES[field].ljust(max_field_name.length) + value
     end
   end
 
