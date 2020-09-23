@@ -55,12 +55,12 @@ class UserInterface
   end
 
   def display_contact(contact_hash)
+    max_field_length = 8
+
     contact_hash.each do |field, value|
-      max_field_length = 8
       field_string = field.to_s.capitalize + ':'
 
-      output.print field_string.ljust(max_field_length + 1)
-      output.puts value
+      output.puts field_string.ljust(max_field_length + 1) + value
     end
   end
 
