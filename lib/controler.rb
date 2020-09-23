@@ -7,7 +7,7 @@ class Controler
   end
 
   def start
-    actions[user_interface.run - 1].run
+    actions[user_interface.menu_choice - 1].run
   end
 
   private
