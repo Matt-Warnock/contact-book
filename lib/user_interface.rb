@@ -15,6 +15,14 @@ class UserInterface
 
   Choose a menu option: }
 
+  FIELDS_TO_FIELD_NAMES = {
+    name: 'Name: ',
+    address: 'Address: ',
+    phone: 'Phone: ',
+    email: 'Email: ',
+    notes: 'Notes: '
+  }.freeze
+
   FIELDS_TO_PROMPTS = {
     name: 'Contact name: ',
     address: 'Contact address: ',
@@ -55,12 +63,10 @@ class UserInterface
   end
 
   def display_contact(contact_hash)
-    max_field_length = 8
+    max_field_name_length = FIELDS_TO_FIELD_NAMES.values.max(1) { |a, b| a.length <=> b.length }[0].length
 
     contact_hash.each do |field, value|
-      field_string = field.to_s.capitalize + ':'
-
-      output.puts field_string.ljust(max_field_length + 1) + value
+      output.puts FIELDS_TO_FIELD_NAMES[field].ljust(max_field_name_length) + value
     end
   end
 
