@@ -39,27 +39,14 @@ class UserInterface
 
   def menu_choice
     output.print CLEAR_COMMAND, MENU_MESSAGE
-    user_input = ''
-
-    loop do
-      user_input = input.gets.chomp
-      break if valid_choice?(user_input)
-
-      output.print ERROR_MESSAGE
-    end
-    user_input.to_i
+    collect_vaild_input { |user_input| valid_choice?(user_input) }.to_i
   end
 
   def ask_for_fields
     FIELDS_TO_PROMPTS.each_with_object({}) do |(field, prompt), contact_details|
       output.puts prompt
 
-      loop do
-        contact_details[field] = input.gets.chomp
-        break if vaild_field?(field, contact_details[field])
-
-        output.print ERROR_MESSAGE
-      end
+      contact_details[field] = collect_vaild_input { |user_input| vaild_field?(field, user_input) }
     end
   end
 
@@ -73,18 +60,21 @@ class UserInterface
 
   def add_another_contact?
     output.print ANOTHER_CONTACT_PROMPT
-    user_input = ''
-
-    loop do
-      user_input = input.gets.chomp
-      break if user_input.match?(/[yn]/i)
-
-      output.print ERROR_MESSAGE
-    end
-    user_input.match?(/y/i)
+    collect_vaild_input { |user_input| user_input.match?(/[yn]/i) }.match?(/y/i)
   end
 
   private
+
+  def collect_vaild_input
+    user_input = ''
+    loop do
+      user_input = input.gets.chomp
+      break if yield user_input
+
+      output.print ERROR_MESSAGE
+    end
+    user_input
+  end
 
   def valid_choice?(option)
     option.match?(/^\d$/) && option == '1'
