@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class UserInterface
+  ANOTHER_CONTACT_PROMPT = 'Add another contact? (y/n): '
   CLEAR_COMMAND = "\033[H\033[2J"
   ERROR_MESSAGE = 'Wrong input. Please try again: '
   MENU_MESSAGE = %{
@@ -68,6 +69,10 @@ class UserInterface
     contact.each do |field, value|
       output.puts FIELDS_TO_DISPLAY_NAMES[field].ljust(longest_display_name.length) + value
     end
+  end
+
+  def add_another_contact?
+    output.print ANOTHER_CONTACT_PROMPT
   end
 
   private

@@ -136,7 +136,7 @@ Notes:   I think he has an Oscar
 
       ui.add_another_contact?
 
-      expect(output.string).to include()
+      expect(output.string).to include(described_class::ANOTHER_CONTACT_PROMPT)
     end
   end
 
