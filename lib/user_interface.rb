@@ -15,7 +15,7 @@ class UserInterface
 
   Choose a menu option: }
 
-  FIELDS_TO_FIELD_NAMES = {
+  FIELDS_TO_DISPLAY_NAMES = {
     name: 'Name: ',
     address: 'Address: ',
     phone: 'Phone: ',
@@ -62,11 +62,11 @@ class UserInterface
     end
   end
 
-  def display_contact(contact_hash)
-    max_field_name = FIELDS_TO_FIELD_NAMES.values.max(1) { |a, b| a.length <=> b.length }[0]
+  def display_contact(contact)
+    longest_display_name = FIELDS_TO_DISPLAY_NAMES.values.max_by(&:length)
 
-    contact_hash.each do |field, value|
-      output.puts FIELDS_TO_FIELD_NAMES[field].ljust(max_field_name.length) + value
+    contact.each do |field, value|
+      output.puts FIELDS_TO_DISPLAY_NAMES[field].ljust(longest_display_name.length) + value
     end
   end
 
@@ -78,12 +78,12 @@ class UserInterface
 
   def vaild_field?(field, value)
     {
-      phone: vaild_number?(value),
+      phone: vaild_phone?(value),
       email: valid_email?(value)
     }.fetch(field, true)
   end
 
-  def vaild_number?(value)
+  def vaild_phone?(value)
     value.match?(/^\d{11}$/)
   end
 
