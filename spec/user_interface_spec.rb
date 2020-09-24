@@ -149,7 +149,7 @@ Notes:   I think he has an Oscar
     end
 
     it 'prints error message if incorrect input is given' do
-      input = StringIO.new("n\ny\n")
+      input = StringIO.new("e\ny\n")
       ui = described_class.new(input, output)
 
       ui.add_another_contact?

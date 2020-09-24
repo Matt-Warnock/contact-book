@@ -72,9 +72,16 @@ class UserInterface
   end
 
   def add_another_contact?
+    user_input = ''
     output.print ANOTHER_CONTACT_PROMPT
-    user_input = input.gets.chomp
-    user_input == 'y'
+
+    loop do
+      user_input = input.gets.chomp
+      break if user_input.match?(/[yn]/i)
+
+      output.print ERROR_MESSAGE
+    end
+    user_input.match?(/y/i)
   end
 
   private
