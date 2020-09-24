@@ -15,6 +15,14 @@ class UserInterface
 
   Choose a menu option: }
 
+  FIELDS_TO_DISPLAY_NAMES = {
+    name: 'Name: ',
+    address: 'Address: ',
+    phone: 'Phone: ',
+    email: 'Email: ',
+    notes: 'Notes: '
+  }.freeze
+
   FIELDS_TO_PROMPTS = {
     name: 'Contact name: ',
     address: 'Contact address: ',
@@ -54,6 +62,14 @@ class UserInterface
     end
   end
 
+  def display_contact(contact)
+    longest_display_name = FIELDS_TO_DISPLAY_NAMES.values.max_by(&:length)
+
+    contact.each do |field, value|
+      output.puts FIELDS_TO_DISPLAY_NAMES[field].ljust(longest_display_name.length) + value
+    end
+  end
+
   private
 
   def valid_choice?(option)
@@ -62,12 +78,12 @@ class UserInterface
 
   def vaild_field?(field, value)
     {
-      phone: vaild_number?(value),
+      phone: vaild_phone?(value),
       email: valid_email?(value)
     }.fetch(field, true)
   end
 
-  def vaild_number?(value)
+  def vaild_phone?(value)
     value.match?(/^\d{11}$/)
   end
 
