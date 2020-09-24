@@ -147,6 +147,15 @@ Notes:   I think he has an Oscar
 
       expect(result).to eq(true)
     end
+
+    it 'prints error message if incorrect input is given' do
+      input = StringIO.new("n\ny\n")
+      ui = described_class.new(input, output)
+
+      ui.add_another_contact?
+
+      expect(output.string).to include(described_class::ERROR_MESSAGE)
+    end
   end
 
   def test_details
