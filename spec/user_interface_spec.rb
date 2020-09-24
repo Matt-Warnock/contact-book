@@ -130,13 +130,19 @@ Notes:   I think he has an Oscar
   end
 
   describe '#add_another_contact?' do
+    input = StringIO.new('y')
     it 'prints prompt to user' do
-      input = StringIO.new
       ui = described_class.new(input, output)
 
       ui.add_another_contact?
 
       expect(output.string).to include(described_class::ANOTHER_CONTACT_PROMPT)
+    end
+
+    it 'returns true if user input is y' do
+      ui = described_class.new(input, output)
+
+      expect(ui.add_another_contact?).to eq(true)
     end
   end
 
