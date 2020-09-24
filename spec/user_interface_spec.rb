@@ -148,6 +148,15 @@ Notes:   I think he has an Oscar
       expect(result).to eq(true)
     end
 
+    it 'returns false if user input is n' do
+      input = StringIO.new('n')
+      ui = described_class.new(input, output)
+
+      result = ui.add_another_contact?
+
+      expect(result).to eq(false)
+    end
+
     it 'prints error message if incorrect input is given' do
       input = StringIO.new("e\ny\n")
       ui = described_class.new(input, output)
@@ -155,6 +164,15 @@ Notes:   I think he has an Oscar
       ui.add_another_contact?
 
       expect(output.string).to include(described_class::ERROR_MESSAGE)
+    end
+
+    it 'ignores case sesitivity on vaild inputs' do
+      input = StringIO.new('Y')
+      ui = described_class.new(input, output)
+
+      ui.add_another_contact?
+
+      expect(output.string).to_not include(described_class::ERROR_MESSAGE)
     end
   end
 

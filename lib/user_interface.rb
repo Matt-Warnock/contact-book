@@ -72,8 +72,8 @@ class UserInterface
   end
 
   def add_another_contact?
-    user_input = ''
     output.print ANOTHER_CONTACT_PROMPT
+    user_input = ''
 
     loop do
       user_input = input.gets.chomp
