@@ -130,8 +130,8 @@ Notes:   I think he has an Oscar
   end
 
   describe '#add_another_contact?' do
-    input = StringIO.new('y')
     it 'prints prompt to user' do
+      input = StringIO.new('y')
       ui = described_class.new(input, output)
 
       ui.add_another_contact?
@@ -140,9 +140,12 @@ Notes:   I think he has an Oscar
     end
 
     it 'returns true if user input is y' do
+      input = StringIO.new('y')
       ui = described_class.new(input, output)
 
-      expect(ui.add_another_contact?).to eq(true)
+      result = ui.add_another_contact?
+
+      expect(result).to eq(true)
     end
   end
 

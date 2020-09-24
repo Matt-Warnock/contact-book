@@ -73,6 +73,8 @@ class UserInterface
 
   def add_another_contact?
     output.print ANOTHER_CONTACT_PROMPT
+    user_input = input.gets.chomp
+    user_input == 'y'
   end
 
   private
