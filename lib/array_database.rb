@@ -10,4 +10,8 @@ class ArrayDatabase
   def create(contact)
     all << contact
   end
+
+  def count
+    all.length
+  end
 end

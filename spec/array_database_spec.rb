@@ -9,9 +9,16 @@ RSpec.describe ArrayDatabase do
 
     array_database.create(user_interface.ask_for_fields)
 
-    contact_hash = array_database.all[0]
+    expect(array_database.all[0]).to eq(test_details)
+  end
 
-    expect(contact_hash).to eq(test_details)
+  it 'count the amount of contacts in array' do
+    user_interface = double('UserInterface', ask_for_fields: test_details)
+    array_database = described_class.new
+
+    array_database.create(user_interface.ask_for_fields)
+
+    expect(array_database.count).to eq(1)
   end
 
   def test_details
