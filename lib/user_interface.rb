@@ -32,6 +32,10 @@ class UserInterface
     notes: 'Contact notes: '
   }.freeze
 
+  VALID_YES_NO_REPLY = /^[yn]$/i.freeze
+
+  YES_REPLY = 'y'
+
   def initialize(input, output)
     @input = input
     @output = output
@@ -60,20 +64,18 @@ class UserInterface
 
   def add_another_contact?
     output.print ANOTHER_CONTACT_PROMPT
-    collect_vaild_input { |user_input| user_input.match?(/[yn]/i) }.match?(/y/i)
+    collect_vaild_input { |user_input| valid_yes_no_answer?(user_input) }.downcase == YES_REPLY
   end
 
   private
 
   def collect_vaild_input
-    user_input = ''
     loop do
       user_input = input.gets.chomp
-      break if yield user_input
+      break user_input if yield user_input
 
       output.print ERROR_MESSAGE
     end
-    user_input
   end
 
   def valid_choice?(option)
@@ -93,6 +95,10 @@ class UserInterface
 
   def valid_email?(value)
     value.match?(/@/)
+  end
+
+  def valid_yes_no_answer?(value)
+    value.match?(VALID_YES_NO_REPLY)
   end
 
   attr_reader :input, :output

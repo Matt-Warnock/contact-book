@@ -139,7 +139,7 @@ Notes:   I think he has an Oscar
       expect(output.string).to include(described_class::ANOTHER_CONTACT_PROMPT)
     end
 
-    it 'returns true if user input is y' do
+    it 'returns true if user wants to add another contact' do
       input = StringIO.new('y')
       ui = described_class.new(input, output)
 
@@ -148,7 +148,7 @@ Notes:   I think he has an Oscar
       expect(result).to eq(true)
     end
 
-    it 'returns false if user input is n' do
+    it 'returns false if user doesnt want to add another contact' do
       input = StringIO.new('n')
       ui = described_class.new(input, output)
 
@@ -158,7 +158,7 @@ Notes:   I think he has an Oscar
     end
 
     it 'prints error message if incorrect input is given' do
-      input = StringIO.new("e\ny\n")
+      input = StringIO.new("wrong input\ny\n")
       ui = described_class.new(input, output)
 
       ui.add_another_contact?
@@ -166,7 +166,7 @@ Notes:   I think he has an Oscar
       expect(output.string).to include(described_class::ERROR_MESSAGE)
     end
 
-    it 'ignores case sesitivity on vaild inputs' do
+    it 'ignores case sensitivity on valid inputs' do
       input = StringIO.new('Y')
       ui = described_class.new(input, output)
 
