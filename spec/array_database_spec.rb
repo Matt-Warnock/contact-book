@@ -17,8 +17,9 @@ RSpec.describe ArrayDatabase do
     array_database = described_class.new
 
     array_database.create(user_interface.ask_for_fields)
+    array_database.create(user_interface.ask_for_fields)
 
-    expect(array_database.count).to eq(1)
+    expect(array_database.count).to eq(2)
   end
 
   def test_details
