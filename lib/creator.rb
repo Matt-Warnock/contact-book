@@ -7,6 +7,10 @@ class Creator
   end
 
   def run
-    @user_interface.ask_for_fields
+    database.create(user_interface.ask_for_fields)
   end
+
+  private
+
+  attr_reader :database, :user_interface
 end
