@@ -3,74 +3,77 @@
 require 'user_interface'
 
 RSpec.describe UserInterface do
-  let(:error_message) { described_class::ERROR_MESSAGE }
   let(:output) { StringIO.new }
-  let(:valid_input) { StringIO.new('1') }
 
-  it 'prints menu of options for user to choose' do
-    ui = described_class.new(valid_input, output)
+  describe '#menu_choice' do
+    let(:error_message) { described_class::ERROR_MESSAGE }
+    let(:valid_input) { StringIO.new('1') }
 
-    ui.menu_choice
+    it 'prints menu of options for user to choose' do
+      ui = described_class.new(valid_input, output)
 
-    expect(output.string).to include(described_class::MENU_MESSAGE)
-  end
+      ui.menu_choice
 
-  it 'clears the screen before printing the menu' do
-    ui = described_class.new(valid_input, output)
+      expect(output.string).to include(described_class::MENU_MESSAGE)
+    end
 
-    ui.menu_choice
+    it 'clears the screen before printing the menu' do
+      ui = described_class.new(valid_input, output)
 
-    expect(output.string).to include("\033[H\033[2J" + described_class::MENU_MESSAGE)
-  end
+      ui.menu_choice
 
-  it 'reads an input from the user' do
-    ui = described_class.new(valid_input, output)
+      expect(output.string).to include("\033[H\033[2J" + described_class::MENU_MESSAGE)
+    end
 
-    user_input = ui.menu_choice
+    it 'reads an input from the user' do
+      ui = described_class.new(valid_input, output)
 
-    expect(user_input).to eq(1)
-  end
+      user_input = ui.menu_choice
 
-  it 'validates input, numbers only' do
-    input = StringIO.new("a\n1\n")
-    ui = described_class.new(input, output)
+      expect(user_input).to eq(1)
+    end
 
-    ui.menu_choice
+    it 'validates input, numbers only' do
+      input = StringIO.new("a\n1\n")
+      ui = described_class.new(input, output)
 
-    expect(output.string).to include(error_message)
-  end
+      ui.menu_choice
 
-  it 'validates input, only if number is 1' do
-    input = StringIO.new("2\n1\n")
-    ui = described_class.new(input, output)
+      expect(output.string).to include(error_message)
+    end
 
-    ui.menu_choice
+    it 'validates input, only if number is 1' do
+      input = StringIO.new("2\n1\n")
+      ui = described_class.new(input, output)
 
-    expect(output.string).to include(error_message)
-  end
+      ui.menu_choice
 
-  it 'reads the input again if input is invalid' do
-    input = StringIO.new("yes\n1\n")
-    ui = described_class.new(input, output)
+      expect(output.string).to include(error_message)
+    end
 
-    user_input = ui.menu_choice
+    it 'reads the input again if input is invalid' do
+      input = StringIO.new("yes\n1\n")
+      ui = described_class.new(input, output)
 
-    expect(user_input).to eq(1)
-  end
+      user_input = ui.menu_choice
 
-  it 'repeats printing error message untill valid input is entered' do
-    input = StringIO.new("yes\n0\n5\n1\n")
-    ui = described_class.new(input, output)
+      expect(user_input).to eq(1)
+    end
 
-    ui.menu_choice
+    it 'repeats printing error message untill valid input is entered' do
+      input = StringIO.new("yes\n0\n5\n1\n")
+      ui = described_class.new(input, output)
 
-    expect(output.string.scan(error_message).length).to eq(3)
-  end
+      ui.menu_choice
 
-  it 'returns a valid input' do
-    ui = described_class.new(valid_input, output)
+      expect(output.string.scan(error_message).length).to eq(3)
+    end
 
-    expect(ui.menu_choice).to eq(1)
+    it 'returns a valid input' do
+      ui = described_class.new(valid_input, output)
+
+      expect(ui.menu_choice).to eq(1)
+    end
   end
 
   describe '#ask ask_for_fields' do
@@ -123,6 +126,53 @@ Email:   matt@damon.com
 Notes:   I think he has an Oscar
 )
       )
+    end
+  end
+
+  describe '#add_another_contact?' do
+    it 'prints prompt to user' do
+      input = StringIO.new('y')
+      ui = described_class.new(input, output)
+
+      ui.add_another_contact?
+
+      expect(output.string).to include(described_class::ANOTHER_CONTACT_PROMPT)
+    end
+
+    it 'returns true if user wants to add another contact' do
+      input = StringIO.new('y')
+      ui = described_class.new(input, output)
+
+      result = ui.add_another_contact?
+
+      expect(result).to eq(true)
+    end
+
+    it 'returns false if user doesnt want to add another contact' do
+      input = StringIO.new('n')
+      ui = described_class.new(input, output)
+
+      result = ui.add_another_contact?
+
+      expect(result).to eq(false)
+    end
+
+    it 'prints error message if incorrect input is given' do
+      input = StringIO.new("wrong input\ny\n")
+      ui = described_class.new(input, output)
+
+      ui.add_another_contact?
+
+      expect(output.string).to include(described_class::ERROR_MESSAGE)
+    end
+
+    it 'ignores case sensitivity on valid inputs' do
+      input = StringIO.new('Y')
+      ui = described_class.new(input, output)
+
+      ui.add_another_contact?
+
+      expect(output.string).to_not include(described_class::ERROR_MESSAGE)
     end
   end
 
