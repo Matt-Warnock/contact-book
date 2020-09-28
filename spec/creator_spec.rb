@@ -4,8 +4,8 @@ require 'creator'
 
 RSpec.describe Creator do
   describe '#run' do
-    let(:database) { double('ArrayDatabase', create: nil, display: nil) }
-    let(:ui) { double('UserInterface', ask_for_fields: test_details) }
+    let(:database) { double('ArrayDatabase', create: nil) }
+    let(:ui) { double('UserInterface', ask_for_fields: test_details, display: nil) }
 
     it 'tells the UI to ask for contact details' do
       creator = described_class.new(ui, database)
@@ -28,7 +28,7 @@ RSpec.describe Creator do
 
       creator.run
 
-      expect(database).to have_received(:display).with(test_details)
+      expect(ui).to have_received(:display).with(test_details)
     end
   end
 

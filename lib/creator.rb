@@ -7,7 +7,9 @@ class Creator
   end
 
   def run
-    database.create(user_interface.ask_for_fields)
+    contact_details = user_interface.ask_for_fields
+    database.create(contact_details)
+    user_interface.display(contact_details)
   end
 
   private
