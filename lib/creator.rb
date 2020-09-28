@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class Creator
-  def initialize(user_interface)
+  def initialize(user_interface, database)
+    @database = database
     @user_interface = user_interface
   end
 
