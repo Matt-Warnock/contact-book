@@ -8,8 +8,10 @@ class Creator
 
   def run
     contact_details = user_interface.ask_for_fields
+
     database.create(contact_details)
     user_interface.display(contact_details)
+    user_interface.add_another_contact?
   end
 
   private
