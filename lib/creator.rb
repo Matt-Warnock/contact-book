@@ -14,6 +14,7 @@ class Creator
       user_interface.display(contact_details)
       break if user_interface.add_another_contact? == false
     end
+    user_interface.menu_choice
   end
 
   private

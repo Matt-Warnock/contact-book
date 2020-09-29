@@ -5,7 +5,13 @@ require 'creator'
 RSpec.describe Creator do
   describe '#run' do
     let(:database) { double('ArrayDatabase', create: nil) }
-    let(:ui) { double('UserInterface', ask_for_fields: test_details, display: nil, add_another_contact?: false) }
+    let(:ui) do
+      double('UserInterface',
+             ask_for_fields: test_details,
+             display: nil,
+             add_another_contact?: false,
+             menu_choice: nil)
+    end
 
     it 'tells the UI to ask for contact details' do
       creator = described_class.new(ui, database)
@@ -50,6 +56,14 @@ RSpec.describe Creator do
       expect(database).to have_received(:create).twice
       expect(ui).to have_received(:display).twice
       expect(ui).to have_received(:add_another_contact?).twice
+    end
+
+    it 'finishes and returns control to the caller if the user does not want to add another contact' do
+      creator = described_class.new(ui, database)
+
+      creator.run
+
+      expect(ui).to have_received(:menu_choice).once
     end
   end
 
