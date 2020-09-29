@@ -47,6 +47,9 @@ RSpec.describe Creator do
       creator.run
 
       expect(ui).to have_received(:ask_for_fields).twice
+      expect(database).to have_received(:create).twice
+      expect(ui).to have_received(:display).twice
+      expect(ui).to have_received(:add_another_contact?).twice
     end
   end
 

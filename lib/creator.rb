@@ -7,11 +7,13 @@ class Creator
   end
 
   def run
-    contact_details = user_interface.ask_for_fields
+    loop do
+      contact_details = user_interface.ask_for_fields
 
-    database.create(contact_details)
-    user_interface.display(contact_details)
-    user_interface.add_another_contact?
+      database.create(contact_details)
+      user_interface.display(contact_details)
+      break if user_interface.add_another_contact? == false
+    end
   end
 
   private
