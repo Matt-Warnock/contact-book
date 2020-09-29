@@ -61,9 +61,7 @@ RSpec.describe Creator do
     it 'finishes and returns control to the caller if the user does not want to add another contact' do
       creator = described_class.new(ui, database)
 
-      creator.run
-
-      expect(ui).to have_received(:menu_choice).once
+      expect(creator.run).to eq(nil)
     end
   end
 
