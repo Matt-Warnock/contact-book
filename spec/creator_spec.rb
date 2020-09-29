@@ -38,6 +38,16 @@ RSpec.describe Creator do
 
       expect(ui).to have_received(:add_another_contact?).once
     end
+
+    it 'repeats the previous steps if the user wants to add another contact' do
+      allow(ui).to receive(:add_another_contact?).and_return(true, false)
+
+      creator = described_class.new(ui, database)
+
+      creator.run
+
+      expect(ui).to have_received(:ask_for_fields).twice
+    end
   end
 
   def test_details
