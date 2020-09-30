@@ -11,8 +11,7 @@ RSpec.describe Creator do
       double('UserInterface',
              ask_for_fields: test_details,
              display: nil,
-             add_another_contact?: false,
-             menu_choice: nil)
+             add_another_contact?: false)
     end
 
     it 'tells the UI to ask for contact details' do
