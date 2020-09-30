@@ -12,7 +12,7 @@ class Creator
 
       database.create(contact_details)
       user_interface.display(contact_details)
-      break if user_interface.add_another_contact? == false
+      break unless user_interface.add_another_contact?
     end
   end
 
