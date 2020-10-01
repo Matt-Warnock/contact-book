@@ -42,8 +42,17 @@ RSpec.describe UserInterface do
       expect(output.string).to include(error_message)
     end
 
-    it 'validates input, only if number is 1' do
-      input = StringIO.new("2\n1\n")
+    it 'validates input, if number is 1' do
+      input = StringIO.new("3\n1\n")
+      ui = described_class.new(input, output)
+
+      ui.menu_choice
+
+      expect(output.string).to include(error_message)
+    end
+
+    it 'validates input, if number is 2' do
+      input = StringIO.new("3\n2\n")
       ui = described_class.new(input, output)
 
       ui.menu_choice
