@@ -2,17 +2,16 @@
 
 require 'controler'
 require 'user_interface'
-require 'null_action'
 
 RSpec.describe Controler do
-  let(:actions) { [NullAction.new] }
+  let(:controler) { described_class.new(ui, [creator, null_action]) }
+  let(:creator) { double('Creator', run: nil) }
+  let(:exit_input) { StringIO.new('2') }
+  let(:null_action) { double('NullAction', run: nil) }
   let(:output) { StringIO.new }
-  let(:valid_input) { StringIO.new('1') }
+  let(:ui) { UserInterface.new(exit_input, output) }
 
   it 'tells the user interface to print the menu' do
-    ui = UserInterface.new(valid_input, output)
-    controler = Controler.new(ui, actions)
-
     controler.start
 
     expect(output.string).to include(UserInterface::MENU_MESSAGE)
@@ -20,28 +19,35 @@ RSpec.describe Controler do
 
   it 'receives the input from the user interface' do
     ui_double = double('UserInterface', menu_choice: 1)
-    controler = Controler.new(ui_double, actions)
+    controler = described_class.new(ui_double, [creator, null_action])
 
     controler.start
 
     expect(ui_double).to have_received(:menu_choice).once
   end
 
-  it 'selects correct action to perform according to input' do
-    ui = UserInterface.new(valid_input, output)
-    controler = Controler.new(ui, actions)
+  it 'runs correct action to perform according to input' do
+    controler.start
 
-    expect(controler.start).to eq(nil)
+    expect(null_action).to have_received(:run).once
   end
 
-  it 'runs the action' do
-    action_double = double('NullAction', run: nil)
-
-    ui = UserInterface.new(valid_input, output)
-    controler = Controler.new(ui, [action_double])
+  it 'prints menu after action is run' do
+    add_contact_input = StringIO.new('1')
+    ui = UserInterface.new(add_contact_input, output)
+    controler = described_class.new(ui, [creator, null_action])
 
     controler.start
 
-    expect(action_double).to have_received(:run).once
+    expect(output.string).to eq(UserInterface::CLEAR_COMMAND +
+                                UserInterface::MENU_MESSAGE +
+                               "\n" +
+                               UserInterface::MENU_MESSAGE)
+  end
+
+  it 'does not print menu again if exit is chosen' do
+    controler.start
+
+    expect(output.string).to eq(UserInterface::CLEAR_COMMAND + UserInterface::MENU_MESSAGE)
   end
 end
