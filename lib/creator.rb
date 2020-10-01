@@ -11,7 +11,7 @@ class Creator
       contact_details = user_interface.ask_for_fields
 
       database.create(contact_details)
-      user_interface.display(contact_details)
+      user_interface.display_contact(contact_details)
       break unless user_interface.add_another_contact?
     end
   end
