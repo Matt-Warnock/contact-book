@@ -7,7 +7,10 @@ class Controler
   end
 
   def start
-    actions[user_interface.menu_choice - 1].run
+    user_choice = user_interface.menu_choice
+
+    actions[user_choice - 1].run
+    user_interface.menu_choice unless user_choice == 2
   end
 
   private

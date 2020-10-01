@@ -23,7 +23,7 @@ RSpec.describe Controler do
 
     controler.start
 
-    expect(ui_double).to have_received(:menu_choice).once
+    expect(ui_double).to have_received(:menu_choice).twice
   end
 
   it 'runs correct action to perform according to input' do
@@ -33,7 +33,7 @@ RSpec.describe Controler do
   end
 
   it 'prints menu after action is run' do
-    add_contact_input = StringIO.new('1')
+    add_contact_input = StringIO.new("1\n2")
     ui = UserInterface.new(add_contact_input, output)
     controler = described_class.new(ui, [creator, null_action])
 
@@ -41,8 +41,8 @@ RSpec.describe Controler do
 
     expect(output.string).to eq(UserInterface::CLEAR_COMMAND +
                                 UserInterface::MENU_MESSAGE +
-                               "\n" +
-                               UserInterface::MENU_MESSAGE)
+                                UserInterface::CLEAR_COMMAND +
+                                UserInterface::MENU_MESSAGE)
   end
 
   it 'does not print menu again if exit is chosen' do
