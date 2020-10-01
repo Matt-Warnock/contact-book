@@ -3,10 +3,14 @@
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
+require 'array_database'
 require 'controler'
+require 'creator'
 require 'null_action'
 require 'user_interface'
 
-actions = [NullAction.new]
+array_database = ArrayDatabase.new
+user_interface = UserInterface.new($stdin, $stdout)
+actions = [Creator.new(user_interface, array_database), NullAction.new]
 
-Controler.new(UserInterface.new($stdin, $stdout), actions).start
+Controler.new(user_interface, actions).start
