@@ -12,7 +12,8 @@ class UserInterface
     ---------------------
 
 
-  1) Exit the program
+  1) Add contact
+  2) Exit the program
 
   Choose a menu option: }
 
@@ -79,7 +80,7 @@ class UserInterface
   end
 
   def valid_choice?(option)
-    option.match?(/^\d$/) && option == '1'
+    option.match?(/^[12]$/)
   end
 
   def vaild_field?(field, value)
