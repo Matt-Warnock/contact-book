@@ -7,10 +7,12 @@ class Controler
   end
 
   def start
-    user_choice = user_interface.menu_choice
+    loop do
+      user_choice = user_interface.menu_choice
 
-    actions[user_choice - 1].run
-    user_interface.menu_choice unless user_choice == 2
+      actions[user_choice - 1].run
+      break if user_choice == 2
+    end
   end
 
   private
