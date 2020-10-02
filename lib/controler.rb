@@ -11,7 +11,7 @@ class Controler
       user_choice = user_interface.menu_choice
 
       actions[user_choice - 1].run
-      break if user_choice == 2
+      break if user_choice == actions.length
     end
   end
 
