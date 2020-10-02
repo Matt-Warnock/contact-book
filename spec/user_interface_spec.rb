@@ -7,7 +7,8 @@ RSpec.describe UserInterface do
 
   describe '#menu_choice' do
     let(:error_message) { described_class::ERROR_MESSAGE }
-    let(:valid_input) { StringIO.new('2') }
+    let(:exit_choice) { described_class::CHOICE_TOTAL }
+    let(:valid_input) { StringIO.new(exit_choice.to_s) }
 
     it 'prints menu of options for user to choose' do
       ui = described_class.new(valid_input, output)
@@ -30,29 +31,11 @@ RSpec.describe UserInterface do
 
       user_input = ui.menu_choice
 
-      expect(user_input).to eq(2)
+      expect(user_input).to eq(exit_choice)
     end
 
-    it 'validates input, numbers only' do
-      input = StringIO.new("a\n2\n")
-      ui = described_class.new(input, output)
-
-      ui.menu_choice
-
-      expect(output.string).to include(error_message)
-    end
-
-    it 'validates input, if number is 1' do
-      input = StringIO.new("3\n1\n")
-      ui = described_class.new(input, output)
-
-      ui.menu_choice
-
-      expect(output.string).to include(error_message)
-    end
-
-    it 'validates input, if number is 2' do
-      input = StringIO.new("3\n2\n")
+    it 'validates input, vaild numbers only' do
+      input = StringIO.new("12\n#{exit_choice}\n")
       ui = described_class.new(input, output)
 
       ui.menu_choice
@@ -66,11 +49,11 @@ RSpec.describe UserInterface do
 
       user_input = ui.menu_choice
 
-      expect(user_input).to eq(2)
+      expect(user_input).to eq(exit_choice)
     end
 
     it 'repeats printing error message untill valid input is entered' do
-      input = StringIO.new("yes\n0\n5\n2\n")
+      input = StringIO.new("yes\n0\n13\n2\n")
       ui = described_class.new(input, output)
 
       ui.menu_choice
@@ -81,7 +64,7 @@ RSpec.describe UserInterface do
     it 'returns a valid input' do
       ui = described_class.new(valid_input, output)
 
-      expect(ui.menu_choice).to eq(2)
+      expect(ui.menu_choice).to eq(exit_choice)
     end
   end
 
