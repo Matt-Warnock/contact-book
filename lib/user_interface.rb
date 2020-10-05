@@ -53,7 +53,7 @@ class UserInterface
     FIELDS_TO_PROMPTS.each_with_object({}) do |(field, prompt), contact_details|
       output.puts prompt
 
-      contact_details[field] = collect_vaild_input { |user_input| vaild_field?(field, user_input) }
+      contact_details[field] = collect_vaild_input { |user_input| valid_field?(field, user_input) }
     end
   end
 
@@ -79,21 +79,6 @@ class UserInterface
 
       output.print ERROR_MESSAGE
     end
-  end
-
-  def vaild_field?(field, value)
-    {
-      phone: vaild_phone?(value),
-      email: valid_email?(value)
-    }.fetch(field, true)
-  end
-
-  def vaild_phone?(value)
-    value.match?(/^\d{11}$/)
-  end
-
-  def valid_email?(value)
-    value.match?(/@/)
   end
 
   def valid_yes_no_answer?(value)
