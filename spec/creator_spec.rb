@@ -10,7 +10,7 @@ RSpec.describe Creator do
     let(:ui) do
       double('UserInterface',
              ask_for_fields: test_details,
-             display: nil,
+             display_contact: nil,
              add_another_contact?: false)
     end
 
@@ -29,7 +29,7 @@ RSpec.describe Creator do
     it 'tells the user interface to display the contact that was added' do
       creator.run
 
-      expect(ui).to have_received(:display).with(test_details)
+      expect(ui).to have_received(:display_contact).with(test_details)
     end
 
     it 'tells the user interface to ask the user if they want to add another contact' do

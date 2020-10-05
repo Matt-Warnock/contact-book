@@ -12,7 +12,8 @@ class UserInterface
     ---------------------
 
 
-  1) Exit the program
+  1) Add contact
+  2) Exit the program
 
   Choose a menu option: }
 
@@ -35,6 +36,8 @@ class UserInterface
   VALID_YES_NO_REPLY = /^[yn]$/i.freeze
 
   YES_REPLY = 'y'
+
+  EXIT_CHOICE = 2
 
   def initialize(input, output)
     @input = input
@@ -79,7 +82,7 @@ class UserInterface
   end
 
   def valid_choice?(option)
-    option.match?(/^\d$/) && option == '1'
+    option.match?(/^[1-#{EXIT_CHOICE}]$/)
   end
 
   def vaild_field?(field, value)
