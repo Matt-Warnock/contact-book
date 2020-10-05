@@ -7,12 +7,12 @@ class Validator
 
   def valid_field?(field, value)
     {
-      phone: vaild_phone?(value),
+      phone: valid_phone?(value),
       email: valid_email?(value)
     }.fetch(field, true)
   end
 
-  def vaild_phone?(value)
+  def valid_phone?(value)
     value.match?(/^\d{11}$/)
   end
 
