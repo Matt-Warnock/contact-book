@@ -33,8 +33,6 @@ class UserInterface
     notes: 'Contact notes: '
   }.freeze
 
-  VALID_YES_NO_REPLY = /^[yn]$/i.freeze
-
   YES_REPLY = 'y'
 
   EXIT_CHOICE = 2
@@ -79,10 +77,6 @@ class UserInterface
 
       output.print ERROR_MESSAGE
     end
-  end
-
-  def valid_yes_no_answer?(value)
-    value.match?(VALID_YES_NO_REPLY)
   end
 
   attr_reader :input, :output

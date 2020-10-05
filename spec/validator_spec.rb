@@ -52,4 +52,14 @@ RSpec.describe Validator do
       expect(validator.valid_email?('matt.yahoo.com')).to eq(false)
     end
   end
+
+  describe '#valid_yes_no_answer?' do
+    it 'returns true on a valid yes or no reponse by user' do
+      expect(validator.valid_yes_no_answer?('y')).to eq(true)
+    end
+
+    it 'returns false on an invalid reponse by user' do
+      expect(validator.valid_yes_no_answer?('tomato')).to eq(false)
+    end
+  end
 end
