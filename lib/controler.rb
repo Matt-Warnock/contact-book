@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'user_interface'
+
 class Controler
   def initialize(user_interface, actions)
     @user_interface = user_interface
@@ -11,7 +13,7 @@ class Controler
       user_choice = user_interface.menu_choice
 
       actions[user_choice - 1].run
-      break if user_choice == actions.length
+      break if user_choice == UserInterface::EXIT_CHOICE
     end
   end
 

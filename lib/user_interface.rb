@@ -37,7 +37,7 @@ class UserInterface
 
   YES_REPLY = 'y'
 
-  CHOICE_TOTAL = 2
+  EXIT_CHOICE = 2
 
   def initialize(input, output)
     @input = input
@@ -82,7 +82,7 @@ class UserInterface
   end
 
   def valid_choice?(option)
-    option.match?(/^[1-#{CHOICE_TOTAL}]$/)
+    option.match?(/^[1-#{EXIT_CHOICE}]$/)
   end
 
   def vaild_field?(field, value)

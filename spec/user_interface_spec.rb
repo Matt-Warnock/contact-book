@@ -7,7 +7,7 @@ RSpec.describe UserInterface do
 
   describe '#menu_choice' do
     let(:error_message) { described_class::ERROR_MESSAGE }
-    let(:exit_choice) { described_class::CHOICE_TOTAL }
+    let(:exit_choice) { described_class::EXIT_CHOICE }
     let(:valid_input) { StringIO.new(exit_choice.to_s) }
 
     it 'prints menu of options for user to choose' do
@@ -44,7 +44,7 @@ RSpec.describe UserInterface do
     end
 
     it 'reads the input again if input is invalid' do
-      input = StringIO.new("yes\n2\n")
+      input = StringIO.new("yes\n#{exit_choice}\n")
       ui = described_class.new(input, output)
 
       user_input = ui.menu_choice
@@ -53,7 +53,7 @@ RSpec.describe UserInterface do
     end
 
     it 'repeats printing error message untill valid input is entered' do
-      input = StringIO.new("yes\n0\n13\n2\n")
+      input = StringIO.new("yes\n0\n13\n#{exit_choice}\n")
       ui = described_class.new(input, output)
 
       ui.menu_choice
