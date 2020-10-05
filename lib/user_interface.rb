@@ -37,21 +37,22 @@ class UserInterface
 
   EXIT_CHOICE = 2
 
-  def initialize(input, output)
+  def initialize(input, output, validator)
     @input = input
     @output = output
+    @validator = validator
   end
 
   def menu_choice
     output.print CLEAR_COMMAND, MENU_MESSAGE
-    collect_vaild_input { |user_input| valid_choice?(user_input) }.to_i
+    collect_vaild_input { |user_input| validator.valid_choice?(user_input) }.to_i
   end
 
   def ask_for_fields
     FIELDS_TO_PROMPTS.each_with_object({}) do |(field, prompt), contact_details|
       output.puts prompt
 
-      contact_details[field] = collect_vaild_input { |user_input| valid_field?(field, user_input) }
+      contact_details[field] = collect_vaild_input { |user_input| validator.valid_field?(field, user_input) }
     end
   end
 
@@ -65,7 +66,7 @@ class UserInterface
 
   def add_another_contact?
     output.print ANOTHER_CONTACT_PROMPT
-    collect_vaild_input { |user_input| valid_yes_no_answer?(user_input) }.downcase == YES_REPLY
+    collect_vaild_input { |user_input| validator.valid_yes_no_answer?(user_input) }.downcase == YES_REPLY
   end
 
   private
@@ -79,5 +80,5 @@ class UserInterface
     end
   end
 
-  attr_reader :input, :output
+  attr_reader :input, :output, :validator
 end

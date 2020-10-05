@@ -8,9 +8,11 @@ require 'controler'
 require 'creator'
 require 'null_action'
 require 'user_interface'
+require 'validator'
 
 array_database = ArrayDatabase.new
-user_interface = UserInterface.new($stdin, $stdout)
+validator = Validator.new
+user_interface = UserInterface.new($stdin, $stdout, validator)
 actions = [Creator.new(user_interface, array_database), NullAction.new]
 
 Controler.new(user_interface, actions).start

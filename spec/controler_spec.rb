@@ -2,15 +2,17 @@
 
 require 'controler'
 require 'null_action'
+require 'validator'
 
 RSpec.describe Controler do
   let(:actions) { [NullAction.new, NullAction.new] }
   let(:exit_choice) { UserInterface::EXIT_CHOICE }
   let(:output) { StringIO.new }
+  let(:validator) { Validator.new }
 
   it 'prints the menu before the action is run and after unless exit is chosen' do
     input = StringIO.new("1\n#{exit_choice}")
-    ui = UserInterface.new(input, output)
+    ui = UserInterface.new(input, output, validator)
     controler = described_class.new(ui, actions)
 
     controler.start
@@ -29,7 +31,7 @@ RSpec.describe Controler do
 
   it 'runs the actions chosen' do
     null_action = double('NullAction', run: nil)
-    ui = UserInterface.new(StringIO.new("1\n#{exit_choice}"), output)
+    ui = UserInterface.new(StringIO.new("1\n#{exit_choice}"), output, validator)
     controler = described_class.new(ui, [null_action, null_action])
 
     controler.start
