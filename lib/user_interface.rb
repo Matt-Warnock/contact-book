@@ -81,10 +81,6 @@ class UserInterface
     end
   end
 
-  def valid_choice?(option)
-    option.match?(/^[1-#{EXIT_CHOICE}]$/)
-  end
-
   def vaild_field?(field, value)
     {
       phone: vaild_phone?(value),
