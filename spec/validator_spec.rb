@@ -4,8 +4,10 @@ require 'validator'
 
 RSpec.describe Validator do
   let(:validator) { described_class.new }
+
   describe '#valid_choice?' do
     let(:highest_choice_input) { 2 }
+
     it 'returns true on avaible choices' do
       result = validator.valid_choice?(highest_choice_input.to_s)
 
@@ -20,42 +22,42 @@ RSpec.describe Validator do
       expect(result).to eq(false)
     end
   end
+
   describe '#valid_field?' do
-    it 'matches field with correct validation method' do
-      result = validator.valid_field?(:phone, '08796564231')
-
-      expect(result).to eq(true)
-    end
-
     it 'returns true by defalt on non-specified validation methods' do
       result = validator.valid_field?(:notes, 'I think he has an Oscar')
 
       expect(result).to eq(true)
     end
-  end
-  describe '#valid_phone?' do
+
     it 'returns true with valid amount of digits' do
-      expect(validator.valid_phone?('12345678911')).to eq(true)
+      result = validator.valid_field?(:phone, '12345678911')
+
+      expect(result).to eq(true)
     end
 
     it 'returns false with an invalid amount of digits' do
-      expect(validator.valid_phone?('123456')).to eq(false)
-    end
-  end
+      result = validator.valid_field?(:phone, '123456')
 
-  describe '#valid_email?' do
+      expect(result).to eq(false)
+    end
+
     it 'returns true with valid email address' do
-      expect(validator.valid_email?('matt@yahoo.com')).to eq(true)
+      result = validator.valid_field?(:email, 'matt@yahoo.com')
+
+      expect(result).to eq(true)
     end
 
     it 'returns false with an invalid email address' do
-      expect(validator.valid_email?('matt.yahoo.com')).to eq(false)
+      result = validator.valid_field?(:email, 'matt.yahoo.com')
+
+      expect(result).to eq(false)
     end
   end
 
   describe '#valid_yes_no_answer?' do
     it 'returns true on a valid yes or no reponse by user' do
-      expect(validator.valid_yes_no_answer?('y')).to eq(true)
+      expect(validator.valid_yes_no_answer?(UserInterface::YES_REPLY)).to eq(true)
     end
 
     it 'returns false on an invalid reponse by user' do

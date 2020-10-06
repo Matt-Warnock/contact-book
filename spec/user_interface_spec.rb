@@ -36,15 +36,6 @@ RSpec.describe UserInterface do
       expect(user_input).to eq(exit_choice)
     end
 
-    it 'validates input, vaild numbers only' do
-      input = StringIO.new("12\n#{exit_choice}\n")
-      ui = described_class.new(input, output, validator)
-
-      ui.menu_choice
-
-      expect(output.string).to include(error_message)
-    end
-
     it 'reads the input again if input is invalid' do
       input = StringIO.new("yes\n#{exit_choice}\n")
       ui = described_class.new(input, output, validator)
@@ -70,7 +61,7 @@ RSpec.describe UserInterface do
     end
   end
 
-  describe '#ask ask_for_fields' do
+  describe '#ask_for_fields' do
     let(:input) { StringIO.new(test_details.values.join("\n")) }
     let(:ui) { described_class.new(input, output, validator) }
 
@@ -124,8 +115,10 @@ Notes:   I think he has an Oscar
   end
 
   describe '#add_another_contact?' do
+    let(:yes_reply) { UserInterface::YES_REPLY }
+
     it 'prints prompt to user' do
-      input = StringIO.new('y')
+      input = StringIO.new(yes_reply)
       ui = described_class.new(input, output, validator)
 
       ui.add_another_contact?
@@ -134,7 +127,7 @@ Notes:   I think he has an Oscar
     end
 
     it 'returns true if user wants to add another contact' do
-      input = StringIO.new('y')
+      input = StringIO.new(yes_reply)
       ui = described_class.new(input, output, validator)
 
       result = ui.add_another_contact?
@@ -152,7 +145,7 @@ Notes:   I think he has an Oscar
     end
 
     it 'prints error message if incorrect input is given' do
-      input = StringIO.new("wrong input\ny\n")
+      input = StringIO.new("wrong input\n#{yes_reply}")
       ui = described_class.new(input, output, validator)
 
       ui.add_another_contact?
@@ -161,7 +154,7 @@ Notes:   I think he has an Oscar
     end
 
     it 'ignores case sensitivity on valid inputs' do
-      input = StringIO.new('Y')
+      input = StringIO.new(yes_reply.upcase)
       ui = described_class.new(input, output, validator)
 
       ui.add_another_contact?

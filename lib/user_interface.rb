@@ -33,6 +33,8 @@ class UserInterface
     notes: 'Contact notes: '
   }.freeze
 
+  VALID_YES_NO_REPLY = /^[yn]$/i.freeze
+
   YES_REPLY = 'y'
 
   EXIT_CHOICE = 2
