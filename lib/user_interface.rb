@@ -4,6 +4,7 @@ class UserInterface
   ANOTHER_CONTACT_PROMPT = 'Add another contact? (y/n): '
   CLEAR_COMMAND = "\033[H\033[2J"
   ERROR_MESSAGE = 'Wrong input. Please try again: '
+  NO_CONTACTS_MESSAGE = 'No contacts were found.'
   MENU_MESSAGE = %{
     ---------------------
 
@@ -64,11 +65,24 @@ class UserInterface
     contact.each do |field, value|
       output.puts FIELDS_TO_DISPLAY_NAMES[field].ljust(longest_display_name.length) + value
     end
+    output.print "\n"
+  end
+
+  def display_no_contacts_message
+    output.print NO_CONTACTS_MESSAGE
   end
 
   def add_another_contact?
     output.print ANOTHER_CONTACT_PROMPT
     collect_vaild_input { |user_input| validator.valid_yes_no_answer?(user_input) }.downcase == YES_REPLY
+  end
+
+  def display_letter_header(letter)
+    output.print %(
+------------------------------
+              #{letter.upcase}
+------------------------------
+)
   end
 
   private

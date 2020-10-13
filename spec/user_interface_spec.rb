@@ -97,7 +97,7 @@ RSpec.describe UserInterface do
   end
 
   describe '#display_contact' do
-    it 'prints all fields of a contact hash' do
+    it 'prints all fields of a contact hash with empty line afterwards' do
       input = StringIO.new
       ui = described_class.new(input, output, validator)
 
@@ -109,6 +109,7 @@ Address: Some address
 Phone:   08796564231
 Email:   matt@damon.com
 Notes:   I think he has an Oscar
+
 )
       )
     end
@@ -160,6 +161,45 @@ Notes:   I think he has an Oscar
       ui.add_another_contact?
 
       expect(output.string).to_not include(described_class::ERROR_MESSAGE)
+    end
+  end
+
+  describe '#display_no_contacts_message' do
+    it 'prints a message expressing there are no contacts to display' do
+      input = StringIO.new
+      ui = described_class.new(input, output, validator)
+
+      ui.display_no_contacts_message
+
+      expect(output.string).to eq(described_class::NO_CONTACTS_MESSAGE)
+    end
+  end
+
+  describe '#display_letter_header' do
+    it 'prints the header styling with a given letter' do
+      input = StringIO.new
+      ui = described_class.new(input, output, validator)
+
+      ui.display_letter_header('A')
+
+      expect(output.string).to eq(%(
+------------------------------
+              A
+------------------------------
+))
+    end
+
+    it 'takes a letter with any casing' do
+      input = StringIO.new
+      ui = described_class.new(input, output, validator)
+
+      ui.display_letter_header('a')
+
+      expect(output.string).to eq(%(
+------------------------------
+              A
+------------------------------
+))
     end
   end
 
