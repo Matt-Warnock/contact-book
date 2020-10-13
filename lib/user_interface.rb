@@ -65,7 +65,7 @@ class UserInterface
     contact.each do |field, value|
       output.puts FIELDS_TO_DISPLAY_NAMES[field].ljust(longest_display_name.length) + value
     end
-    output.puts
+    output.print "\n"
   end
 
   def display_no_contacts_message
