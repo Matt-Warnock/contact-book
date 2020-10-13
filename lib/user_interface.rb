@@ -76,6 +76,14 @@ class UserInterface
     collect_vaild_input { |user_input| validator.valid_yes_no_answer?(user_input) }.downcase == YES_REPLY
   end
 
+  def display_letter_header(letter)
+    output.print %(
+------------------------------
+              #{letter.upcase}
+------------------------------
+)
+  end
+
   private
 
   def collect_vaild_input

@@ -174,6 +174,34 @@ Notes:   I think he has an Oscar
     end
   end
 
+  describe '#display_letter_header' do
+    it 'prints the header styling with a given letter' do
+      input = StringIO.new
+      ui = described_class.new(input, output, validator)
+
+      ui.display_letter_header('A')
+
+      expect(output.string).to eq(%(
+------------------------------
+              A
+------------------------------
+))
+    end
+
+    it 'takes a letter with any casing' do
+      input = StringIO.new
+      ui = described_class.new(input, output, validator)
+
+      ui.display_letter_header('a')
+
+      expect(output.string).to eq(%(
+------------------------------
+              A
+------------------------------
+))
+    end
+  end
+
   def test_details
     {
       name: 'Matt Damon',
