@@ -97,7 +97,7 @@ RSpec.describe UserInterface do
   end
 
   describe '#display_contact' do
-    it 'prints all fields of a contact hash' do
+    it 'prints all fields of a contact hash with empty line afterwards' do
       input = StringIO.new
       ui = described_class.new(input, output, validator)
 
@@ -109,6 +109,7 @@ Address: Some address
 Phone:   08796564231
 Email:   matt@damon.com
 Notes:   I think he has an Oscar
+
 )
       )
     end
