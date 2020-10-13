@@ -14,4 +14,8 @@ class ArrayDatabase
   def count
     all.length
   end
+
+  def any?
+    !all.empty?
+  end
 end
