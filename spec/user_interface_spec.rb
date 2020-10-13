@@ -163,6 +163,17 @@ Notes:   I think he has an Oscar
     end
   end
 
+  describe '#display_no_contacts_message' do
+    it 'prints a message expressing there are no contacts to display' do
+      input = StringIO.new
+      ui = described_class.new(input, output, validator)
+
+      ui.display_no_contacts_message
+
+      expect(output.string).to eq(described_class::NO_CONTACTS_MESSAGE)
+    end
+  end
+
   def test_details
     {
       name: 'Matt Damon',
