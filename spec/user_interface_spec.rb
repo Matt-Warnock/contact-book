@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 require 'user_interface'
+require 'validator'
 
 RSpec.describe UserInterface do
   let(:output) { StringIO.new }
+  let(:validator) { Validator.new }
 
   describe '#menu_choice' do
     let(:error_message) { described_class::ERROR_MESSAGE }
@@ -11,7 +13,7 @@ RSpec.describe UserInterface do
     let(:valid_input) { StringIO.new(exit_choice.to_s) }
 
     it 'prints menu of options for user to choose' do
-      ui = described_class.new(valid_input, output)
+      ui = described_class.new(valid_input, output, validator)
 
       ui.menu_choice
 
@@ -19,7 +21,7 @@ RSpec.describe UserInterface do
     end
 
     it 'clears the screen before printing the menu' do
-      ui = described_class.new(valid_input, output)
+      ui = described_class.new(valid_input, output, validator)
 
       ui.menu_choice
 
@@ -27,25 +29,16 @@ RSpec.describe UserInterface do
     end
 
     it 'reads an input from the user' do
-      ui = described_class.new(valid_input, output)
+      ui = described_class.new(valid_input, output, validator)
 
       user_input = ui.menu_choice
 
       expect(user_input).to eq(exit_choice)
     end
 
-    it 'validates input, vaild numbers only' do
-      input = StringIO.new("12\n#{exit_choice}\n")
-      ui = described_class.new(input, output)
-
-      ui.menu_choice
-
-      expect(output.string).to include(error_message)
-    end
-
     it 'reads the input again if input is invalid' do
       input = StringIO.new("yes\n#{exit_choice}\n")
-      ui = described_class.new(input, output)
+      ui = described_class.new(input, output, validator)
 
       user_input = ui.menu_choice
 
@@ -54,7 +47,7 @@ RSpec.describe UserInterface do
 
     it 'repeats printing error message untill valid input is entered' do
       input = StringIO.new("yes\n0\n13\n#{exit_choice}\n")
-      ui = described_class.new(input, output)
+      ui = described_class.new(input, output, validator)
 
       ui.menu_choice
 
@@ -62,15 +55,15 @@ RSpec.describe UserInterface do
     end
 
     it 'returns a valid input' do
-      ui = described_class.new(valid_input, output)
+      ui = described_class.new(valid_input, output, validator)
 
       expect(ui.menu_choice).to eq(exit_choice)
     end
   end
 
-  describe '#ask ask_for_fields' do
+  describe '#ask_for_fields' do
     let(:input) { StringIO.new(test_details.values.join("\n")) }
-    let(:ui) { described_class.new(input, output) }
+    let(:ui) { described_class.new(input, output, validator) }
 
     it 'asks user for all fields' do
       ui.ask_for_fields
@@ -86,7 +79,7 @@ RSpec.describe UserInterface do
 
     it 'prints error if phone is invalid' do
       input = StringIO.new(invalid_inputs.values.join("\n"))
-      ui = described_class.new(input, output)
+      ui = described_class.new(input, output, validator)
 
       ui.ask_for_fields
 
@@ -95,7 +88,7 @@ RSpec.describe UserInterface do
 
     it 'prints error if email is invalid' do
       input = StringIO.new(invalid_inputs.values.join("\n"))
-      ui = described_class.new(input, output)
+      ui = described_class.new(input, output, validator)
 
       ui.ask_for_fields
 
@@ -106,7 +99,7 @@ RSpec.describe UserInterface do
   describe '#display_contact' do
     it 'prints all fields of a contact hash' do
       input = StringIO.new
-      ui = described_class.new(input, output)
+      ui = described_class.new(input, output, validator)
 
       ui.display_contact(test_details)
 
@@ -122,9 +115,11 @@ Notes:   I think he has an Oscar
   end
 
   describe '#add_another_contact?' do
+    let(:yes_reply) { UserInterface::YES_REPLY }
+
     it 'prints prompt to user' do
-      input = StringIO.new('y')
-      ui = described_class.new(input, output)
+      input = StringIO.new(yes_reply)
+      ui = described_class.new(input, output, validator)
 
       ui.add_another_contact?
 
@@ -132,8 +127,8 @@ Notes:   I think he has an Oscar
     end
 
     it 'returns true if user wants to add another contact' do
-      input = StringIO.new('y')
-      ui = described_class.new(input, output)
+      input = StringIO.new(yes_reply)
+      ui = described_class.new(input, output, validator)
 
       result = ui.add_another_contact?
 
@@ -142,7 +137,7 @@ Notes:   I think he has an Oscar
 
     it 'returns false if user doesnt want to add another contact' do
       input = StringIO.new('n')
-      ui = described_class.new(input, output)
+      ui = described_class.new(input, output, validator)
 
       result = ui.add_another_contact?
 
@@ -150,8 +145,8 @@ Notes:   I think he has an Oscar
     end
 
     it 'prints error message if incorrect input is given' do
-      input = StringIO.new("wrong input\ny\n")
-      ui = described_class.new(input, output)
+      input = StringIO.new("wrong input\n#{yes_reply}")
+      ui = described_class.new(input, output, validator)
 
       ui.add_another_contact?
 
@@ -159,8 +154,8 @@ Notes:   I think he has an Oscar
     end
 
     it 'ignores case sensitivity on valid inputs' do
-      input = StringIO.new('Y')
-      ui = described_class.new(input, output)
+      input = StringIO.new(yes_reply.upcase)
+      ui = described_class.new(input, output, validator)
 
       ui.add_another_contact?
 
