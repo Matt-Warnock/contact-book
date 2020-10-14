@@ -7,8 +7,16 @@ class Pager
   end
 
   def run
-    @user_interface.display_no_contacts_message unless @database.any?
+    user_interface.display_no_contacts_message unless database.any?
 
-    @database.all.sort! { |a, b| a[:name].chr <=> b[:name].chr }
+    alphabetize_contacts
   end
+
+  private
+
+  def alphabetize_contacts
+    database.all.sort! { |a, b| a[:name].chr <=> b[:name].chr }
+  end
+
+  attr_reader :database, :user_interface
 end
