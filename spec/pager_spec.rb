@@ -36,6 +36,15 @@ RSpec.describe Pager do
 
       expect(database.all).to eq([second_test_details, first_test_details])
     end
+
+    it 'aphabeticaly sorts same first letter name contacts by email' do
+      database.create(same_name_test_details)
+      database.create(first_test_details)
+
+      pager.run
+
+      expect(database.all).to eq([first_test_details, same_name_test_details])
+    end
   end
 
   def first_test_details
@@ -55,6 +64,16 @@ RSpec.describe Pager do
       phone: '08796564231',
       email: 'matt@damon.com',
       notes: 'I think he has an Oscar'
+    }
+  end
+
+  def same_name_test_details
+    {
+      name: 'Warran Smith',
+      address: 'Some address',
+      phone: '08796564231',
+      email: 'warran@yahoo.com',
+      notes: 'a diffrent guy I know'
     }
   end
 end
