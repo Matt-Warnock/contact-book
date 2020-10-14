@@ -8,5 +8,7 @@ class Pager
 
   def run
     @user_interface.display_no_contacts_message unless @database.any?
+
+    @database.all.sort! { |a, b| a[:name].chr <=> b[:name].chr }
   end
 end
