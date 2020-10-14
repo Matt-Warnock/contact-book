@@ -24,19 +24,19 @@ RSpec.describe ArrayDatabase do
     end
   end
 
-  describe '#any?' do
-    it 'returns true if array database has any contacts' do
+  describe '#no_contacts?' do
+    it 'returns false if array database has any contacts' do
       array_database = described_class.new
 
       array_database.create(test_details)
 
-      expect(array_database.any?).to eq(true)
+      expect(array_database.no_contacts?).to eq(false)
     end
 
-    it 'returns false if array database is empty' do
+    it 'returns true if array database is empty' do
       array_database = described_class.new
 
-      expect(array_database.any?).to eq(false)
+      expect(array_database.no_contacts?).to eq(true)
     end
   end
 

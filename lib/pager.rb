@@ -7,9 +7,11 @@ class Pager
   end
 
   def run
-    user_interface.display_no_contacts_message unless database.any?
-
-    alphabetize_contacts
+    if database.no_contacts?
+      user_interface.display_no_contacts_message
+    else
+      alphabetize_contacts
+    end
   end
 
   private
