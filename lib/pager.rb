@@ -18,7 +18,7 @@ class Pager
 
   def alphabetize_contacts
     database.all
-            .sort! { |a, b| a[:name].chr != b[:name].chr ? a[:name].chr <=> b[:name].chr : a[:email] <=> b[:email] }
+            .sort! { |a, b| a[:name] != b[:name] ? a[:name] <=> b[:name] : a[:email] <=> b[:email] }
   end
 
   attr_reader :database, :user_interface

@@ -28,7 +28,7 @@ RSpec.describe Pager do
       expect(output.string).to_not eq(UserInterface::NO_CONTACTS_MESSAGE)
     end
 
-    it 'sorts contacts into aphabetical order according to first name' do
+    it 'sorts contacts into aphabetical order according to name' do
       database.create(first_test_details)
       database.create(second_test_details)
 
@@ -37,7 +37,7 @@ RSpec.describe Pager do
       expect(database.all).to eq([second_test_details, first_test_details])
     end
 
-    it 'aphabeticaly sorts same first letter name contacts by email' do
+    it 'aphabeticaly sorts same name contacts by email' do
       database.create(same_name_test_details)
       database.create(first_test_details)
 
