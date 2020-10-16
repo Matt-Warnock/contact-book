@@ -59,16 +59,26 @@ RSpec.describe Pager do
       expect(output.string).to include(letter_header('A'))
     end
 
-    it 'prints a header each time the initail of a contact is diffrent from the last' do
-      database.create({ name: 'Adam Smith' })
-      database.create({ name: 'Arron Davies' })
-      database.create({ name: 'Ben Watts' })
-      database.create({ name: 'Sue Peters' })
-      database.create({ name: 'Steven Rogers' })
+    it 'prints all contacts, includes a header before if the initail of a contact changes' do
+      contact_list = [{ name: 'Adam Smith' },
+                      { name: 'Arron Davies' },
+                      { name: 'Ben Watts' },
+                      { name: 'Sue Peters' },
+                      { name: 'Steven Rogers' }]
+
+      database_double = double(ArrayDatabase, all: contact_list, no_contacts?: false)
+      pager = Pager.new(user_interface, database_double)
 
       pager.run
 
-      expect(output.string).to include(letter_header('A'), letter_header('B'), letter_header('S'))
+      expect(output.string).to eq(letter_header('A') +
+                                  "Adam Smith\n" \
+                                  'Arron Davies' +
+                                  letter_header('B') +
+                                  'Ben Watts' +
+                                  letter_header('S') +
+                                  "Sue Peters\n" \
+                                  'Steven Rogers')
     end
   end
 
