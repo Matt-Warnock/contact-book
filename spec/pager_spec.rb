@@ -21,7 +21,7 @@ RSpec.describe Pager do
     end
 
     it 'does not prints a message if the database has any contacts' do
-      database.create(first_test_details)
+      database.create({ name: 'Matt Damon' })
 
       pager.run
 
@@ -29,63 +29,54 @@ RSpec.describe Pager do
     end
 
     it 'sorts contacts into aphabetical order according to name' do
-      database.create(first_test_details)
-      database.create(second_test_details)
+      database.create({ name: 'Warran Smith' })
+      database.create({ name: 'Matt Damon' })
 
       pager.run
 
-      expect(database.all).to eq([second_test_details, first_test_details])
+      expect(database.all).to eq([{ name: 'Matt Damon' }, { name: 'Warran Smith' }])
     end
 
     it 'aphabeticaly sorts same name contacts by email' do
-      database.create(same_name_test_details)
-      database.create(first_test_details)
+      contact_a = { name: 'Warran Smith',
+                    email: 'warran@yahoo.com' }
+      contact_b = { name: 'Warran Smith',
+                    email: 'warran@damon.com' }
+
+      database.create(contact_a)
+      database.create(contact_b)
 
       pager.run
 
-      expect(database.all).to eq([first_test_details, same_name_test_details])
+      expect(database.all).to eq([contact_b, contact_a])
     end
 
-    it 'prints a heading with initail of first name contact' do
+    it 'prints a header with initail of first contact name' do
       database.create({ name: 'Adam Smith' })
 
       pager.run
 
-      expect(output.string).to include(%(
-------------------------------
-              A
-------------------------------
-))
+      expect(output.string).to include(letter_header('A'))
+    end
+
+    it 'prints a header each time the initail of a contact is diffrent from the last' do
+      database.create({ name: 'Adam Smith' })
+      database.create({ name: 'Arron Davies' })
+      database.create({ name: 'Ben Watts' })
+      database.create({ name: 'Sue Peters' })
+      database.create({ name: 'Steven Rogers' })
+
+      pager.run
+
+      expect(output.string).to include(letter_header('A'), letter_header('B'), letter_header('S'))
     end
   end
 
-  def first_test_details
-    {
-      name: 'Warran Smith',
-      address: 'Some address',
-      phone: '08796564231',
-      email: 'warran@damon.com',
-      notes: 'some guy I know'
-    }
-  end
-
-  def second_test_details
-    {
-      name: 'Matt Damon',
-      address: 'Some address',
-      phone: '08796564231',
-      email: 'matt@damon.com',
-      notes: 'I think he has an Oscar'
-    }
-  end
-
-  def same_name_test_details
-    {
-      name: 'Warran Smith',
-      address: 'Some address',
-      phone: '08796564231',
-      email: 'warran@yahoo.com',
-      notes: 'a diffrent guy I know'
-    }
+  def letter_header(letter)
+    %(
+------------------------------
+              #{letter}
+------------------------------
+)
   end
 end
