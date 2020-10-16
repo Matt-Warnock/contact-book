@@ -45,6 +45,18 @@ RSpec.describe Pager do
 
       expect(database.all).to eq([first_test_details, same_name_test_details])
     end
+
+    it 'prints a heading with initail of first name contact' do
+      database.create({ name: 'Adam Smith' })
+
+      pager.run
+
+      expect(output.string).to include(%(
+------------------------------
+              A
+------------------------------
+))
+    end
   end
 
   def first_test_details

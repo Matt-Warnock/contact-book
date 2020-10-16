@@ -11,6 +11,7 @@ class Pager
       user_interface.display_no_contacts_message
     else
       alphabetize_contacts
+      user_interface.display_letter_header(database.all[0][:name].chr)
     end
   end
 
