@@ -34,7 +34,10 @@ RSpec.describe Pager do
 
       pager.run
 
-      expect(database.all).to eq([{ name: 'Matt Damon' }, { name: 'Warran Smith' }])
+      expect(output.string).to eq(letter_header('M') +
+                                  contact_format('Matt Damon') +
+                                  letter_header('W') +
+                                  contact_format('Warran Smith'))
     end
 
     it 'aphabeticaly sorts same name contacts by email' do
@@ -48,7 +51,9 @@ RSpec.describe Pager do
 
       pager.run
 
-      expect(database.all).to eq([contact_b, contact_a])
+      expect(output.string).to eq(letter_header('W') +
+                                  email_contact_format('Warran Smith', 'warran@damon.com') +
+                                  email_contact_format('Warran Smith', 'warran@yahoo.com'))
     end
 
     it 'prints a header with initail of first contact name' do
@@ -92,6 +97,13 @@ RSpec.describe Pager do
 
   def contact_format(name)
     %(Name:    #{name}
+
+)
+  end
+
+  def email_contact_format(name, email)
+    %(Name:    #{name}
+Email:   #{email}
 
 )
   end
