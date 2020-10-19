@@ -10,7 +10,6 @@ class Pager
     if database.no_contacts?
       user_interface.display_no_contacts_message
     else
-      alphabetize_contacts
       page_all_contacts
     end
   end
@@ -18,13 +17,13 @@ class Pager
   private
 
   def alphabetize_contacts
-    database.all
-            .sort! { |a, b| a[:name] != b[:name] ? a[:name] <=> b[:name] : a[:email] <=> b[:email] }
+    database.all.sort { |a, b| a[:name] == b[:name] ? a[:email] <=> b[:email] : a[:name] <=> b[:name] }
   end
 
   def page_all_contacts
     page_index = ''
-    database.all.each do |contact|
+
+    alphabetize_contacts.each do |contact|
       name_initial = contact[:name].chr
 
       user_interface.display_letter_header(name_initial) unless name_initial == page_index
