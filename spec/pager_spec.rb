@@ -63,8 +63,8 @@ RSpec.describe Pager do
       contact_list = [{ name: 'Adam Smith' },
                       { name: 'Arron Davies' },
                       { name: 'Ben Watts' },
-                      { name: 'Sue Peters' },
-                      { name: 'Steven Rogers' }]
+                      { name: 'Steven Rogers' },
+                      { name: 'Sue Peters' }]
 
       database_double = double(ArrayDatabase, all: contact_list, no_contacts?: false)
       pager = Pager.new(user_interface, database_double)
@@ -72,13 +72,13 @@ RSpec.describe Pager do
       pager.run
 
       expect(output.string).to eq(letter_header('A') +
-                                  "Adam Smith\n" \
-                                  'Arron Davies' +
+                                  contact_format('Adam Smith') +
+                                  contact_format('Arron Davies') +
                                   letter_header('B') +
-                                  'Ben Watts' +
+                                  contact_format('Ben Watts') +
                                   letter_header('S') +
-                                  "Sue Peters\n" \
-                                  'Steven Rogers')
+                                  contact_format('Steven Rogers') +
+                                  contact_format('Sue Peters'))
     end
   end
 
@@ -87,6 +87,12 @@ RSpec.describe Pager do
 ------------------------------
               #{letter}
 ------------------------------
+)
+  end
+
+  def contact_format(name)
+    %(Name:    #{name}
+
 )
   end
 end
