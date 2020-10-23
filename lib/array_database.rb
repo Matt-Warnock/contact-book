@@ -15,7 +15,7 @@ class ArrayDatabase
     all.length
   end
 
-  def no_contacts?
+  def database_empty?
     all.empty?
   end
 end
