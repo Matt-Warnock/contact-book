@@ -13,8 +13,9 @@ class UserInterface
     ---------------------
 
 
-  1) Add contact
-  2) Exit the program
+  1) List contacts
+  2) Add contact
+  3) Exit the program
 
   Choose a menu option: }
 
@@ -38,7 +39,7 @@ class UserInterface
 
   YES_REPLY = 'y'
 
-  EXIT_CHOICE = 2
+  EXIT_CHOICE = 3
 
   def initialize(input, output, validator)
     @input = input

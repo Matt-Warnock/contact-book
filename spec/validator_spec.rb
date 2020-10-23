@@ -6,7 +6,7 @@ RSpec.describe Validator do
   let(:validator) { described_class.new }
 
   describe '#valid_choice?' do
-    let(:highest_choice_input) { 2 }
+    let(:highest_choice_input) { 3 }
 
     it 'returns true on avaible choices' do
       result = validator.valid_choice?(highest_choice_input.to_s)
