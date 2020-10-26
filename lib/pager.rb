@@ -11,6 +11,7 @@ class Pager
       user_interface.display_no_contacts_message
     else
       page_all_contacts
+      user_interface.continue
     end
   end
 

@@ -3,6 +3,7 @@
 class UserInterface
   ANOTHER_CONTACT_PROMPT = 'Add another contact? (y/n): '
   CLEAR_COMMAND = "\033[H\033[2J"
+  CONTINUE_MESSAGE = 'Press any key to continue '
   ERROR_MESSAGE = 'Wrong input. Please try again: '
   NO_CONTACTS_MESSAGE = 'No contacts were found.'
   MENU_MESSAGE = %{
@@ -84,6 +85,11 @@ class UserInterface
               #{letter.upcase}
 ------------------------------
 )
+  end
+
+  def continue
+    output.print CONTINUE_MESSAGE
+    input.getch
   end
 
   private

@@ -6,6 +6,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require 'array_database'
 require 'controler'
 require 'creator'
+require 'io/console'
 require 'null_action'
 require 'pager'
 require 'user_interface'

@@ -74,5 +74,15 @@ RSpec.describe Pager do
 #{gap}(Steven Rogers)
 #{gap}(Sue Peters)/)
     end
+
+    it 'prompts user to press a key before continuing after contacts display' do
+      gap = '[\s\w:-]+'
+
+      database.create({ name: 'Adam Smith' })
+
+      pager.run
+
+      expect(output.string).to match(/#{gap}(Adam Smith)#{gap}#{UserInterface::CONTINUE_MESSAGE}/)
+    end
   end
 end

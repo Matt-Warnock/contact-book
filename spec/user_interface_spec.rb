@@ -203,6 +203,24 @@ Notes:   I think he has an Oscar
     end
   end
 
+  describe '#continue' do
+    it 'prints prompt to press any to continue' do
+      input = StringIO.new('x')
+      ui = described_class.new(input, output, validator)
+
+      ui.continue
+
+      expect(output.string).to eq(described_class::CONTINUE_MESSAGE)
+    end
+
+    it 'returns single character entered by user' do
+      input = StringIO.new('x')
+      ui = described_class.new(input, output, validator)
+
+      expect(ui.continue).to eq('x')
+    end
+  end
+
   def test_details
     {
       name: 'Matt Damon',
