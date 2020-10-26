@@ -20,7 +20,7 @@ class Pager
   attr_reader :database, :user_interface
 
   def sorted_contacts
-    database.all.sort_by { |contact| [contact[:name], contact[:email]] }
+    database.all.sort_by { |contact| [contact[:name].chr, contact[:email]] }
   end
 
   def page_all_contacts
