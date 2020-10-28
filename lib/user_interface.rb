@@ -55,7 +55,7 @@ class UserInterface
 
   def ask_for_fields
     FIELDS_TO_PROMPTS.each_with_object({}) do |(field, prompt), contact_details|
-      output.puts prompt
+      output.print prompt
 
       contact_details[field] = collect_vaild_input { |user_input| validator.valid_field?(field, user_input) }
     end
@@ -64,10 +64,10 @@ class UserInterface
   def display_contact(contact)
     longest_display_name = FIELDS_TO_DISPLAY_NAMES.values.max_by(&:length)
 
+    output.print "\n"
     contact.each do |field, value|
       output.puts FIELDS_TO_DISPLAY_NAMES[field].ljust(longest_display_name.length) + value
     end
-    output.print "\n"
   end
 
   def display_no_contacts_message

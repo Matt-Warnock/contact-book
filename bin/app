@@ -14,6 +14,10 @@ require 'validator'
 
 array_database = ArrayDatabase.new
 user_interface = UserInterface.new($stdin, $stdout, Validator.new)
-actions = [Pager.new(user_interface, array_database), Creator.new(user_interface, array_database), NullAction.new]
+actions = [
+  Pager.new(user_interface, array_database),
+  Creator.new(user_interface, array_database),
+  NullAction.new
+]
 
 Controler.new(user_interface, actions).start

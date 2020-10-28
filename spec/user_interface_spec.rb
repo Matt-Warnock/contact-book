@@ -68,7 +68,7 @@ RSpec.describe UserInterface do
     it 'asks user for all fields' do
       ui.ask_for_fields
 
-      expect(output.string).to include(described_class::FIELDS_TO_PROMPTS.values.join("\n"))
+      expect(output.string).to include(described_class::FIELDS_TO_PROMPTS.values.join)
     end
 
     it 'gets the contact details' do
@@ -97,19 +97,19 @@ RSpec.describe UserInterface do
   end
 
   describe '#display_contact' do
-    it 'prints all fields of a contact hash with empty line afterwards' do
+    it 'prints an empty line then all fields of a contact hash' do
       input = StringIO.new
       ui = described_class.new(input, output, validator)
 
       ui.display_contact(test_details)
 
       expect(output.string).to eq(
-        %(Name:    Matt Damon
+        %(
+Name:    Matt Damon
 Address: Some address
 Phone:   08796564231
 Email:   matt@damon.com
 Notes:   I think he has an Oscar
-
 )
       )
     end
@@ -171,7 +171,7 @@ Notes:   I think he has an Oscar
 
       ui.display_no_contacts_message
 
-      expect(output.string).to eq(described_class::NO_CONTACTS_MESSAGE + "\n")
+      expect(output.string).to include(described_class::NO_CONTACTS_MESSAGE)
     end
   end
 
