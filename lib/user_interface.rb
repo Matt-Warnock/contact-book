@@ -71,7 +71,7 @@ class UserInterface
   end
 
   def display_no_contacts_message
-    output.print NO_CONTACTS_MESSAGE
+    output.puts NO_CONTACTS_MESSAGE
   end
 
   def add_another_contact?

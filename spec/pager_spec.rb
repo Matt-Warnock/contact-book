@@ -88,7 +88,8 @@ RSpec.describe Pager do
     it 'prompts user to press a key before continuing after no contacts message' do
       pager.run
 
-      expect(output.string).to match(/#{UserInterface::NO_CONTACTS_MESSAGE}#{UserInterface::CONTINUE_MESSAGE}/)
+      expect(output.string).to match(/#{UserInterface::NO_CONTACTS_MESSAGE}
+#{UserInterface::CONTINUE_MESSAGE}/)
     end
   end
 end

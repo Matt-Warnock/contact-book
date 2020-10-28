@@ -171,7 +171,7 @@ Notes:   I think he has an Oscar
 
       ui.display_no_contacts_message
 
-      expect(output.string).to eq(described_class::NO_CONTACTS_MESSAGE)
+      expect(output.string).to eq(described_class::NO_CONTACTS_MESSAGE + "\n")
     end
   end
 
