@@ -17,7 +17,7 @@ RSpec.describe Pager do
     it 'prints a message to the user if the database is empty' do
       pager.run
 
-      expect(output.string).to eq(UserInterface::NO_CONTACTS_MESSAGE)
+      expect(output.string).to include(UserInterface::NO_CONTACTS_MESSAGE)
     end
 
     it 'does not prints a message if the database has any contacts' do
@@ -73,6 +73,23 @@ RSpec.describe Pager do
 #{gap}S
 #{gap}(Steven Rogers)
 #{gap}(Sue Peters)/)
+    end
+
+    it 'prompts user to press a key before continuing after contacts display' do
+      gap = '[\s\w:-]+'
+
+      database.create({ name: 'Adam Smith' })
+
+      pager.run
+
+      expect(output.string).to match(/(Adam Smith)#{gap}#{UserInterface::CONTINUE_MESSAGE}/)
+    end
+
+    it 'prompts user to press a key before continuing after no contacts message' do
+      pager.run
+
+      expect(output.string)
+        .to match(/#{UserInterface::NO_CONTACTS_MESSAGE}\n#{UserInterface::CONTINUE_MESSAGE}/)
     end
   end
 end

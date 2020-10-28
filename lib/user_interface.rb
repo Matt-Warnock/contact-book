@@ -3,6 +3,7 @@
 class UserInterface
   ANOTHER_CONTACT_PROMPT = 'Add another contact? (y/n): '
   CLEAR_COMMAND = "\033[H\033[2J"
+  CONTINUE_MESSAGE = 'Press any key to continue '
   ERROR_MESSAGE = 'Wrong input. Please try again: '
   NO_CONTACTS_MESSAGE = 'No contacts were found.'
   MENU_MESSAGE = %{
@@ -13,8 +14,9 @@ class UserInterface
     ---------------------
 
 
-  1) Add contact
-  2) Exit the program
+  1) List contacts
+  2) Add contact
+  3) Exit the program
 
   Choose a menu option: }
 
@@ -38,7 +40,7 @@ class UserInterface
 
   YES_REPLY = 'y'
 
-  EXIT_CHOICE = 2
+  EXIT_CHOICE = 3
 
   def initialize(input, output, validator)
     @input = input
@@ -53,7 +55,7 @@ class UserInterface
 
   def ask_for_fields
     FIELDS_TO_PROMPTS.each_with_object({}) do |(field, prompt), contact_details|
-      output.puts prompt
+      output.print prompt
 
       contact_details[field] = collect_vaild_input { |user_input| validator.valid_field?(field, user_input) }
     end
@@ -62,14 +64,14 @@ class UserInterface
   def display_contact(contact)
     longest_display_name = FIELDS_TO_DISPLAY_NAMES.values.max_by(&:length)
 
+    output.print "\n"
     contact.each do |field, value|
       output.puts FIELDS_TO_DISPLAY_NAMES[field].ljust(longest_display_name.length) + value
     end
-    output.print "\n"
   end
 
   def display_no_contacts_message
-    output.print NO_CONTACTS_MESSAGE
+    output.puts NO_CONTACTS_MESSAGE
   end
 
   def add_another_contact?
@@ -83,6 +85,11 @@ class UserInterface
               #{letter.upcase}
 ------------------------------
 )
+  end
+
+  def continue
+    output.print CONTINUE_MESSAGE
+    input.getch
   end
 
   private

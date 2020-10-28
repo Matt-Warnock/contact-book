@@ -4,7 +4,7 @@ require 'user_interface'
 
 class Validator
   def valid_choice?(option)
-    option.match?(/^[1-2]$/)
+    option.match?(/^[1-3]$/)
   end
 
   def valid_yes_no_answer?(value)
