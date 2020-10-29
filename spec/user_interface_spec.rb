@@ -221,6 +221,17 @@ Notes:   I think he has an Oscar
     end
   end
 
+  describe '#search_term' do
+    it 'prints a prompt asking user for a search term' do
+      input = StringIO.new
+      ui = described_class.new(input, output, validator)
+
+      ui.search_term
+
+      expect(output.string).to include(described_class::SEARCH_MESSAGE)
+    end
+  end
+
   def test_details
     {
       name: 'Matt Damon',
