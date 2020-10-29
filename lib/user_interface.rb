@@ -2,6 +2,7 @@
 
 class UserInterface
   ANOTHER_CONTACT_PROMPT = 'Add another contact? (y/n): '
+  ANOTHER_SEARCH_PROMPT = 'Search again? (y/n): '
   CLEAR_COMMAND = "\033[H\033[2J"
   CONTINUE_MESSAGE = 'Press any key to continue '
   ERROR_MESSAGE = 'Wrong input. Please try again: '
@@ -96,6 +97,10 @@ class UserInterface
   def search_term
     output.print SEARCH_MESSAGE
     input.gets
+  end
+
+  def search_again?
+    output.print ANOTHER_SEARCH_PROMPT
   end
 
   private
