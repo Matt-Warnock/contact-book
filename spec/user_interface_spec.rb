@@ -249,14 +249,14 @@ Notes:   I think he has an Oscar
       expect(output.string).to include(described_class::ANOTHER_SEARCH_PROMPT)
     end
 
-    xit 'returns true if user wants to search another contact' do
+    it 'returns true if user wants to search another contact' do
       input = StringIO.new(yes_reply)
       ui = described_class.new(input, output, validator)
 
       expect(ui.search_again?).to eq(true)
     end
 
-    xit 'returns false if user doesnt want to search another contact' do
+    it 'returns false if user doesnt want to search another contact' do
       input = StringIO.new('n')
       ui = described_class.new(input, output, validator)
 

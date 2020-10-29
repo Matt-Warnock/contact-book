@@ -101,6 +101,7 @@ class UserInterface
 
   def search_again?
     output.print ANOTHER_SEARCH_PROMPT
+    input.gets == YES_REPLY
   end
 
   private
