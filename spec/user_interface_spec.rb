@@ -6,6 +6,7 @@ require 'validator'
 RSpec.describe UserInterface do
   let(:output) { StringIO.new }
   let(:validator) { Validator.new }
+  let(:yes_reply) { UserInterface::YES_REPLY }
 
   describe '#menu_choice' do
     let(:error_message) { described_class::ERROR_MESSAGE }
@@ -116,7 +117,6 @@ Notes:   I think he has an Oscar
   end
 
   describe '#add_another_contact?' do
-    let(:yes_reply) { UserInterface::YES_REPLY }
 
     it 'prints prompt to user' do
       input = StringIO.new(yes_reply)
@@ -236,6 +236,49 @@ Notes:   I think he has an Oscar
       ui = described_class.new(input, output, validator)
 
       expect(ui.search_term).to eq('john')
+    end
+  end
+
+  describe '#search_again?' do
+    it 'prints a prompt to user asking to search for another contact' do
+      input = StringIO.new
+      ui = described_class.new(input, output, validator)
+
+      ui.search_again?
+
+      expect(output.string).to include(described_class::ANOTHER_SEARCH_PROMPT)
+    end
+
+    xit 'returns true if user wants to search another contact' do
+      input = StringIO.new(yes_reply)
+      ui = described_class.new(input, output, validator)
+
+      expect(ui.search_again?).to eq(true)
+    end
+
+    xit 'returns false if user doesnt want to search another contact' do
+      input = StringIO.new('n')
+      ui = described_class.new(input, output, validator)
+
+      expect(ui.search_again?).to eq(false)
+    end
+
+    xit 'prints error message if incorrect input is given' do
+      input = StringIO.new("wrong input\n#{yes_reply}")
+      ui = described_class.new(input, output, validator)
+
+      ui.search_again?
+
+      expect(output.string).to include(described_class::ERROR_MESSAGE)
+    end
+
+    xit 'ignores case sensitivity on valid inputs' do
+      input = StringIO.new(yes_reply.upcase)
+      ui = described_class.new(input, output, validator)
+
+      ui.search_again?
+
+      expect(output.string).to_not include(described_class::ERROR_MESSAGE)
     end
   end
 
