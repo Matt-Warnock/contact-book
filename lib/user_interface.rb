@@ -95,6 +95,7 @@ class UserInterface
 
   def search_term
     output.print SEARCH_MESSAGE
+    input.gets
   end
 
   private

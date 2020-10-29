@@ -230,6 +230,13 @@ Notes:   I think he has an Oscar
 
       expect(output.string).to include(described_class::SEARCH_MESSAGE)
     end
+
+    it 'returns the search term typed by user' do
+      input = StringIO.new('john')
+      ui = described_class.new(input, output, validator)
+
+      expect(ui.search_term).to eq('john')
+    end
   end
 
   def test_details
