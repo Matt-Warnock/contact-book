@@ -241,7 +241,7 @@ Notes:   I think he has an Oscar
 
   describe '#search_again?' do
     it 'prints a prompt to user asking to search for another contact' do
-      input = StringIO.new
+      input = StringIO.new(yes_reply)
       ui = described_class.new(input, output, validator)
 
       ui.search_again?
@@ -263,7 +263,7 @@ Notes:   I think he has an Oscar
       expect(ui.search_again?).to eq(false)
     end
 
-    xit 'prints error message if incorrect input is given' do
+    it 'prints error message if incorrect input is given' do
       input = StringIO.new("wrong input\n#{yes_reply}")
       ui = described_class.new(input, output, validator)
 

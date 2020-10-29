@@ -101,7 +101,7 @@ class UserInterface
 
   def search_again?
     output.print ANOTHER_SEARCH_PROMPT
-    input.gets == YES_REPLY
+    collect_vaild_input { |user_input| validator.valid_yes_no_answer?(user_input) } == YES_REPLY
   end
 
   private
