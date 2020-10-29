@@ -6,6 +6,7 @@ class UserInterface
   CONTINUE_MESSAGE = 'Press any key to continue '
   ERROR_MESSAGE = 'Wrong input. Please try again: '
   NO_CONTACTS_MESSAGE = 'No contacts were found.'
+  SEARCH_MESSAGE = 'Type search term: '
   MENU_MESSAGE = %{
     ---------------------
 
@@ -90,6 +91,10 @@ class UserInterface
   def continue
     output.print CONTINUE_MESSAGE
     input.getch
+  end
+
+  def search_term
+    output.print SEARCH_MESSAGE
   end
 
   private
