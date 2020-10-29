@@ -117,7 +117,6 @@ Notes:   I think he has an Oscar
   end
 
   describe '#add_another_contact?' do
-
     it 'prints prompt to user' do
       input = StringIO.new(yes_reply)
       ui = described_class.new(input, output, validator)
@@ -270,15 +269,6 @@ Notes:   I think he has an Oscar
       ui.search_again?
 
       expect(output.string).to include(described_class::ERROR_MESSAGE)
-    end
-
-    xit 'ignores case sensitivity on valid inputs' do
-      input = StringIO.new(yes_reply.upcase)
-      ui = described_class.new(input, output, validator)
-
-      ui.search_again?
-
-      expect(output.string).to_not include(described_class::ERROR_MESSAGE)
     end
   end
 
