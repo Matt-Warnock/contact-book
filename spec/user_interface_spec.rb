@@ -236,6 +236,15 @@ Notes:   I think he has an Oscar
 
       expect(ui.search_term).to eq('john')
     end
+
+    it 'prints error message if no input is given' do
+      input = StringIO.new("\njohn\n")
+      ui = described_class.new(input, output, validator)
+
+      ui.search_term
+
+      expect(output.string).to include(described_class::ERROR_MESSAGE)
+    end
   end
 
   describe '#search_again?' do

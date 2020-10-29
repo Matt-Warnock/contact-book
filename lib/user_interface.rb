@@ -96,7 +96,7 @@ class UserInterface
 
   def search_term
     output.print SEARCH_MESSAGE
-    input.gets.chomp
+    collect_vaild_input { |user_input| validator.valid_string?(user_input) }
   end
 
   def search_again?

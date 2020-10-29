@@ -64,4 +64,14 @@ RSpec.describe Validator do
       expect(validator.valid_yes_no_answer?('tomato')).to eq(false)
     end
   end
+
+  describe '#valid_string?' do
+    it 'returns true on a string with at least one character' do
+      expect(validator.valid_string?('x')).to eq(true)
+    end
+
+    it 'returns false on an empty string' do
+      expect(validator.valid_string?('')).to eq(false)
+    end
+  end
 end
