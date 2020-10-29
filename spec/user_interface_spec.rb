@@ -223,7 +223,7 @@ Notes:   I think he has an Oscar
 
   describe '#search_term' do
     it 'prints a prompt asking user for a search term' do
-      input = StringIO.new
+      input = StringIO.new("john\n")
       ui = described_class.new(input, output, validator)
 
       ui.search_term
@@ -232,7 +232,7 @@ Notes:   I think he has an Oscar
     end
 
     it 'returns the search term typed by user' do
-      input = StringIO.new('john')
+      input = StringIO.new("john\n")
       ui = described_class.new(input, output, validator)
 
       expect(ui.search_term).to eq('john')
