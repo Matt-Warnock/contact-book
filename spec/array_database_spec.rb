@@ -47,7 +47,7 @@ RSpec.describe ArrayDatabase do
         address: 'Paris',
         phone: '00000000000',
         email: 'oscar@wilde.com',
-        notes: 'I think he has an Oscar'
+        notes: 'I think he has an oscar'
       }
       third_contact = {
         name: 'Matt Camron',

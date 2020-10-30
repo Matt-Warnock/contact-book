@@ -18,4 +18,8 @@ class ArrayDatabase
   def database_empty?
     all.empty?
   end
+
+  def search(term)
+    all.find_all { |contact| contact.any? { |_, value| value.downcase.match(term.downcase) } }
+  end
 end
