@@ -78,7 +78,7 @@ class UserInterface
 
   def add_another_contact?
     output.print ANOTHER_CONTACT_PROMPT
-    collect_vaild_input { |user_input| validator.valid_yes_no_answer?(user_input) } == YES_REPLY
+    collect_vaild_input { |user_input| validator.valid_yes_no_answer?(user_input) }.downcase == YES_REPLY
   end
 
   def display_letter_header(letter)
@@ -101,7 +101,7 @@ class UserInterface
 
   def search_again?
     output.print ANOTHER_SEARCH_PROMPT
-    collect_vaild_input { |user_input| validator.valid_yes_no_answer?(user_input) } == YES_REPLY
+    collect_vaild_input { |user_input| validator.valid_yes_no_answer?(user_input) }.downcase == YES_REPLY
   end
 
   private

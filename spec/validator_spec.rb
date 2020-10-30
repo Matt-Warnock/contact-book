@@ -67,7 +67,7 @@ RSpec.describe Validator do
 
   describe '#valid_string?' do
     it 'returns true on a string with at least one character' do
-      expect(validator.valid_string?('x')).to eq(true)
+      expect(validator.valid_string?('Matt Damon')).to eq(true)
     end
 
     it 'returns false on an empty string' do
