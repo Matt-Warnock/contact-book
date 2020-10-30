@@ -20,6 +20,8 @@ class ArrayDatabase
   end
 
   def search(term)
-    all.find_all { |contact| contact.any? { |_, value| value.downcase.match(term.downcase) } }
+    all.find_all do |contact|
+      contact.any? { |_, value| value.match?(/#{term}/i) }
+    end
   end
 end

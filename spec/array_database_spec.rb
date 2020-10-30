@@ -41,7 +41,7 @@ RSpec.describe ArrayDatabase do
   end
 
   describe '#search' do
-    it 'returns any contacts that match argument string given' do
+    it 'returns any contacts that matches string given' do
       second_contact = {
         name: 'Oscar Wilde',
         address: 'Paris',
