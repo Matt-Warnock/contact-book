@@ -6,11 +6,12 @@ require 'validator'
 RSpec.describe UserInterface do
   let(:output) { StringIO.new }
   let(:validator) { Validator.new }
+  let(:yes_reply) { UserInterface::YES_REPLY + "\n" }
 
   describe '#menu_choice' do
     let(:error_message) { described_class::ERROR_MESSAGE }
     let(:exit_choice) { described_class::EXIT_CHOICE }
-    let(:valid_input) { StringIO.new(exit_choice.to_s) }
+    let(:valid_input) { StringIO.new(exit_choice.to_s + "\n") }
 
     it 'prints menu of options for user to choose' do
       ui = described_class.new(valid_input, output, validator)
@@ -116,8 +117,6 @@ Notes:   I think he has an Oscar
   end
 
   describe '#add_another_contact?' do
-    let(:yes_reply) { UserInterface::YES_REPLY }
-
     it 'prints prompt to user' do
       input = StringIO.new(yes_reply)
       ui = described_class.new(input, output, validator)
@@ -137,7 +136,7 @@ Notes:   I think he has an Oscar
     end
 
     it 'returns false if user doesnt want to add another contact' do
-      input = StringIO.new('n')
+      input = StringIO.new("n\n")
       ui = described_class.new(input, output, validator)
 
       result = ui.add_another_contact?
@@ -154,13 +153,13 @@ Notes:   I think he has an Oscar
       expect(output.string).to include(described_class::ERROR_MESSAGE)
     end
 
-    it 'ignores case sensitivity on valid inputs' do
+    it 'ignores case sensitivity for vaild input' do
       input = StringIO.new(yes_reply.upcase)
       ui = described_class.new(input, output, validator)
 
-      ui.add_another_contact?
+      result = ui.add_another_contact?
 
-      expect(output.string).to_not include(described_class::ERROR_MESSAGE)
+      expect(result).to eq(true)
     end
   end
 
@@ -218,6 +217,76 @@ Notes:   I think he has an Oscar
       ui = described_class.new(input, output, validator)
 
       expect(ui.continue).to eq('x')
+    end
+  end
+
+  describe '#search_term' do
+    it 'prints a prompt asking user for a search term' do
+      input = StringIO.new("john\n")
+      ui = described_class.new(input, output, validator)
+
+      ui.search_term
+
+      expect(output.string).to include(described_class::SEARCH_MESSAGE)
+    end
+
+    it 'returns the search term typed by user' do
+      input = StringIO.new("john\n")
+      ui = described_class.new(input, output, validator)
+
+      expect(ui.search_term).to eq('john')
+    end
+
+    it 'prints error message and reads input until vaiid input is given' do
+      input = StringIO.new("\njohn\n")
+      ui = described_class.new(input, output, validator)
+
+      ui.search_term
+
+      expect(output.string).to include(described_class::ERROR_MESSAGE)
+    end
+  end
+
+  describe '#search_again?' do
+    it 'prints a prompt to user asking to search for another contact' do
+      input = StringIO.new(yes_reply)
+      ui = described_class.new(input, output, validator)
+
+      ui.search_again?
+
+      expect(output.string).to include(described_class::ANOTHER_SEARCH_PROMPT)
+    end
+
+    it 'returns true if user wants to search another contact' do
+      input = StringIO.new(yes_reply)
+      ui = described_class.new(input, output, validator)
+
+      expect(ui.search_again?).to eq(true)
+    end
+
+    it 'returns false if user doesnt want to search another contact' do
+      input = StringIO.new("n\n")
+      ui = described_class.new(input, output, validator)
+
+      expect(ui.search_again?).to eq(false)
+    end
+
+    it 'prints error message and reads input until correct input is given' do
+      input = StringIO.new("wrong input\n#{yes_reply}")
+      ui = described_class.new(input, output, validator)
+
+      ui.search_again?
+
+      expect(output.string).to include(described_class::ERROR_MESSAGE)
+    end
+
+    it 'ignores case sensitivity for vaild input' do
+      input = StringIO.new(yes_reply.upcase)
+      ui = described_class.new(input, output, validator)
+
+      result = ui.search_again?
+
+      expect(result).to eq(true)
     end
   end
 

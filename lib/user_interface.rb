@@ -2,10 +2,12 @@
 
 class UserInterface
   ANOTHER_CONTACT_PROMPT = 'Add another contact? (y/n): '
+  ANOTHER_SEARCH_PROMPT = 'Search again? (y/n): '
   CLEAR_COMMAND = "\033[H\033[2J"
   CONTINUE_MESSAGE = 'Press any key to continue '
   ERROR_MESSAGE = 'Wrong input. Please try again: '
   NO_CONTACTS_MESSAGE = 'No contacts were found.'
+  SEARCH_MESSAGE = 'Type search term: '
   MENU_MESSAGE = %{
     ---------------------
 
@@ -90,6 +92,16 @@ class UserInterface
   def continue
     output.print CONTINUE_MESSAGE
     input.getch
+  end
+
+  def search_term
+    output.print SEARCH_MESSAGE
+    collect_vaild_input { |user_input| validator.valid_string?(user_input) }
+  end
+
+  def search_again?
+    output.print ANOTHER_SEARCH_PROMPT
+    collect_vaild_input { |user_input| validator.valid_yes_no_answer?(user_input) }.downcase == YES_REPLY
   end
 
   private

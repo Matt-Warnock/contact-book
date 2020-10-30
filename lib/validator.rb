@@ -11,6 +11,10 @@ class Validator
     value.match?(UserInterface::VALID_YES_NO_REPLY)
   end
 
+  def valid_string?(string)
+    string.match?(/\w/)
+  end
+
   def valid_field?(field, value)
     {
       phone: valid_phone?(value),
