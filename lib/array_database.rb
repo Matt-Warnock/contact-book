@@ -18,4 +18,10 @@ class ArrayDatabase
   def database_empty?
     all.empty?
   end
+
+  def search(term)
+    all.find_all do |contact|
+      contact.any? { |_, value| value.match?(/#{term}/i) }
+    end
+  end
 end

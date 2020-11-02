@@ -40,6 +40,34 @@ RSpec.describe ArrayDatabase do
     end
   end
 
+  describe '#search' do
+    it 'returns any contacts that matches string given' do
+      second_contact = {
+        name: 'oscar wilde',
+        address: 'Paris',
+        phone: '00000000000',
+        email: 'oscar@wilde.com',
+        notes: 'I think he has an oscar'
+      }
+      third_contact = {
+        name: 'Matt Camron',
+        address: 'Seattle',
+        phone: '00450400012',
+        email: 'matt@pearjam.com',
+        notes: 'amazing drummer'
+      }
+      array_database = described_class.new
+
+      array_database.create(test_details)
+      array_database.create(second_contact)
+      array_database.create(third_contact)
+
+      result = array_database.search('oscar')
+
+      expect(result).to eq([test_details, second_contact])
+    end
+  end
+
   def test_details
     {
       name: 'Matt Damon',
