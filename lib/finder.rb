@@ -7,7 +7,9 @@ class Finder
   end
 
   def run
-    user_interface.search_term
+    search_result = database.search(user_interface.search_term)
+
+    user_interface.display_no_contacts_message unless search_result.any?
   end
 
   private
