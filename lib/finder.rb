@@ -10,6 +10,7 @@ class Finder
     search_result = database.search(user_interface.search_term)
 
     user_interface.display_no_contacts_message unless search_result.any?
+    search_result.each { |contact| user_interface.display_contact(contact) }
   end
 
   private

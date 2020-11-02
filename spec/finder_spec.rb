@@ -7,11 +7,12 @@ require 'validator'
 
 RSpec.describe Finder do
   describe '#run' do
+    let(:database) { ArrayDatabase.new }
+    let(:output) { StringIO.new }
+    let(:validator) { Validator.new }
+
     it 'askes user for a search_term' do
-      database = ArrayDatabase.new
       input = StringIO.new('term')
-      output = StringIO.new
-      validator = Validator.new
       user_interface = UserInterface.new(input, output, validator)
       finder = described_class.new(user_interface, database)
 
@@ -21,10 +22,7 @@ RSpec.describe Finder do
     end
 
     it 'prints message if no contacts are found' do
-      database = ArrayDatabase.new
       input = StringIO.new('term')
-      output = StringIO.new
-      validator = Validator.new
       user_interface = UserInterface.new(input, output, validator)
       finder = described_class.new(user_interface, database)
 
@@ -39,6 +37,30 @@ RSpec.describe Finder do
       finder.run
 
       expect(output.string).to include(UserInterface::NO_CONTACTS_MESSAGE)
+    end
+
+    it 'prints contacts if any are found' do
+      input = StringIO.new('damon')
+      user_interface = UserInterface.new(input, output, validator)
+      finder = described_class.new(user_interface, database)
+
+      database.create({
+                        name: 'Matt Damon',
+                        address: 'Some address',
+                        phone: '08796564231',
+                        email: 'matt@damon.com',
+                        notes: 'I think he has an Oscar'
+                      })
+
+      finder.run
+
+      expect(output.string).to include(%(
+Name:    Matt Damon
+Address: Some address
+Phone:   08796564231
+Email:   matt@damon.com
+Notes:   I think he has an Oscar
+))
     end
   end
 end
