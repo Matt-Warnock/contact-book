@@ -6,6 +6,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require 'array_database'
 require 'controler'
 require 'creator'
+require 'finder'
 require 'io/console'
 require 'null_action'
 require 'pager'
@@ -17,6 +18,7 @@ user_interface = UserInterface.new($stdin, $stdout, Validator.new)
 actions = [
   Pager.new(user_interface, array_database),
   Creator.new(user_interface, array_database),
+  Finder.new(user_interface, array_database),
   NullAction.new
 ]
 
