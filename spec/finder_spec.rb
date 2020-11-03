@@ -26,17 +26,23 @@ RSpec.describe Finder do
       user_interface = UserInterface.new(input, output, validator)
       finder = described_class.new(user_interface, database)
 
-      database.create({
-                        name: 'Matt Damon',
-                        address: 'Some address',
-                        phone: '08796564231',
-                        email: 'matt@damon.com',
-                        notes: 'I think he has an Oscar'
-                      })
+      database.create(test_contact)
 
       finder.run
 
       expect(output.string).to include(UserInterface::NO_CONTACTS_MESSAGE)
+    end
+
+    it 'does not print a no contacts message if contacts are found' do
+      input = StringIO.new('damon')
+      user_interface = UserInterface.new(input, output, validator)
+      finder = described_class.new(user_interface, database)
+
+      database.create(test_contact)
+
+      finder.run
+
+      expect(output.string).not_to include(UserInterface::NO_CONTACTS_MESSAGE)
     end
 
     it 'prints contacts if any are found' do
@@ -44,13 +50,7 @@ RSpec.describe Finder do
       user_interface = UserInterface.new(input, output, validator)
       finder = described_class.new(user_interface, database)
 
-      database.create({
-                        name: 'Matt Damon',
-                        address: 'Some address',
-                        phone: '08796564231',
-                        email: 'matt@damon.com',
-                        notes: 'I think he has an Oscar'
-                      })
+      database.create(test_contact)
 
       finder.run
 
@@ -62,5 +62,15 @@ Email:   matt@damon.com
 Notes:   I think he has an Oscar
 ))
     end
+  end
+
+  def test_contact
+    {
+      name: 'Matt Damon',
+      address: 'Some address',
+      phone: '08796564231',
+      email: 'matt@damon.com',
+      notes: 'I think he has an Oscar'
+    }
   end
 end
