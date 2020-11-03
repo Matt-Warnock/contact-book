@@ -12,7 +12,7 @@ RSpec.describe Finder do
     let(:validator) { Validator.new }
 
     it 'askes user for a search_term' do
-      input = StringIO.new('term')
+      input = StringIO.new("term\nn\n")
       user_interface = UserInterface.new(input, output, validator)
       finder = described_class.new(user_interface, database)
 
@@ -22,7 +22,7 @@ RSpec.describe Finder do
     end
 
     it 'prints message if no contacts are found' do
-      input = StringIO.new('term')
+      input = StringIO.new("term\nn\n")
       user_interface = UserInterface.new(input, output, validator)
       finder = described_class.new(user_interface, database)
 
@@ -34,7 +34,7 @@ RSpec.describe Finder do
     end
 
     it 'does not print a no contacts message if contacts are found' do
-      input = StringIO.new('damon')
+      input = StringIO.new("damon\nn\n")
       user_interface = UserInterface.new(input, output, validator)
       finder = described_class.new(user_interface, database)
 
@@ -46,7 +46,7 @@ RSpec.describe Finder do
     end
 
     it 'prints contacts if any are found' do
-      input = StringIO.new('damon')
+      input = StringIO.new("damon\nn\n")
       user_interface = UserInterface.new(input, output, validator)
       finder = described_class.new(user_interface, database)
 
@@ -61,6 +61,18 @@ Phone:   08796564231
 Email:   matt@damon.com
 Notes:   I think he has an Oscar
 ))
+    end
+
+    it 'keeps asking user if they want to add another contact untill they say no' do
+      input = StringIO.new("term\ny\ndamon\ny\nterm\nn\n")
+      user_interface = UserInterface.new(input, output, validator)
+      finder = described_class.new(user_interface, database)
+
+      database.create(test_contact)
+
+      finder.run
+
+      expect(output.string.scan(UserInterface::ANOTHER_SEARCH_PROMPT).length).to eq(3)
     end
   end
 

@@ -7,10 +7,14 @@ class Finder
   end
 
   def run
-    search_result = database.search(user_interface.search_term)
+    loop do
+      search_result = database.search(user_interface.search_term)
 
-    user_interface.display_no_contacts_message unless search_result.any?
-    search_result.each { |contact| user_interface.display_contact(contact) }
+      user_interface.display_no_contacts_message unless search_result.any?
+      search_result.each { |contact| user_interface.display_contact(contact) }
+
+      break unless user_interface.search_again?
+    end
   end
 
   private
