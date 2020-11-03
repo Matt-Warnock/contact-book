@@ -45,7 +45,7 @@ RSpec.describe Finder do
       expect(output.string).not_to include(UserInterface::NO_CONTACTS_MESSAGE)
     end
 
-    it 'prints contacts if any are found' do
+    it 'prints the contacts that are found' do
       input = StringIO.new("damon\nn\n")
       user_interface = UserInterface.new(input, output, validator)
       finder = described_class.new(user_interface, database)
@@ -63,7 +63,7 @@ Notes:   I think he has an Oscar
 ))
     end
 
-    it 'keeps asking user if they want to add another contact untill they say no' do
+    it 'keeps asking user if they want to add another contact until they say no' do
       input = StringIO.new("term\ny\ndamon\ny\nterm\nn\n")
       user_interface = UserInterface.new(input, output, validator)
       finder = described_class.new(user_interface, database)
