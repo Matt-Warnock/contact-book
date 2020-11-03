@@ -54,13 +54,7 @@ RSpec.describe Finder do
 
       finder.run
 
-      expect(output.string).to include(%(
-Name:    Matt Damon
-Address: Some address
-Phone:   08796564231
-Email:   matt@damon.com
-Notes:   I think he has an Oscar
-))
+      expect(output.string).to include('Name:    Matt Damon')
     end
 
     it 'keeps asking user if they want to add another contact until they say no' do
