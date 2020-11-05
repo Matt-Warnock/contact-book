@@ -288,6 +288,24 @@ Notes:   I think he has an Oscar
 
       expect(result).to eq(true)
     end
+
+    describe '#choose_contact' do
+      it 'prints all the contacts with an index' do
+        input = StringIO.new
+        ui = described_class.new(input, output, validator)
+
+        contact_a = {
+          name: 'Matt Damon'
+        }
+        contact_b = {
+          name: 'John Doe'
+        }
+
+        ui.choose_contact([contact_a, contact_b])
+
+        expect(output.string).to match(/\[0\]\nName:    Matt Damon\n\[1\]\nName:    John Doe/)
+      end
+    end
   end
 
   def test_details

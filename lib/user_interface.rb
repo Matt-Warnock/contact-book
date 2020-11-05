@@ -105,7 +105,18 @@ class UserInterface
     collect_vaild_input { |user_input| validator.valid_yes_no_answer?(user_input) }.downcase == YES_REPLY
   end
 
+  def choose_contact(contacts)
+    display_all_with_index(contacts)
+  end
+
   private
+
+  def display_all_with_index(contacts)
+    contacts.each_with_index do |contact, index|
+      output.print "[#{index}]"
+      display_contact(contact)
+    end
+  end
 
   def collect_vaild_input
     loop do
