@@ -74,4 +74,14 @@ RSpec.describe Validator do
       expect(validator.valid_string?('')).to eq(false)
     end
   end
+
+  describe '#valid_index?' do
+    it 'returns true on a number less or equal to max number given' do
+      expect(validator.valid_index?('2', 3)).to eq(true)
+    end
+
+    it 'returns false on a number exceding the max number given' do
+      expect(validator.valid_index?('4', 3)).to eq(false)
+    end
+  end
 end

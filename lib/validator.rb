@@ -22,6 +22,10 @@ class Validator
     }.fetch(field, true)
   end
 
+  def valid_index?(value, max_index)
+    value.to_i <= max_index
+  end
+
   private
 
   def valid_phone?(value)
