@@ -4,6 +4,7 @@ class UserInterface
   ANOTHER_CONTACT_PROMPT = 'Add another contact? (y/n): '
   ANOTHER_SEARCH_PROMPT = 'Search again? (y/n): '
   CLEAR_COMMAND = "\033[H\033[2J"
+  CONTACT_INDEX_PROMPT = 'Enter contact index: '
   CONTINUE_MESSAGE = 'Press any key to continue '
   ERROR_MESSAGE = 'Wrong input. Please try again: '
   NO_CONTACTS_MESSAGE = 'No contacts were found.'
@@ -107,9 +108,14 @@ class UserInterface
 
   def choose_contact(contacts)
     display_all_with_index(contacts)
+    ask_for_index
   end
 
   private
+
+  def ask_for_index
+    output.print CONTACT_INDEX_PROMPT
+  end
 
   def display_all_with_index(contacts)
     contacts.each_with_index do |contact, index|
