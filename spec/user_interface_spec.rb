@@ -343,6 +343,15 @@ Notes:   I think he has an Oscar
 
         expect(output.string).to match(/Name:    Matt Damon/)
       end
+
+      it 'prints prompt for user to enter field name to be edited' do
+        input = StringIO.new
+        ui = described_class.new(input, output, validator)
+
+        ui.edit_field(test_details)
+
+        expect(output.string).to include(Constants::EDIT_CONTACT_PROMPT)
+      end
     end
   end
 

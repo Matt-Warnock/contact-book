@@ -6,6 +6,7 @@ module Constants
   CLEAR_COMMAND = "\033[H\033[2J"
   CONTACT_INDEX_PROMPT = 'Enter contact index: '
   CONTINUE_MESSAGE = 'Press any key to continue '
+  EDIT_CONTACT_PROMPT = 'Which part of the contact would you like to edit? '
   ERROR_MESSAGE = 'Wrong input. Please try again: '
   NO_CONTACTS_MESSAGE = 'No contacts were found.'
   SEARCH_MESSAGE = 'Type search term: '
