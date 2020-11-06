@@ -26,6 +26,10 @@ class Validator
     value.to_i < max_index
   end
 
+  def valid_field_name?(value)
+    Constants::FIELDS_TO_DISPLAY_NAMES.any? { |_, name| name.match(/#{value}/i) }
+  end
+
   private
 
   def valid_phone?(value)

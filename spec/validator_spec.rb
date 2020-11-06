@@ -84,4 +84,14 @@ RSpec.describe Validator do
       expect(validator.valid_index?('4', 3)).to eq(false)
     end
   end
+
+  describe '#valid_field_name?' do
+    it 'returns true on a vaild case insenitive field name spelling' do
+      expect(validator.valid_field_name?('phone')).to eq(true)
+    end
+
+    it 'returns false on incorrect field name spelling' do
+      expect(validator.valid_field_name?('telephone')).to eq(false)
+    end
+  end
 end
