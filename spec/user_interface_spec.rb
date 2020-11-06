@@ -332,6 +332,17 @@ Notes:   I think he has an Oscar
 
       expect(output.string).to include(described_class::ERROR_MESSAGE)
     end
+
+    describe '#edit_field' do
+      it 'prints contact to be edited' do
+        input = StringIO.new
+        ui = described_class.new(input, output, validator)
+
+        ui.edit_field(test_details)
+
+        expect(output.string).to match(/Name:    Matt Damon/)
+      end
+    end
   end
 
   def test_details

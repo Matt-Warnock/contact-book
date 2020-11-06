@@ -111,6 +111,10 @@ class UserInterface
     ask_for_index(contacts.length).to_i
   end
 
+  def edit_field(contact)
+    display_contact(contact)
+  end
+
   private
 
   def ask_for_index(array_length)
