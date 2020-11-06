@@ -108,13 +108,14 @@ class UserInterface
 
   def choose_contact(contacts)
     display_all_with_index(contacts)
-    ask_for_index
+    ask_for_index(contacts.length).to_i
   end
 
   private
 
-  def ask_for_index
+  def ask_for_index(array_length)
     output.print CONTACT_INDEX_PROMPT
+    collect_vaild_input { |user_input| validator.valid_index?(user_input, array_length) }
   end
 
   def display_all_with_index(contacts)

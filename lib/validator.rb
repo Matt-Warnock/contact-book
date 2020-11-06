@@ -23,7 +23,7 @@ class Validator
   end
 
   def valid_index?(value, max_index)
-    value.to_i <= max_index
+    value.to_i < max_index
   end
 
   private

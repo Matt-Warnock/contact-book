@@ -291,8 +291,9 @@ Notes:   I think he has an Oscar
   end
 
   describe '#choose_contact' do
+    let(:input) { StringIO.new("0\n") }
+
     it 'prints all the contacts with an index' do
-      input = StringIO.new
       ui = described_class.new(input, output, validator)
 
       contact_a = {
@@ -308,12 +309,28 @@ Notes:   I think he has an Oscar
     end
 
     it 'prints a prompt to user to choose an index' do
-      input = StringIO.new
       ui = described_class.new(input, output, validator)
 
       ui.choose_contact([test_details])
 
       expect(output.string).to include(described_class::CONTACT_INDEX_PROMPT)
+    end
+
+    it 'returns a vaild index choice' do
+      ui = described_class.new(input, output, validator)
+
+      result = ui.choose_contact([test_details])
+
+      expect(result).to eq(0)
+    end
+
+    it 'only takes vaild index choice' do
+      invalid_input = StringIO.new("1\n0\n")
+      ui = described_class.new(invalid_input, output, validator)
+
+      ui.choose_contact([test_details])
+
+      expect(output.string).to include(described_class::ERROR_MESSAGE)
     end
   end
 
