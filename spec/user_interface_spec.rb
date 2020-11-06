@@ -1,16 +1,17 @@
 # frozen_string_literal: true
 
+require 'constants'
 require 'user_interface'
 require 'validator'
 
 RSpec.describe UserInterface do
   let(:output) { StringIO.new }
   let(:validator) { Validator.new }
-  let(:yes_reply) { UserInterface::YES_REPLY + "\n" }
+  let(:yes_reply) { Constants::YES_REPLY + "\n" }
 
   describe '#menu_choice' do
-    let(:error_message) { described_class::ERROR_MESSAGE }
-    let(:exit_choice) { described_class::EXIT_CHOICE }
+    let(:error_message) { Constants::ERROR_MESSAGE }
+    let(:exit_choice) { Constants::EXIT_CHOICE }
     let(:valid_input) { StringIO.new(exit_choice.to_s + "\n") }
 
     it 'prints menu of options for user to choose' do
@@ -18,7 +19,7 @@ RSpec.describe UserInterface do
 
       ui.menu_choice
 
-      expect(output.string).to include(described_class::MENU_MESSAGE)
+      expect(output.string).to include(Constants::MENU_MESSAGE)
     end
 
     it 'clears the screen before printing the menu' do
@@ -26,7 +27,7 @@ RSpec.describe UserInterface do
 
       ui.menu_choice
 
-      expect(output.string).to include("\033[H\033[2J" + described_class::MENU_MESSAGE)
+      expect(output.string).to include("\033[H\033[2J" + Constants::MENU_MESSAGE)
     end
 
     it 'reads an input from the user' do
@@ -69,7 +70,7 @@ RSpec.describe UserInterface do
     it 'asks user for all fields' do
       ui.ask_for_fields
 
-      expect(output.string).to include(described_class::FIELDS_TO_PROMPTS.values.join)
+      expect(output.string).to include(Constants::FIELDS_TO_PROMPTS.values.join)
     end
 
     it 'gets the contact details' do
@@ -84,7 +85,7 @@ RSpec.describe UserInterface do
 
       ui.ask_for_fields
 
-      expect(output.string).to include(described_class::ERROR_MESSAGE)
+      expect(output.string).to include(Constants::ERROR_MESSAGE)
     end
 
     it 'prints error if email is invalid' do
@@ -93,7 +94,7 @@ RSpec.describe UserInterface do
 
       ui.ask_for_fields
 
-      expect(output.string).to include(described_class::ERROR_MESSAGE)
+      expect(output.string).to include(Constants::ERROR_MESSAGE)
     end
   end
 
@@ -123,7 +124,7 @@ Notes:   I think he has an Oscar
 
       ui.add_another_contact?
 
-      expect(output.string).to include(described_class::ANOTHER_CONTACT_PROMPT)
+      expect(output.string).to include(Constants::ANOTHER_CONTACT_PROMPT)
     end
 
     it 'returns true if user wants to add another contact' do
@@ -150,7 +151,7 @@ Notes:   I think he has an Oscar
 
       ui.add_another_contact?
 
-      expect(output.string).to include(described_class::ERROR_MESSAGE)
+      expect(output.string).to include(Constants::ERROR_MESSAGE)
     end
 
     it 'ignores case sensitivity for vaild input' do
@@ -170,7 +171,7 @@ Notes:   I think he has an Oscar
 
       ui.display_no_contacts_message
 
-      expect(output.string).to include(described_class::NO_CONTACTS_MESSAGE)
+      expect(output.string).to include(Constants::NO_CONTACTS_MESSAGE)
     end
   end
 
@@ -209,7 +210,7 @@ Notes:   I think he has an Oscar
 
       ui.continue
 
-      expect(output.string).to eq(described_class::CONTINUE_MESSAGE)
+      expect(output.string).to eq(Constants::CONTINUE_MESSAGE)
     end
 
     it 'returns single character entered by user' do
@@ -227,7 +228,7 @@ Notes:   I think he has an Oscar
 
       ui.search_term
 
-      expect(output.string).to include(described_class::SEARCH_MESSAGE)
+      expect(output.string).to include(Constants::SEARCH_MESSAGE)
     end
 
     it 'returns the search term typed by user' do
@@ -243,7 +244,7 @@ Notes:   I think he has an Oscar
 
       ui.search_term
 
-      expect(output.string).to include(described_class::ERROR_MESSAGE)
+      expect(output.string).to include(Constants::ERROR_MESSAGE)
     end
   end
 
@@ -254,7 +255,7 @@ Notes:   I think he has an Oscar
 
       ui.search_again?
 
-      expect(output.string).to include(described_class::ANOTHER_SEARCH_PROMPT)
+      expect(output.string).to include(Constants::ANOTHER_SEARCH_PROMPT)
     end
 
     it 'returns true if user wants to search another contact' do
@@ -277,7 +278,7 @@ Notes:   I think he has an Oscar
 
       ui.search_again?
 
-      expect(output.string).to include(described_class::ERROR_MESSAGE)
+      expect(output.string).to include(Constants::ERROR_MESSAGE)
     end
 
     it 'ignores case sensitivity for vaild input' do
@@ -313,7 +314,7 @@ Notes:   I think he has an Oscar
 
       ui.choose_contact([test_details])
 
-      expect(output.string).to include(described_class::CONTACT_INDEX_PROMPT)
+      expect(output.string).to include(Constants::CONTACT_INDEX_PROMPT)
     end
 
     it 'returns a vaild index choice' do
@@ -330,7 +331,7 @@ Notes:   I think he has an Oscar
 
       ui.choose_contact([test_details])
 
-      expect(output.string).to include(described_class::ERROR_MESSAGE)
+      expect(output.string).to include(Constants::ERROR_MESSAGE)
     end
 
     describe '#edit_field' do

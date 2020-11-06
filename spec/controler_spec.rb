@@ -2,11 +2,12 @@
 
 require 'controler'
 require 'null_action'
+require 'user_interface'
 require 'validator'
 
 RSpec.describe Controler do
   let(:actions) { Array.new(4, NullAction.new) }
-  let(:exit_choice) { UserInterface::EXIT_CHOICE }
+  let(:exit_choice) { Constants::EXIT_CHOICE }
   let(:output) { StringIO.new }
 
   it 'prints the menu before the action is run and after unless exit is chosen' do
@@ -16,7 +17,7 @@ RSpec.describe Controler do
 
     controler.start
 
-    expect(output.string.scan(UserInterface::MENU_MESSAGE).length).to eq(2)
+    expect(output.string.scan(Constants::MENU_MESSAGE).length).to eq(2)
   end
 
   it 'receives the input from the user interface' do

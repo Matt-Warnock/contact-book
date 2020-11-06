@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'user_interface'
+require 'constants'
 
 class Validator
   def valid_choice?(option)
@@ -8,7 +8,7 @@ class Validator
   end
 
   def valid_yes_no_answer?(value)
-    value.match?(UserInterface::VALID_YES_NO_REPLY)
+    value.match?(Constants::VALID_YES_NO_REPLY)
   end
 
   def valid_string?(string)
