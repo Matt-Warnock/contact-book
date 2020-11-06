@@ -333,25 +333,34 @@ Notes:   I think he has an Oscar
 
       expect(output.string).to include(Constants::ERROR_MESSAGE)
     end
+  end
 
-    describe '#edit_field' do
-      it 'prints contact to be edited' do
-        input = StringIO.new
-        ui = described_class.new(input, output, validator)
+  describe '#edit_field' do
+    it 'prints contact to be edited' do
+      input = StringIO.new("name\n")
+      ui = described_class.new(input, output, validator)
 
-        ui.edit_field(test_details)
+      ui.edit_field(test_details)
 
-        expect(output.string).to match(/Name:    Matt Damon/)
-      end
+      expect(output.string).to match(/Name:    Matt Damon/)
+    end
 
-      it 'prints prompt for user to enter field name to be edited' do
-        input = StringIO.new
-        ui = described_class.new(input, output, validator)
+    it 'prints prompt for user to enter field name to be edited' do
+      input = StringIO.new("name\n")
+      ui = described_class.new(input, output, validator)
 
-        ui.edit_field(test_details)
+      ui.edit_field(test_details)
 
-        expect(output.string).to include(Constants::EDIT_CONTACT_PROMPT)
-      end
+      expect(output.string).to include(Constants::EDIT_CONTACT_PROMPT)
+    end
+
+    it 'only takes a vaild field name' do
+      input = StringIO.new("surname\nemail\n")
+      ui = described_class.new(input, output, validator)
+
+      ui.edit_field(test_details)
+
+      expect(output.string).to include(Constants::ERROR_MESSAGE)
     end
   end
 

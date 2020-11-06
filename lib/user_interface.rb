@@ -71,6 +71,7 @@ class UserInterface
   def edit_field(contact)
     display_contact(contact)
     output.print Constants::EDIT_CONTACT_PROMPT
+    collect_vaild_input { |user_input| validator.valid_field_name?(user_input) }
   end
 
   private
