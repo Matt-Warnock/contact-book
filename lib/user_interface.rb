@@ -30,13 +30,12 @@ class UserInterface
     end
   end
 
-  def display_no_contacts_message
-    output.puts Constants::NO_CONTACTS_MESSAGE
+  def add_another_contact?
+    boolen_choice?(Constants::ANOTHER_CONTACT_PROMPT)
   end
 
-  def add_another_contact?
-    output.print Constants::ANOTHER_CONTACT_PROMPT
-    collect_vaild_input { |user_input| validator.valid_yes_no_answer?(user_input) }.downcase == Constants::YES_REPLY
+  def display_no_contacts_message
+    output.puts Constants::NO_CONTACTS_MESSAGE
   end
 
   def display_letter_header(letter)
@@ -58,8 +57,7 @@ class UserInterface
   end
 
   def search_again?
-    output.print Constants::ANOTHER_SEARCH_PROMPT
-    collect_vaild_input { |user_input| validator.valid_yes_no_answer?(user_input) }.downcase == Constants::YES_REPLY
+    boolen_choice?(Constants::ANOTHER_SEARCH_PROMPT)
   end
 
   def choose_contact(contacts)
@@ -93,6 +91,11 @@ class UserInterface
 
   def collect_valid_field(field)
     collect_vaild_input { |user_input| validator.valid_field?(field, user_input) }
+  end
+
+  def boolen_choice?(prompt)
+    output.print prompt
+    collect_vaild_input { |user_input| validator.valid_yes_no_answer?(user_input) }.downcase == Constants::YES_REPLY
   end
 
   def collect_vaild_input
