@@ -380,6 +380,15 @@ Notes:   I think he has an Oscar
 
       expect(output.string).to include(Constants::ERROR_MESSAGE)
     end
+
+    it 'returns a hash with new value entered' do
+      input = StringIO.new("email\njoe@hotmail.com\n")
+      ui = described_class.new(input, output, validator)
+
+      result = ui.edit_field(test_details)
+
+      expect(result).to eq({ email: 'joe@hotmail.com' })
+    end
   end
 
   def test_details

@@ -73,7 +73,8 @@ class UserInterface
 
     field = collect_vaild_input { |user_input| validator.valid_field_name?(user_input) }.to_sym
     output.print Constants::FIELDS_TO_PROMPTS[field]
-    collect_valid_field(field)
+    value = collect_valid_field(field)
+    { field => value }
   end
 
   private
