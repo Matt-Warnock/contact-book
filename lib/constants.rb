@@ -2,11 +2,12 @@
 
 module Constants
   ANOTHER_CONTACT_PROMPT = 'Add another contact? (y/n): '
+  ANOTHER_EDIT_PROMPT = 'Update another detail? (y/n): '
   ANOTHER_SEARCH_PROMPT = 'Search again? (y/n): '
   CLEAR_COMMAND = "\033[H\033[2J"
   CONTACT_INDEX_PROMPT = 'Enter contact index: '
   CONTINUE_MESSAGE = 'Press any key to continue '
-  FIELD_CHOICE_PROMPT = 'Which part of the contact would you like to edit? '
+  FIELD_CHOICE_PROMPT = 'Which detail of the contact would you like to edit? '
   ERROR_MESSAGE = 'Wrong input. Please try again: '
   NO_CONTACTS_MESSAGE = 'No contacts were found.'
   SEARCH_MESSAGE = 'Type search term: '
