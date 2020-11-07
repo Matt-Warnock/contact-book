@@ -79,6 +79,10 @@ class UserInterface
     boolen_choice?(Constants::ANOTHER_EDIT_PROMPT)
   end
 
+  def update_another_contact?
+    boolen_choice?(Constants::ANOTHER_UPDATE_PROMPT)
+  end
+
   private
 
   def ask_for_index(array_length)

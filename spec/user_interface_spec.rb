@@ -398,7 +398,7 @@ Notes:   I think he has an Oscar
 
       ui.update_another_field?
 
-      expect(output.string).to include(Constants::ANOTHER_SEARCH_PROMPT)
+      expect(output.string).to include(Constants::ANOTHER_EDIT_PROMPT)
     end
 
     it 'returns true if user add another field' do
@@ -429,6 +429,49 @@ Notes:   I think he has an Oscar
       ui = described_class.new(input, output, validator)
 
       result = ui.update_another_field?
+
+      expect(result).to eq(true)
+    end
+  end
+
+  describe '#update_another_contact?' do
+    it 'prints a prompt to user asking if they want to change another field' do
+      input = StringIO.new(yes_reply)
+      ui = described_class.new(input, output, validator)
+
+      ui.update_another_contact?
+
+      expect(output.string).to include(Constants::ANOTHER_UPDATE_PROMPT)
+    end
+
+    it 'returns true if user add another field' do
+      input = StringIO.new(yes_reply)
+      ui = described_class.new(input, output, validator)
+
+      expect(ui.update_another_contact?).to eq(true)
+    end
+
+    it 'returns false if user doesnt want to add another field' do
+      input = StringIO.new("n\n")
+      ui = described_class.new(input, output, validator)
+
+      expect(ui.update_another_contact?).to eq(false)
+    end
+
+    it 'prints error message and reads input until correct input is given' do
+      input = StringIO.new("wrong input\n#{yes_reply}")
+      ui = described_class.new(input, output, validator)
+
+      ui.update_another_contact?
+
+      expect(output.string).to include(Constants::ERROR_MESSAGE)
+    end
+
+    it 'ignores case sensitivity for vaild input' do
+      input = StringIO.new(yes_reply.upcase)
+      ui = described_class.new(input, output, validator)
+
+      result = ui.update_another_contact?
 
       expect(result).to eq(true)
     end

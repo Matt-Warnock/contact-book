@@ -4,6 +4,7 @@ module Constants
   ANOTHER_CONTACT_PROMPT = 'Add another contact? (y/n): '
   ANOTHER_EDIT_PROMPT = 'Update another detail? (y/n): '
   ANOTHER_SEARCH_PROMPT = 'Search again? (y/n): '
+  ANOTHER_UPDATE_PROMPT = 'Update another contact? (y/n): '
   CLEAR_COMMAND = "\033[H\033[2J"
   CONTACT_INDEX_PROMPT = 'Enter contact index: '
   CONTINUE_MESSAGE = 'Press any key to continue '
