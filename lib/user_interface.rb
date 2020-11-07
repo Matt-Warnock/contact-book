@@ -17,8 +17,7 @@ class UserInterface
   def ask_for_fields
     Constants::FIELDS_TO_PROMPTS.each_with_object({}) do |(field, prompt), contact_details|
       output.print prompt
-
-      contact_details[field] = collect_vaild_input { |user_input| validator.valid_field?(field, user_input) }
+      contact_details[field] = collect_valid_field(field)
     end
   end
 
@@ -70,7 +69,7 @@ class UserInterface
 
   def edit_field(contact)
     display_contact(contact)
-    output.print Constants::EDIT_CONTACT_PROMPT
+    output.print Constants::FIELD_CHOICE_PROMPT
     collect_vaild_input { |user_input| validator.valid_field_name?(user_input) }
   end
 
@@ -86,6 +85,10 @@ class UserInterface
       output.print "[#{index}]"
       display_contact(contact)
     end
+  end
+
+  def collect_valid_field(field)
+    collect_vaild_input { |user_input| validator.valid_field?(field, user_input) }
   end
 
   def collect_vaild_input

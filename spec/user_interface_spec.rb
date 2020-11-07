@@ -351,11 +351,29 @@ Notes:   I think he has an Oscar
 
       ui.edit_field(test_details)
 
-      expect(output.string).to include(Constants::EDIT_CONTACT_PROMPT)
+      expect(output.string).to include(Constants::FIELD_CHOICE_PROMPT)
     end
 
     it 'only takes a vaild field name' do
       input = StringIO.new("surname\nemail\n")
+      ui = described_class.new(input, output, validator)
+
+      ui.edit_field(test_details)
+
+      expect(output.string).to include(Constants::ERROR_MESSAGE)
+    end
+
+    it 'asks the user for the new value for field given' do
+      input = StringIO.new("email\njoe@hotmail.com\n")
+      ui = described_class.new(input, output, validator)
+
+      ui.edit_field(test_details)
+
+      expect(output.string).to include(Constants::FIELDS_TO_PROMPTS[:email])
+    end
+
+    it 'only takes a vaild value for field given' do
+      input = StringIO.new("email\njoe.hotmail.com\njoe@hotmail.com\n")
       ui = described_class.new(input, output, validator)
 
       ui.edit_field(test_details)
