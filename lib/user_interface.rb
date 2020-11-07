@@ -70,7 +70,10 @@ class UserInterface
   def edit_field(contact)
     display_contact(contact)
     output.print Constants::FIELD_CHOICE_PROMPT
-    collect_vaild_input { |user_input| validator.valid_field_name?(user_input) }
+
+    field = collect_vaild_input { |user_input| validator.valid_field_name?(user_input) }.to_sym
+    output.print Constants::FIELDS_TO_PROMPTS[field]
+    collect_valid_field(field)
   end
 
   private

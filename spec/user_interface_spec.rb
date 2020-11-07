@@ -337,7 +337,7 @@ Notes:   I think he has an Oscar
 
   describe '#edit_field' do
     it 'prints contact to be edited' do
-      input = StringIO.new("name\n")
+      input = StringIO.new("name\nJoe\n")
       ui = described_class.new(input, output, validator)
 
       ui.edit_field(test_details)
@@ -346,7 +346,7 @@ Notes:   I think he has an Oscar
     end
 
     it 'prints prompt for user to enter field name to be edited' do
-      input = StringIO.new("name\n")
+      input = StringIO.new("name\nJoe\n")
       ui = described_class.new(input, output, validator)
 
       ui.edit_field(test_details)
@@ -355,7 +355,7 @@ Notes:   I think he has an Oscar
     end
 
     it 'only takes a vaild field name' do
-      input = StringIO.new("surname\nemail\n")
+      input = StringIO.new("surname\nemail\njoe@hotmail.com\n")
       ui = described_class.new(input, output, validator)
 
       ui.edit_field(test_details)
