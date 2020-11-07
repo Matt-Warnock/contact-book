@@ -75,6 +75,10 @@ class UserInterface
     { field => value }
   end
 
+  def update_another_field?
+    boolen_choice?(Constants::ANOTHER_EDIT_PROMPT)
+  end
+
   private
 
   def ask_for_index(array_length)
