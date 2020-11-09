@@ -69,7 +69,7 @@ class UserInterface
     display_contact(contact)
     output.print Constants::FIELD_CHOICE_PROMPT
 
-    field = collect_vaild_input { |user_input| validator.valid_field_name?(user_input) }.to_sym
+    field = collect_field_key
     output.print Constants::FIELDS_TO_PROMPTS[field]
     value = collect_valid_field(field)
     { field => value }
@@ -95,6 +95,11 @@ class UserInterface
       output.print "[#{index}]"
       display_contact(contact)
     end
+  end
+
+  def collect_field_key
+    field_name = collect_vaild_input { |user_input| validator.valid_field_name?(user_input) }
+    Constants::FIELDS_TO_DISPLAY_NAMES.key(field_name.capitalize + ': ')
   end
 
   def collect_valid_field(field)
