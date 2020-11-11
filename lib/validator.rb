@@ -27,7 +27,7 @@ class Validator
   end
 
   def valid_field_name?(value)
-    Constants::FIELDS_TO_DISPLAY_NAMES.any? { |_, name| name.match?(/#{value}/i) }
+    Constants::FIELDS_TO_DISPLAY_NAMES.any? { |_, name| name.match?(/^#{value}\b/i) }
   end
 
   private
