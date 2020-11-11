@@ -153,15 +153,6 @@ Notes:   I think he has an Oscar
 
       expect(output.string).to include(Constants::ERROR_MESSAGE)
     end
-
-    it 'ignores case sensitivity for vaild input' do
-      input = StringIO.new(yes_reply.upcase)
-      ui = described_class.new(input, output, validator)
-
-      result = ui.add_another_contact?
-
-      expect(result).to eq(true)
-    end
   end
 
   describe '#display_no_contacts_message' do
@@ -280,15 +271,6 @@ Notes:   I think he has an Oscar
 
       expect(output.string).to include(Constants::ERROR_MESSAGE)
     end
-
-    it 'ignores case sensitivity for vaild input' do
-      input = StringIO.new(yes_reply.upcase)
-      ui = described_class.new(input, output, validator)
-
-      result = ui.search_again?
-
-      expect(result).to eq(true)
-    end
   end
 
   describe '#choose_contact' do
@@ -297,12 +279,8 @@ Notes:   I think he has an Oscar
     it 'prints all the contacts with an index' do
       ui = described_class.new(input, output, validator)
 
-      contact_a = {
-        name: 'Matt Damon'
-      }
-      contact_b = {
-        name: 'John Doe'
-      }
+      contact_a = { name: 'Matt Damon' }
+      contact_b = { name: 'John Doe' }
 
       ui.choose_contact([contact_a, contact_b])
 
@@ -401,7 +379,7 @@ Notes:   I think he has an Oscar
       expect(output.string).to include(Constants::ANOTHER_EDIT_PROMPT)
     end
 
-    it 'returns true if user add another field' do
+    it 'returns true if user wants to add another field' do
       input = StringIO.new(yes_reply)
       ui = described_class.new(input, output, validator)
 
@@ -423,15 +401,6 @@ Notes:   I think he has an Oscar
 
       expect(output.string).to include(Constants::ERROR_MESSAGE)
     end
-
-    it 'ignores case sensitivity for vaild input' do
-      input = StringIO.new(yes_reply.upcase)
-      ui = described_class.new(input, output, validator)
-
-      result = ui.update_another_field?
-
-      expect(result).to eq(true)
-    end
   end
 
   describe '#update_another_contact?' do
@@ -444,7 +413,7 @@ Notes:   I think he has an Oscar
       expect(output.string).to include(Constants::ANOTHER_UPDATE_PROMPT)
     end
 
-    it 'returns true if user add another field' do
+    it 'returns true if user wants to add another field' do
       input = StringIO.new(yes_reply)
       ui = described_class.new(input, output, validator)
 
@@ -465,15 +434,6 @@ Notes:   I think he has an Oscar
       ui.update_another_contact?
 
       expect(output.string).to include(Constants::ERROR_MESSAGE)
-    end
-
-    it 'ignores case sensitivity for vaild input' do
-      input = StringIO.new(yes_reply.upcase)
-      ui = described_class.new(input, output, validator)
-
-      result = ui.update_another_contact?
-
-      expect(result).to eq(true)
     end
   end
 

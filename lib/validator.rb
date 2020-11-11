@@ -15,7 +15,7 @@ class Validator
     string.match?(/\w/)
   end
 
-  def valid_field?(field, value)
+  def valid_field_value?(field, value)
     {
       phone: valid_phone?(value),
       email: valid_email?(value)
@@ -23,11 +23,11 @@ class Validator
   end
 
   def valid_index?(value, max_index)
-    value.to_i < max_index
+    value.match?(/^\d{1,2}$/) && value.to_i < max_index
   end
 
   def valid_field_name?(value)
-    Constants::FIELDS_TO_DISPLAY_NAMES.value?(value.capitalize + ': ')
+    Constants::FIELDS_TO_DISPLAY_NAMES.any? { |_, name| name.match?(/#{value}/i) }
   end
 
   private

@@ -11,13 +11,13 @@ class UserInterface
 
   def menu_choice
     output.print Constants::CLEAR_COMMAND, Constants::MENU_MESSAGE
-    collect_vaild_input { |user_input| validator.valid_choice?(user_input) }.to_i
+    collect_valid_input { |user_input| validator.valid_choice?(user_input) }.to_i
   end
 
   def ask_for_fields
     Constants::FIELDS_TO_PROMPTS.each_with_object({}) do |(field, prompt), contact_details|
       output.print prompt
-      contact_details[field] = collect_valid_field(field)
+      contact_details[field] = collect_field_value(field)
     end
   end
 
@@ -31,7 +31,7 @@ class UserInterface
   end
 
   def add_another_contact?
-    boolen_choice?(Constants::ANOTHER_CONTACT_PROMPT)
+    boolean_choice?(Constants::ANOTHER_CONTACT_PROMPT)
   end
 
   def display_no_contacts_message
@@ -53,11 +53,11 @@ class UserInterface
 
   def search_term
     output.print Constants::SEARCH_MESSAGE
-    collect_vaild_input { |user_input| validator.valid_string?(user_input) }
+    collect_valid_input { |user_input| validator.valid_string?(user_input) }
   end
 
   def search_again?
-    boolen_choice?(Constants::ANOTHER_SEARCH_PROMPT)
+    boolean_choice?(Constants::ANOTHER_SEARCH_PROMPT)
   end
 
   def choose_contact(contacts)
@@ -69,25 +69,25 @@ class UserInterface
     display_contact(contact)
     output.print Constants::FIELD_CHOICE_PROMPT
 
-    field = collect_field_key
+    field = collect_field_name
     output.print Constants::FIELDS_TO_PROMPTS[field]
-    value = collect_valid_field(field)
+    value = collect_field_value(field)
     { field => value }
   end
 
   def update_another_field?
-    boolen_choice?(Constants::ANOTHER_EDIT_PROMPT)
+    boolean_choice?(Constants::ANOTHER_EDIT_PROMPT)
   end
 
   def update_another_contact?
-    boolen_choice?(Constants::ANOTHER_UPDATE_PROMPT)
+    boolean_choice?(Constants::ANOTHER_UPDATE_PROMPT)
   end
 
   private
 
   def ask_for_index(array_length)
     output.print Constants::CONTACT_INDEX_PROMPT
-    collect_vaild_input { |user_input| validator.valid_index?(user_input, array_length) }
+    collect_valid_input { |user_input| validator.valid_index?(user_input, array_length) }
   end
 
   def display_all_with_index(contacts)
@@ -97,21 +97,26 @@ class UserInterface
     end
   end
 
-  def collect_field_key
-    field_name = collect_vaild_input { |user_input| validator.valid_field_name?(user_input) }
-    Constants::FIELDS_TO_DISPLAY_NAMES.key(field_name.capitalize + ': ')
+  def collect_field_name
+    field_name = collect_valid_input { |user_input| validator.valid_field_name?(user_input) }
+    convert_name_to_key(field_name)
   end
 
-  def collect_valid_field(field)
-    collect_vaild_input { |user_input| validator.valid_field?(field, user_input) }
+  def convert_name_to_key(field_name)
+    display_name = Constants::FIELDS_TO_DISPLAY_NAMES.select { |_, name| name.match?(/#{field_name}/i) }.values.join
+    Constants::FIELDS_TO_DISPLAY_NAMES.key(display_name)
   end
 
-  def boolen_choice?(prompt)
+  def collect_field_value(field)
+    collect_valid_input { |user_input| validator.valid_field_value?(field, user_input) }
+  end
+
+  def boolean_choice?(prompt)
     output.print prompt
-    collect_vaild_input { |user_input| validator.valid_yes_no_answer?(user_input) }.downcase == Constants::YES_REPLY
+    collect_valid_input { |user_input| validator.valid_yes_no_answer?(user_input) }.downcase == Constants::YES_REPLY
   end
 
-  def collect_vaild_input
+  def collect_valid_input
     loop do
       user_input = input.gets.chomp
       break user_input if yield user_input

@@ -23,33 +23,33 @@ RSpec.describe Validator do
     end
   end
 
-  describe '#valid_field?' do
+  describe '#valid_field_value?' do
     it 'returns true by defalt on non-specified validation methods' do
-      result = validator.valid_field?(:notes, 'I think he has an Oscar')
+      result = validator.valid_field_value?(:notes, 'I think he has an Oscar')
 
       expect(result).to eq(true)
     end
 
     it 'returns true with valid amount of digits' do
-      result = validator.valid_field?(:phone, '12345678911')
+      result = validator.valid_field_value?(:phone, '12345678911')
 
       expect(result).to eq(true)
     end
 
     it 'returns false with an invalid amount of digits' do
-      result = validator.valid_field?(:phone, '123456')
+      result = validator.valid_field_value?(:phone, '123456')
 
       expect(result).to eq(false)
     end
 
     it 'returns true with valid email address' do
-      result = validator.valid_field?(:email, 'matt@yahoo.com')
+      result = validator.valid_field_value?(:email, 'matt@yahoo.com')
 
       expect(result).to eq(true)
     end
 
     it 'returns false with an invalid email address' do
-      result = validator.valid_field?(:email, 'matt.yahoo.com')
+      result = validator.valid_field_value?(:email, 'matt.yahoo.com')
 
       expect(result).to eq(false)
     end
@@ -83,11 +83,15 @@ RSpec.describe Validator do
     it 'returns false on a number given that is max number or higher' do
       expect(validator.valid_index?('4', 3)).to eq(false)
     end
+
+    it 'returns false if letter is given' do
+      expect(validator.valid_index?('a', 3)).to eq(false)
+    end
   end
 
   describe '#valid_field_name?' do
     it 'returns true on a vaild case insenitive field name spelling' do
-      expect(validator.valid_field_name?('phone')).to eq(true)
+      expect(validator.valid_field_name?('PHONE')).to eq(true)
     end
 
     it 'returns false on incorrect field name spelling' do
