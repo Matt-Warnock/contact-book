@@ -12,7 +12,7 @@ class Validator
   end
 
   def valid_string?(string)
-    string.match?(/\w/)
+    !string.empty?
   end
 
   def valid_field_value?(field, value)
