@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'array_database'
+require 'constants'
 require 'pager'
 require 'user_interface'
 require 'validator'
@@ -17,7 +18,7 @@ RSpec.describe Pager do
     it 'prints a message to the user if the database is empty' do
       pager.run
 
-      expect(output.string).to include(UserInterface::NO_CONTACTS_MESSAGE)
+      expect(output.string).to include(Constants::NO_CONTACTS_MESSAGE)
     end
 
     it 'does not prints a message if the database has any contacts' do
@@ -25,7 +26,7 @@ RSpec.describe Pager do
 
       pager.run
 
-      expect(output.string).to_not include(UserInterface::NO_CONTACTS_MESSAGE)
+      expect(output.string).to_not include(Constants::NO_CONTACTS_MESSAGE)
     end
 
     it 'sorts contacts into aphabetical order according to name' do
@@ -82,14 +83,14 @@ RSpec.describe Pager do
 
       pager.run
 
-      expect(output.string).to match(/(Adam Smith)#{gap}#{UserInterface::CONTINUE_MESSAGE}/)
+      expect(output.string).to match(/(Adam Smith)#{gap}#{Constants::CONTINUE_MESSAGE}/)
     end
 
     it 'prompts user to press a key before continuing after no contacts message' do
       pager.run
 
       expect(output.string)
-        .to match(/#{UserInterface::NO_CONTACTS_MESSAGE}\n#{UserInterface::CONTINUE_MESSAGE}/)
+        .to match(/#{Constants::NO_CONTACTS_MESSAGE}\n#{Constants::CONTINUE_MESSAGE}/)
     end
   end
 end

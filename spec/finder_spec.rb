@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'array_database'
+require 'constants'
 require 'finder'
 require 'user_interface'
 require 'validator'
@@ -18,7 +19,7 @@ RSpec.describe Finder do
 
       finder.run
 
-      expect(output.string).to include(UserInterface::SEARCH_MESSAGE)
+      expect(output.string).to include(Constants::SEARCH_MESSAGE)
     end
 
     it 'prints message if no contacts are found' do
@@ -30,7 +31,7 @@ RSpec.describe Finder do
 
       finder.run
 
-      expect(output.string).to include(UserInterface::NO_CONTACTS_MESSAGE)
+      expect(output.string).to include(Constants::NO_CONTACTS_MESSAGE)
     end
 
     it 'does not print a no contacts message if contacts are found' do
@@ -42,7 +43,7 @@ RSpec.describe Finder do
 
       finder.run
 
-      expect(output.string).not_to include(UserInterface::NO_CONTACTS_MESSAGE)
+      expect(output.string).not_to include(Constants::NO_CONTACTS_MESSAGE)
     end
 
     it 'prints the contacts that are found' do
@@ -66,7 +67,7 @@ RSpec.describe Finder do
 
       finder.run
 
-      expect(output.string.scan(UserInterface::ANOTHER_SEARCH_PROMPT).length).to eq(3)
+      expect(output.string.scan(Constants::ANOTHER_SEARCH_PROMPT).length).to eq(3)
     end
   end
 
