@@ -103,8 +103,7 @@ class UserInterface
   end
 
   def convert_name_to_key(field_name)
-    display_name = Constants::FIELDS_TO_DISPLAY_NAMES.select { |_, name| name.match?(/#{field_name}/i) }.values.join
-    Constants::FIELDS_TO_DISPLAY_NAMES.key(display_name)
+    Constants::FIELDS_TO_DISPLAY_NAMES.select { |_, name| name.match?(/#{field_name}/i) }.keys.first
   end
 
   def collect_field_value(field)
