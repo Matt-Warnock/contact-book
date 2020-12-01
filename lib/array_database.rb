@@ -24,4 +24,8 @@ class ArrayDatabase
       contact.any? { |_, value| value.match?(/#{term}/i) }
     end
   end
+
+  def contact_at(index)
+    all[index]
+  end
 end
