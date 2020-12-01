@@ -28,4 +28,8 @@ class ArrayDatabase
   def contact_at(index)
     all[index]
   end
+
+  def update(index, new_data)
+    all[index].update(new_data)
+  end
 end
