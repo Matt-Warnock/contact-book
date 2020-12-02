@@ -24,4 +24,12 @@ class ArrayDatabase
       contact.any? { |_, value| value.match?(/#{term}/i) }
     end
   end
+
+  def contact_at(index)
+    all[index]
+  end
+
+  def update(index, new_data)
+    all[index].update(new_data)
+  end
 end

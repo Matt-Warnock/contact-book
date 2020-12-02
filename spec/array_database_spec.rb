@@ -42,13 +42,6 @@ RSpec.describe ArrayDatabase do
 
   describe '#search' do
     it 'returns any contacts that matches string given' do
-      second_contact = {
-        name: 'oscar wilde',
-        address: 'Paris',
-        phone: '00000000000',
-        email: 'oscar@wilde.com',
-        notes: 'I think he has an oscar'
-      }
       third_contact = {
         name: 'Matt Camron',
         address: 'Seattle',
@@ -68,6 +61,30 @@ RSpec.describe ArrayDatabase do
     end
   end
 
+  describe '#contact_at' do
+    it 'takes an index as an argument and returns the contact in that index' do
+      array_database = described_class.new
+
+      array_database.create(test_details)
+      array_database.create(second_contact)
+
+      result = array_database.contact_at(0)
+
+      expect(result).to eq(test_details)
+    end
+  end
+
+  describe '#update' do
+    it 'updates the contact in the index provided with the field/value pair provided' do
+      array_database = described_class.new
+
+      array_database.create(test_details)
+      array_database.update(0, { address: 'New address' })
+
+      expect(array_database.all.first[:address]).to eq('New address')
+    end
+  end
+
   def test_details
     {
       name: 'Matt Damon',
@@ -75,6 +92,16 @@ RSpec.describe ArrayDatabase do
       phone: '08796564231',
       email: 'matt@damon.com',
       notes: 'I think he has an Oscar'
+    }
+  end
+
+  def second_contact
+    {
+      name: 'oscar wilde',
+      address: 'Paris',
+      phone: '00000000000',
+      email: 'oscar@wilde.com',
+      notes: 'I think he has an oscar'
     }
   end
 end
