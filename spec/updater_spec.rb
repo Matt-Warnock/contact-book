@@ -8,8 +8,9 @@ require 'validator'
 
 RSpec.describe Updater do
   let(:database) { ArrayDatabase.new }
-  let(:input) { StringIO.new("0\nname\nirrelevant\nn\n") }
+  let(:input) { StringIO.new(quick_exit_responces) }
   let(:output) { StringIO.new }
+  let(:quick_exit_responces) { "0\nname\nirrelevant\nn\nn\n" }
   let(:validator) { Validator.new }
 
   describe '#run' do
@@ -55,13 +56,33 @@ RSpec.describe Updater do
     end
 
     it 'collects another field and value if they want to edit another field' do
-      input = StringIO.new("0\nname\nirrelevant\ny\naddress\nirrelevant\nn\n")
+      input = StringIO.new("0\nname\nirrelevant\ny\naddress\nirrelevant\nn\nn\n")
       user_interface = UserInterface.new(input, output, validator)
       updater = described_class.new(user_interface, database)
 
       updater.run
 
-      expect(output.string).to include(Constants::ANOTHER_EDIT_PROMPT)
+      expect(output.string.scan(Constants::FIELD_CHOICE_PROMPT).length).to eq(2)
+    end
+
+    it 'asks if they want to edit another contact if they do not want to edit another field' do
+      user_interface = UserInterface.new(input, output, validator)
+      updater = described_class.new(user_interface, database)
+
+      updater.run
+
+      expect(output.string).to include(Constants::ANOTHER_UPDATE_PROMPT)
+    end
+
+    it 'asks for another contact index if they want to edit another contact' do
+      quick_exit_responces = "0\nname\nirrelevant\nn\nn\n"
+      input = StringIO.new("0\nname\nirrelevant\ny\naddress\nirrelevant\nn\ny\n" + quick_exit_responces)
+      user_interface = UserInterface.new(input, output, validator)
+      updater = described_class.new(user_interface, database)
+
+      updater.run
+
+      expect(output.string.scan(Constants::CONTACT_INDEX_PROMPT).length).to eq(2)
     end
   end
 
