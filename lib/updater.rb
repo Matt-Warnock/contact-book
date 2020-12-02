@@ -9,6 +9,7 @@ class Updater
   attr_reader :user_interface, :database
 
   def run
-    user_interface.choose_contact(database.all)
+    contact_choice = user_interface.choose_contact(database.all)
+    user_interface.edit_field(database.contact_at(contact_choice))
   end
 end
