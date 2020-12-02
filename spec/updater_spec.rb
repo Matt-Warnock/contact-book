@@ -8,7 +8,7 @@ require 'validator'
 
 RSpec.describe Updater do
   let(:database) { ArrayDatabase.new }
-  let(:input) { StringIO.new("0\nname\nirrelevant\n") }
+  let(:input) { StringIO.new("0\nname\nirrelevant\nn\n") }
   let(:output) { StringIO.new }
   let(:validator) { Validator.new }
 
@@ -34,6 +34,34 @@ RSpec.describe Updater do
       updater.run
 
       expect(output.string).to include(Constants::FIELD_CHOICE_PROMPT, Constants::FIELDS_TO_PROMPTS[:name])
+    end
+
+    it 'displays the contact with the data updated' do
+      user_interface = UserInterface.new(input, output, validator)
+      updater = described_class.new(user_interface, database)
+
+      updater.run
+
+      expect(output.string).to include("Name:    irrelevant\nAddress: Some address")
+    end
+
+    it 'asks the user if they want to edit another field' do
+      user_interface = UserInterface.new(input, output, validator)
+      updater = described_class.new(user_interface, database)
+
+      updater.run
+
+      expect(output.string).to include(Constants::ANOTHER_EDIT_PROMPT)
+    end
+
+    it 'collects another field and value if they want to edit another field' do
+      input = StringIO.new("0\nname\nirrelevant\ny\naddress\nirrelevant\nn\n")
+      user_interface = UserInterface.new(input, output, validator)
+      updater = described_class.new(user_interface, database)
+
+      updater.run
+
+      expect(output.string).to include(Constants::ANOTHER_EDIT_PROMPT)
     end
   end
 

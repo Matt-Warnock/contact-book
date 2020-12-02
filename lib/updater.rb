@@ -9,7 +9,14 @@ class Updater
   attr_reader :user_interface, :database
 
   def run
-    contact_choice = user_interface.choose_contact(database.all)
-    user_interface.edit_field(database.contact_at(contact_choice))
+    contact_index = user_interface.choose_contact(database.all)
+    contact = database.contact_at(contact_index)
+    loop do
+      new_data = user_interface.edit_field(contact)
+
+      database.update(contact_index, new_data)
+      user_interface.display_contact(contact)
+      break unless user_interface.update_another_field?
+    end
   end
 end
