@@ -12,14 +12,21 @@ class Updater
     loop do
       contact_index = user_interface.choose_contact(database.all)
       contact = database.contact_at(contact_index)
-      loop do
-        new_data = user_interface.edit_field(contact)
 
-        database.update(contact_index, new_data)
-        user_interface.display_contact(contact)
-        break unless user_interface.update_another_field?
-      end
+      edit_contact(contact_index, contact)
       break unless user_interface.update_another_contact?
+    end
+  end
+
+  private
+
+  def edit_contact(contact_index, contact)
+    loop do
+      new_data = user_interface.edit_field(contact)
+
+      database.update(contact_index, new_data)
+      user_interface.display_contact(contact)
+      break unless user_interface.update_another_field?
     end
   end
 end

@@ -11,16 +11,13 @@ RSpec.describe Updater do
   let(:input) { StringIO.new(quick_exit_responces) }
   let(:output) { StringIO.new }
   let(:quick_exit_responces) { "0\nname\nirrelevant\nn\nn\n" }
+  let(:user_interface) { UserInterface.new(input, output, validator) }
   let(:validator) { Validator.new }
 
   describe '#run' do
-    before(:each) do
-      database.create(test_details)
-      database.create(second_contact)
-    end
+    before(:each) { database.create(test_details) }
 
     it 'asks the user for a contact to update' do
-      user_interface = UserInterface.new(input, output, validator)
       updater = described_class.new(user_interface, database)
 
       updater.run
@@ -29,7 +26,6 @@ RSpec.describe Updater do
     end
 
     it 'asks the user which field it wants to update and the value for it' do
-      user_interface = UserInterface.new(input, output, validator)
       updater = described_class.new(user_interface, database)
 
       updater.run
@@ -38,7 +34,6 @@ RSpec.describe Updater do
     end
 
     it 'displays the contact with the data updated' do
-      user_interface = UserInterface.new(input, output, validator)
       updater = described_class.new(user_interface, database)
 
       updater.run
@@ -47,7 +42,6 @@ RSpec.describe Updater do
     end
 
     it 'asks the user if they want to edit another field' do
-      user_interface = UserInterface.new(input, output, validator)
       updater = described_class.new(user_interface, database)
 
       updater.run
@@ -66,7 +60,6 @@ RSpec.describe Updater do
     end
 
     it 'asks if they want to edit another contact if they do not want to edit another field' do
-      user_interface = UserInterface.new(input, output, validator)
       updater = described_class.new(user_interface, database)
 
       updater.run
@@ -75,7 +68,6 @@ RSpec.describe Updater do
     end
 
     it 'asks for another contact index if they want to edit another contact' do
-      quick_exit_responces = "0\nname\nirrelevant\nn\nn\n"
       input = StringIO.new("0\nname\nirrelevant\ny\naddress\nirrelevant\nn\ny\n" + quick_exit_responces)
       user_interface = UserInterface.new(input, output, validator)
       updater = described_class.new(user_interface, database)
@@ -93,16 +85,6 @@ RSpec.describe Updater do
       phone: '08796564231',
       email: 'matt@damon.com',
       notes: 'I think he has an Oscar'
-    }
-  end
-
-  def second_contact
-    {
-      name: 'oscar wilde',
-      address: 'Paris',
-      phone: '00000000000',
-      email: 'oscar@wilde.com',
-      notes: 'I think he has an oscar'
     }
   end
 end
