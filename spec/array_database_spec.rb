@@ -77,14 +77,14 @@ RSpec.describe ArrayDatabase do
   describe '#update' do
     it 'updates the contact in the index provided with the field/value pair provided' do
       array_database = described_class.new
-      new_data = { address: 'New address' }
 
       array_database.create(test_details)
-      array_database.update(0, new_data)
+      array_database.update(0, { address: 'New address' })
 
       expect(array_database.all.first[:address]).to eq('New address')
     end
   end
+
   def test_details
     {
       name: 'Matt Damon',
