@@ -11,6 +11,26 @@ RSpec.describe Updater do
   let(:quick_exit_responces) { "0\nname\nirrelevant\nn\nn\n" }
 
   describe '#run' do
+    it 'displays that no contacts are found if database is empty' do
+      user_interface = UserInterface.new(StringIO.new("\n"), output, Validator.new)
+      database = ArrayDatabase.new
+      updater = described_class.new(user_interface, database)
+
+      updater.run
+
+      expect(output.string).to include(Constants::NO_CONTACTS_MESSAGE)
+    end
+
+    it 'does not ask updating prompt if database is empty' do
+      user_interface = UserInterface.new(StringIO.new("\n"), output, Validator.new)
+      database = ArrayDatabase.new
+      updater = described_class.new(user_interface, database)
+
+      updater.run
+
+      expect(output.string).to_not include(Constants::CONTACT_INDEX_PROMPT)
+    end
+
     it 'asks the user for a contact to update' do
       run_setup_with_input(quick_exit_responces)
 

@@ -9,6 +9,8 @@ class Updater
   attr_reader :user_interface, :database
 
   def run
+    return user_interface.display_no_contacts_message, user_interface.continue if database.database_empty?
+
     loop do
       contact_index = user_interface.choose_contact(database.all)
       edit_contact(contact_index)
