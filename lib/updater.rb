@@ -11,17 +11,16 @@ class Updater
   def run
     loop do
       contact_index = user_interface.choose_contact(database.all)
-      contact = database.contact_at(contact_index)
-
-      edit_contact(contact_index, contact)
+      edit_contact(contact_index)
       break unless user_interface.update_another_contact?
     end
   end
 
   private
 
-  def edit_contact(contact_index, contact)
+  def edit_contact(contact_index)
     loop do
+      contact = database.contact_at(contact_index)
       new_data = user_interface.edit_field(contact)
 
       database.update(contact_index, new_data)
