@@ -14,12 +14,12 @@ class Updater
       user_interface.continue
       return
     end
-    update_contact
+    update_contacts
   end
 
   private
 
-  def edit_contact(contact_index)
+  def edit_contacts(contact_index)
     contact = database.contact_at(contact_index)
 
     loop do
@@ -31,10 +31,10 @@ class Updater
     end
   end
 
-  def update_contact
+  def update_contacts
     loop do
       contact_index = user_interface.choose_contact(database.all)
-      edit_contact(contact_index)
+      edit_contacts(contact_index)
       break unless user_interface.update_another_contact?
     end
   end
