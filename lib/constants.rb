@@ -23,7 +23,8 @@ module Constants
   1) List contacts
   2) Add contact
   3) Search contact
-  4) Exit the program
+  4) Update contact
+  5) Exit the program
 
   Choose a menu option: }
 
@@ -47,5 +48,5 @@ module Constants
 
   YES_REPLY = 'y'
 
-  EXIT_CHOICE = 4
+  EXIT_CHOICE = 5
 end

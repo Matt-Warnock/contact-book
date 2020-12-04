@@ -6,7 +6,7 @@ require 'user_interface'
 require 'validator'
 
 RSpec.describe Controler do
-  let(:actions) { Array.new(4, NullAction.new) }
+  let(:actions) { Array.new(5, NullAction.new) }
   let(:exit_choice) { Constants::EXIT_CHOICE }
   let(:output) { StringIO.new }
 
@@ -32,7 +32,7 @@ RSpec.describe Controler do
   it 'runs the actions chosen' do
     null_action = double('NullAction', run: nil)
     ui = UserInterface.new(StringIO.new("1\n#{exit_choice}\n"), output, Validator.new)
-    controler = described_class.new(ui, Array.new(4, null_action))
+    controler = described_class.new(ui, Array.new(5, null_action))
 
     controler.start
 

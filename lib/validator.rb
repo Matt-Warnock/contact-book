@@ -4,7 +4,7 @@ require 'constants'
 
 class Validator
   def valid_choice?(option)
-    option.match?(/^[1-4]$/)
+    option.match?(/^[1-#{Constants::EXIT_CHOICE}]$/)
   end
 
   def valid_yes_no_answer?(value)
