@@ -10,6 +10,7 @@ require 'finder'
 require 'io/console'
 require 'null_action'
 require 'pager'
+require 'updater'
 require 'user_interface'
 require 'validator'
 
@@ -19,6 +20,7 @@ actions = [
   Pager.new(user_interface, array_database),
   Creator.new(user_interface, array_database),
   Finder.new(user_interface, array_database),
+  Updater.new(user_interface, array_database),
   NullAction.new
 ]
 
