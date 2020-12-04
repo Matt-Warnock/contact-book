@@ -65,8 +65,7 @@ class UserInterface
     ask_for_index(contacts.length).to_i
   end
 
-  def edit_field(contact)
-    display_contact(contact)
+  def edit_field
     output.print Constants::FIELD_CHOICE_PROMPT
 
     field = collect_field_name

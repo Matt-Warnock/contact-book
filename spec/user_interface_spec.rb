@@ -314,20 +314,11 @@ Notes:   I think he has an Oscar
   end
 
   describe '#edit_field' do
-    it 'prints contact to be edited' do
-      input = StringIO.new("name\nJoe\n")
-      ui = described_class.new(input, output, validator)
-
-      ui.edit_field(test_details)
-
-      expect(output.string).to match(/Name:    Matt Damon/)
-    end
-
     it 'prints prompt for user to enter field name to be edited' do
       input = StringIO.new("name\nJoe\n")
       ui = described_class.new(input, output, validator)
 
-      ui.edit_field(test_details)
+      ui.edit_field
 
       expect(output.string).to include(Constants::FIELD_CHOICE_PROMPT)
     end
@@ -336,7 +327,7 @@ Notes:   I think he has an Oscar
       input = StringIO.new("surname\nemail\njoe@hotmail.com\n")
       ui = described_class.new(input, output, validator)
 
-      ui.edit_field(test_details)
+      ui.edit_field
 
       expect(output.string).to include(Constants::ERROR_MESSAGE)
     end
@@ -345,7 +336,7 @@ Notes:   I think he has an Oscar
       input = StringIO.new("email\njoe@hotmail.com\n")
       ui = described_class.new(input, output, validator)
 
-      ui.edit_field(test_details)
+      ui.edit_field
 
       expect(output.string).to include(Constants::FIELDS_TO_PROMPTS[:email])
     end
@@ -354,7 +345,7 @@ Notes:   I think he has an Oscar
       input = StringIO.new("email\njoe.hotmail.com\njoe@hotmail.com\n")
       ui = described_class.new(input, output, validator)
 
-      ui.edit_field(test_details)
+      ui.edit_field
 
       expect(output.string).to include(Constants::ERROR_MESSAGE)
     end
@@ -363,7 +354,7 @@ Notes:   I think he has an Oscar
       input = StringIO.new("email\njoe@hotmail.com\n")
       ui = described_class.new(input, output, validator)
 
-      result = ui.edit_field(test_details)
+      result = ui.edit_field
 
       expect(result).to eq({ email: 'joe@hotmail.com' })
     end
