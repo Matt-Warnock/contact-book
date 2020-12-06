@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'constants'
 require 'user_interface'
 require 'validator'
 
@@ -10,9 +9,7 @@ RSpec.describe UserInterface do
   let(:yes_reply) { Constants::YES_REPLY + "\n" }
 
   describe '#menu_choice' do
-    let(:error_message) { Constants::ERROR_MESSAGE }
-    let(:exit_choice) { Constants::EXIT_CHOICE }
-    let(:valid_input) { StringIO.new(exit_choice.to_s + "\n") }
+    let(:valid_input) { StringIO.new("1\n") }
 
     it 'prints menu of options for user to choose' do
       ui = described_class.new(valid_input, output, validator)
@@ -35,31 +32,31 @@ RSpec.describe UserInterface do
 
       user_input = ui.menu_choice
 
-      expect(user_input).to eq(exit_choice)
+      expect(user_input).to eq(1)
     end
 
     it 'reads the input again if input is invalid' do
-      input = StringIO.new("yes\n#{exit_choice}\n")
+      input = StringIO.new("yes\n1\n")
       ui = described_class.new(input, output, validator)
 
       user_input = ui.menu_choice
 
-      expect(user_input).to eq(exit_choice)
+      expect(user_input).to eq(1)
     end
 
     it 'repeats printing error message untill valid input is entered' do
-      input = StringIO.new("yes\n0\n13\n#{exit_choice}\n")
+      input = StringIO.new("yes\n0\n#{Constants::ACTIONS_COUNT + 1}\n1\n")
       ui = described_class.new(input, output, validator)
 
       ui.menu_choice
 
-      expect(output.string.scan(error_message).length).to eq(3)
+      expect(output.string.scan(Constants::ERROR_MESSAGE).length).to eq(3)
     end
 
     it 'returns a valid input' do
       ui = described_class.new(valid_input, output, validator)
 
-      expect(ui.menu_choice).to eq(exit_choice)
+      expect(ui.menu_choice).to eq(1)
     end
   end
 

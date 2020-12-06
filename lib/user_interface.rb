@@ -11,7 +11,7 @@ class UserInterface
 
   def menu_choice
     output.print Constants::CLEAR_COMMAND, Constants::MENU_MESSAGE
-    collect_valid_input { |user_input| validator.valid_choice?(user_input) }.to_i
+    collect_valid_input { |user_input| validator.valid_choice?(user_input, Constants::ACTIONS_COUNT) }.to_i
   end
 
   def ask_for_fields

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Constants
+  ACTIONS_COUNT = 5
   ANOTHER_CONTACT_PROMPT = 'Add another contact? (y/n): '
   ANOTHER_EDIT_PROMPT = 'Update another detail? (y/n): '
   ANOTHER_SEARCH_PROMPT = 'Search again? (y/n): '
@@ -8,6 +9,7 @@ module Constants
   CLEAR_COMMAND = "\033[H\033[2J"
   CONTACT_INDEX_PROMPT = 'Enter contact index: '
   CONTINUE_MESSAGE = 'Press any key to continue '
+  EXIT_CHOICE = 5
   FIELD_CHOICE_PROMPT = 'Which detail of the contact would you like to edit? '
   ERROR_MESSAGE = 'Wrong input. Please try again: '
   NO_CONTACTS_MESSAGE = 'No contacts were found.'
@@ -47,6 +49,4 @@ module Constants
   VALID_YES_NO_REPLY = /^[yn]$/i.freeze
 
   YES_REPLY = 'y'
-
-  EXIT_CHOICE = 5
 end
