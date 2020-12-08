@@ -3,8 +3,8 @@
 require 'constants'
 
 class Validator
-  def valid_choice?(option)
-    option.match?(/^[1-4]$/)
+  def valid_choice?(option, max_choice)
+    option.match?(/^[1-#{max_choice}]$/)
   end
 
   def valid_yes_no_answer?(value)

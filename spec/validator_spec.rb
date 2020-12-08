@@ -6,18 +6,14 @@ RSpec.describe Validator do
   let(:validator) { described_class.new }
 
   describe '#valid_choice?' do
-    let(:highest_choice_input) { 4 }
-
     it 'returns true on avaible choices' do
-      result = validator.valid_choice?(highest_choice_input.to_s)
+      result = validator.valid_choice?('1', 4)
 
       expect(result).to eq(true)
     end
 
     it 'returns false on non-avaible choices' do
-      non_choice_input = (highest_choice_input + 1).to_s
-
-      result = validator.valid_choice?(non_choice_input)
+      result = validator.valid_choice?('5', 4)
 
       expect(result).to eq(false)
     end

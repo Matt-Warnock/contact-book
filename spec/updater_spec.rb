@@ -29,6 +29,12 @@ RSpec.describe Updater do
       expect(output.string).to include(Constants::CONTACT_INDEX_PROMPT)
     end
 
+    it 'prints contact to be edited' do
+      run_updater_with_input(quick_exit_responces)
+
+      expect(output.string.scan(/Name:    Matt Damon/).length).to eq(2)
+    end
+
     it 'asks the user which field it wants to update and the value for it' do
       run_updater_with_input(quick_exit_responces)
 
