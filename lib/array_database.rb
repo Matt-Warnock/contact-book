@@ -32,4 +32,8 @@ class ArrayDatabase
   def update(index, new_data)
     all[index].update(new_data)
   end
+
+  def delete(index)
+    all.delete_at(index)
+  end
 end
