@@ -82,6 +82,18 @@ class UserInterface
     boolean_choice?(Constants::ANOTHER_UPDATE_PROMPT)
   end
 
+  def delete?(contact)
+    boolean_choice?(Constants::DELETE_CONTACT_PROMPT) { display_contact(contact) }
+  end
+
+  def display_deletion_message
+    output.print Constants::CONTACT_DELETED_MESSAGE
+  end
+
+  def delete_another_contact?
+    boolean_choice?(Constants::ANOTHER_DELETE_PROMPT)
+  end
+
   private
 
   def ask_for_index(array_length)
@@ -111,6 +123,7 @@ class UserInterface
 
   def boolean_choice?(prompt)
     output.print prompt
+    yield if block_given?
     collect_valid_input { |user_input| validator.valid_yes_no_answer?(user_input) }.downcase == Constants::YES_REPLY
   end
 

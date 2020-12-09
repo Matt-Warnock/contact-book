@@ -425,6 +425,101 @@ Notes:   I think he has an Oscar
     end
   end
 
+  describe '#delete?' do
+    it 'prints a prompt to user asking if they want to delete the contact' do
+      input = StringIO.new(yes_reply)
+      ui = described_class.new(input, output, validator)
+
+      ui.delete?(test_details)
+
+      expect(output.string).to include(Constants::DELETE_CONTACT_PROMPT)
+    end
+
+    it 'prints the contact after delete prompt' do
+      input = StringIO.new(yes_reply)
+      ui = described_class.new(input, output, validator)
+
+      ui.delete?(test_details)
+
+      expect(output.string).to eq(Constants::DELETE_CONTACT_PROMPT +
+        %(
+Name:    Matt Damon
+Address: Some address
+Phone:   08796564231
+Email:   matt@damon.com
+Notes:   I think he has an Oscar
+))
+    end
+
+    it 'returns true if user wants to delete the contact' do
+      input = StringIO.new(yes_reply)
+      ui = described_class.new(input, output, validator)
+
+      expect(ui.delete?(test_details)).to eq(true)
+    end
+
+    it 'returns false if user doesnt want to delete the contact' do
+      input = StringIO.new("n\n")
+      ui = described_class.new(input, output, validator)
+
+      expect(ui.delete?(test_details)).to eq(false)
+    end
+
+    it 'prints error message and reads input until correct input is given' do
+      input = StringIO.new("wrong input\n#{yes_reply}")
+      ui = described_class.new(input, output, validator)
+
+      ui.delete?(test_details)
+
+      expect(output.string).to include(Constants::ERROR_MESSAGE)
+    end
+  end
+
+  describe '#display_deletion_message' do
+    it 'prints that the contact was deleted' do
+      input = StringIO.new
+      ui = described_class.new(input, output, validator)
+
+      ui.display_deletion_message
+
+      expect(output.string).to include(Constants::CONTACT_DELETED_MESSAGE)
+    end
+  end
+
+  describe '#delete_another_contact?' do
+    it 'prints a prompt to user asking if they want to delete another contact' do
+      input = StringIO.new(yes_reply)
+      ui = described_class.new(input, output, validator)
+
+      ui.delete_another_contact?
+
+      expect(output.string).to include(Constants::ANOTHER_DELETE_PROMPT)
+    end
+
+    it 'returns true if user wants to delete another contact' do
+      input = StringIO.new(yes_reply)
+      ui = described_class.new(input, output, validator)
+
+      expect(ui.delete_another_contact?).to eq(true)
+    end
+
+    it 'returns false if user doesnt want to delete another contact' do
+      input = StringIO.new("n\n")
+      ui = described_class.new(input, output, validator)
+
+      expect(ui.delete_another_contact?).to eq(false)
+    end
+
+    it 'prints error message and reads input until correct input is given' do
+      input = StringIO.new("wrong input\n#{yes_reply}")
+      ui = described_class.new(input, output, validator)
+
+      ui.delete_another_contact?
+
+      expect(output.string).to include(Constants::ERROR_MESSAGE)
+    end
+  end
+
   def test_details
     {
       name: 'Matt Damon',
