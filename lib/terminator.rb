@@ -7,9 +7,12 @@ class Terminator
   end
 
   def run
-    return user_interface.display_no_contacts_message if database.database_empty?
-
     loop do
+      if database.database_empty?
+        user_interface.display_no_contacts_message
+        user_interface.continue
+        return
+      end
       deletion_decision
       break unless user_interface.delete_another_contact?
     end

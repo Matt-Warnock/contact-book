@@ -8,7 +8,7 @@ module Constants
   ANOTHER_SEARCH_PROMPT = 'Search again? (y/n): '
   ANOTHER_UPDATE_PROMPT = 'Update another contact? (y/n): '
   CLEAR_COMMAND = "\033[H\033[2J"
-  CONTACT_DELETED_MESSAGE = 'Contact was delete'
+  CONTACT_DELETED_MESSAGE = 'Contact was deleted. '
   CONTACT_INDEX_PROMPT = 'Enter contact index: '
   CONTINUE_MESSAGE = 'Press any key to continue '
   DELETE_CONTACT_PROMPT = 'Do you want to delete the contact below? (y/n): '
