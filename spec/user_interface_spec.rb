@@ -441,14 +441,7 @@ Notes:   I think he has an Oscar
 
       ui.delete?(test_details)
 
-      expect(output.string).to eq(Constants::DELETE_CONTACT_PROMPT +
-        %(
-Name:    Matt Damon
-Address: Some address
-Phone:   08796564231
-Email:   matt@damon.com
-Notes:   I think he has an Oscar
-))
+      expect(output.string).to include(Constants::DELETE_CONTACT_PROMPT + "\nName:    Matt Damon")
     end
 
     it 'returns true if user wants to delete the contact' do

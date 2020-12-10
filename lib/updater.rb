@@ -9,11 +9,8 @@ class Updater
   attr_reader :user_interface, :database
 
   def run
-    if database.database_empty?
-      user_interface.display_no_contacts_message
-      user_interface.continue
-      return
-    end
+    return handle_empty_database if database.database_empty?
+
     update_contacts
   end
 
@@ -38,5 +35,10 @@ class Updater
       edit_contact_fields(contact_index, contact)
       break unless user_interface.update_another_contact?
     end
+  end
+
+  def handle_empty_database
+    user_interface.display_no_contacts_message
+    user_interface.continue
   end
 end

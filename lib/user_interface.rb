@@ -2,7 +2,7 @@
 
 require 'constants'
 
-class UserInterface
+class UserInterface # rubocop:disable Metrics/ClassLength
   def initialize(input, output, validator)
     @input = input
     @output = output
