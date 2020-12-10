@@ -85,6 +85,19 @@ RSpec.describe ArrayDatabase do
     end
   end
 
+  describe '#delete' do
+    it 'deletes contact from index provided' do
+      array_database = described_class.new
+
+      array_database.create(test_details)
+      array_database.create(second_contact)
+
+      array_database.delete(0)
+
+      expect(array_database.all[0]).to_not eq(test_details)
+    end
+  end
+
   def test_details
     {
       name: 'Matt Damon',
