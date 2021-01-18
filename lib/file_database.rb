@@ -3,12 +3,12 @@
 require 'json'
 
 class FileDatabase
-  def initialize(file)
-    @file = file
+  def initialize(file_dir)
+    @file = File.open(file_dir, 'r')
   end
 
   def all
-    file.open.rewind
+    file.rewind
     JSON.parse(file.read, { symbolize_names: true })
   end
 
