@@ -15,6 +15,10 @@ RSpec.describe FileDatabase do
 
       expect(database.all).to eq([test_details])
     end
+
+    it 'return an empty array if file is empty' do
+      expect(database.all).to eq([])
+    end
   end
 
   describe '#database_empty?' do

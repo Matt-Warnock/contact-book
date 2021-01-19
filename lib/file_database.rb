@@ -9,7 +9,7 @@ class FileDatabase
 
   def all
     file.rewind
-    convert_from_json(file.read)
+    convert_json(file.read)
   end
 
   def database_empty?
@@ -18,7 +18,7 @@ class FileDatabase
 
   private
 
-  def convert_from_json(contacts)
+  def convert_json(contacts)
     return [] if contacts.empty?
 
     JSON.parse(contacts, { symbolize_names: true })
