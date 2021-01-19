@@ -12,10 +12,16 @@ class FileDatabase
     convert_from_json(file.read)
   end
 
+  def database_empty?
+    all.any?
+  end
+
   private
 
-  def convert_from_json(data)
-    JSON.parse(data, { symbolize_names: true })
+  def convert_from_json(contacts)
+    return [] if contacts.empty?
+
+    JSON.parse(contacts, { symbolize_names: true })
   end
 
   attr_reader :file
