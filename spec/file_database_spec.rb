@@ -4,18 +4,34 @@ require 'file_database'
 require 'tempfile'
 
 RSpec.describe FileDatabase do
+  let(:file) { Tempfile.open('test') }
+  let(:database) { described_class.new(file) }
+
+  after(:each) { file.unlink }
+
   describe '#all' do
     it 'reads all contacts in a json file to ruby' do
-      file = Tempfile.open('test')
-      file.write JSON.generate([test_details])
-      file.close
-
-      database = described_class.new(file)
+      create_json_contact
 
       expect(database.all).to eq([test_details])
-
-      file.unlink
     end
+  end
+
+  describe '#database_empty?' do
+    it 'returns true when contacts are present' do
+      create_json_contact
+
+      expect(database.database_empty?).to eq(true)
+    end
+
+    it 'returns false when now contacts are present' do
+      expect(database.database_empty?).to eq(false)
+    end
+  end
+
+  def create_json_contact
+    file.write JSON.generate([test_details])
+    file.close
   end
 
   def test_details
