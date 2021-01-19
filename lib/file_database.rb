@@ -9,10 +9,14 @@ class FileDatabase
 
   def all
     file.rewind
-    JSON.parse(file.read, { symbolize_names: true })
+    convert_from_json(file.read)
   end
 
   private
+
+  def convert_from_json(data)
+    JSON.parse(data, { symbolize_names: true })
+  end
 
   attr_reader :file
 end
