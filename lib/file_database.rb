@@ -3,8 +3,8 @@
 require 'json'
 
 class FileDatabase
-  def initialize(file_dir)
-    @file = File.open(file_dir, 'r')
+  def initialize(file)
+    @file = file
   end
 
   def all
@@ -13,16 +13,16 @@ class FileDatabase
   end
 
   def database_empty?
-    all.any?
+    all.empty?
   end
 
   private
+
+  attr_reader :file
 
   def convert_json(contacts)
     return [] if contacts.empty?
 
     JSON.parse(contacts, { symbolize_names: true })
   end
-
-  attr_reader :file
 end
