@@ -59,6 +59,10 @@ RSpec.describe FileDatabase do
 
       expect(database.count).to eq(2)
     end
+
+    it 'returns zero integer when array is empty' do
+      expect(database.count).to eq(0)
+    end
   end
 
   def create_json_contact

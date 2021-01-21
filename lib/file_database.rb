@@ -19,7 +19,9 @@ class FileDatabase
   def create(contact)
     file_array = all.push(contact)
 
-    file.open << JSON.generate(file_array)
+    file.rewind
+    file.truncate(0)
+    file << file_array.to_json
     file.flush
   end
 
