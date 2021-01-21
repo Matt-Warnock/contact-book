@@ -16,6 +16,13 @@ class FileDatabase
     all.empty?
   end
 
+  def create(contact)
+    file_array = all.push(contact)
+
+    file.open.write JSON.generate(file_array)
+    file.flush
+  end
+
   private
 
   attr_reader :file
