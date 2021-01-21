@@ -23,6 +23,10 @@ class FileDatabase
     file.flush
   end
 
+  def count
+    all.length
+  end
+
   private
 
   attr_reader :file

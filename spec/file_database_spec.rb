@@ -52,6 +52,15 @@ RSpec.describe FileDatabase do
     end
   end
 
+  describe '#count' do
+    it 'returns the size of file array as a number' do
+      database.create(test_details)
+      database.create(test_details)
+
+      expect(database.count).to eq(2)
+    end
+  end
+
   def create_json_contact
     JSON.generate([test_details])
   end
