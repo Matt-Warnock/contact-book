@@ -14,7 +14,7 @@ RSpec.describe FileDatabase do
 
   describe '#all' do
     it 'reads all contacts in a json file to ruby' do
-      create_json_contact
+      file.write create_json_contact
 
       expect(database.all).to eq([test_details])
     end
@@ -26,7 +26,7 @@ RSpec.describe FileDatabase do
 
   describe '#database_empty?' do
     it 'returns false when contacts are present' do
-      create_json_contact
+      file.write create_json_contact
 
       expect(database.database_empty?).to eq(false)
     end
@@ -36,8 +36,37 @@ RSpec.describe FileDatabase do
     end
   end
 
+  describe '#create' do
+    it 'adds a contact to the database file in valid json' do
+      database.create(test_details)
+      file.rewind
+
+      expect(file.read).to eq(create_json_contact)
+    end
+
+    it 'adds contact to the end of the files array' do
+      database.create({ name: 'Matt' })
+      database.create({ name: 'John' })
+
+      expect(database.all.last.values).to include('John')
+    end
+  end
+
+  describe '#count' do
+    it 'returns the size of file array as a number' do
+      database.create(test_details)
+      database.create(test_details)
+
+      expect(database.count).to eq(2)
+    end
+
+    it 'returns zero integer when array is empty' do
+      expect(database.count).to eq(0)
+    end
+  end
+
   def create_json_contact
-    file.write JSON.generate([test_details])
+    JSON.generate([test_details])
   end
 
   def test_details

@@ -16,6 +16,19 @@ class FileDatabase
     all.empty?
   end
 
+  def create(contact)
+    file_array = all.push(contact)
+
+    file.rewind
+    file.truncate(0)
+    file << file_array.to_json
+    file.flush
+  end
+
+  def count
+    all.length
+  end
+
   private
 
   attr_reader :file
