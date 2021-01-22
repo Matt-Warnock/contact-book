@@ -93,6 +93,24 @@ RSpec.describe FileDatabase do
     end
   end
 
+  describe '#search' do
+    it 'returns any contacts that matches string given' do
+      third_contact = {
+        name: 'Matt Camron',
+        address: 'Seattle',
+        phone: '00450400012',
+        email: 'matt@pearjam.com',
+        notes: 'amazing drummer'
+      }
+
+      file.write create_json_contact(test_details, second_contact, third_contact)
+
+      result = database.search('oscar')
+
+      expect(result).to eq([test_details, second_contact])
+    end
+  end
+
   def create_json_contact(*contact_hash)
     JSON.generate(contact_hash)
   end
