@@ -65,6 +65,15 @@ RSpec.describe FileDatabase do
     end
   end
 
+  describe '#contact_at' do
+    it 'takes an index and returns the contact in that index' do
+      database.create(test_details)
+      database.create(second_contact)
+
+      expect(database.contact_at(0)).to eq(test_details)
+    end
+  end
+
   def create_json_contact
     JSON.generate([test_details])
   end
@@ -76,6 +85,16 @@ RSpec.describe FileDatabase do
       phone: '08796564231',
       email: 'matt@damon.com',
       notes: 'I think he has an Oscar'
+    }
+  end
+
+  def second_contact
+    {
+      name: 'oscar wilde',
+      address: 'Paris',
+      phone: '00000000000',
+      email: 'oscar@wilde.com',
+      notes: 'I think he has an oscar'
     }
   end
 end

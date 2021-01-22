@@ -29,6 +29,10 @@ class FileDatabase
     all.length
   end
 
+  def contact_at(index)
+    all[index]
+  end
+
   private
 
   attr_reader :file
