@@ -36,6 +36,11 @@ class FileDatabase
     write_to_file(file_array)
   end
 
+  def delete(index)
+    file_array = all.delete_at(index)
+    write_to_file(file_array)
+  end
+
   private
 
   attr_reader :file

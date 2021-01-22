@@ -80,7 +80,18 @@ RSpec.describe FileDatabase do
 
       database.update(0, { name: 'John' })
 
-      expect(database.contact_at(0).values).to include('John')
+      expect(database.all.first[:name]).to eq('John')
+    end
+  end
+
+  describe '#delete' do
+    it 'deletes contact in index from file' do
+      database.create(test_details)
+      database.create(second_contact)
+
+      database.delete(0)
+
+      expect(database.all[0]).to_not eq(test_details)
     end
   end
 
