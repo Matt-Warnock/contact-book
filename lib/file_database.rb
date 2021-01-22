@@ -18,11 +18,7 @@ class FileDatabase
 
   def create(contact)
     file_array = all.push(contact)
-
-    file.rewind
-    file.truncate(0)
-    file << file_array.to_json
-    file.flush
+    write_to_file(file_array)
   end
 
   def count
@@ -33,9 +29,23 @@ class FileDatabase
     all[index]
   end
 
+  def update(index, new_data)
+    file_array = all
+
+    file_array[index].update(new_data)
+    write_to_file(file_array)
+  end
+
   private
 
   attr_reader :file
+
+  def write_to_file(file_array)
+    file.rewind
+    file.truncate(0)
+    file << file_array.to_json
+    file.flush
+  end
 
   def convert_json(contacts)
     return [] if contacts.empty?
