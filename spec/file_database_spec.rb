@@ -14,7 +14,7 @@ RSpec.describe FileDatabase do
 
   describe '#all' do
     it 'reads all contacts in a json file to ruby' do
-      file.write create_json_contact
+      file.write create_json_contact(test_details)
 
       expect(database.all).to eq([test_details])
     end
@@ -26,7 +26,7 @@ RSpec.describe FileDatabase do
 
   describe '#database_empty?' do
     it 'returns false when contacts are present' do
-      file.write create_json_contact
+      file.write create_json_contact(test_details)
 
       expect(database.database_empty?).to eq(false)
     end
@@ -38,10 +38,11 @@ RSpec.describe FileDatabase do
 
   describe '#create' do
     it 'adds a contact to the database file in valid json' do
+      json_contact = create_json_contact(test_details)
       database.create(test_details)
       file.rewind
 
-      expect(file.read).to eq(create_json_contact)
+      expect(file.read).to eq(json_contact)
     end
 
     it 'adds contact to the end of the files array' do
@@ -54,8 +55,7 @@ RSpec.describe FileDatabase do
 
   describe '#count' do
     it 'returns the size of file array as a number' do
-      database.create(test_details)
-      database.create(test_details)
+      file.write create_json_contact(test_details, second_contact)
 
       expect(database.count).to eq(2)
     end
@@ -67,8 +67,7 @@ RSpec.describe FileDatabase do
 
   describe '#contact_at' do
     it 'takes an index and returns the contact in that index' do
-      database.create(test_details)
-      database.create(second_contact)
+      file.write create_json_contact(test_details, second_contact)
 
       expect(database.contact_at(0)).to eq(test_details)
     end
@@ -76,7 +75,7 @@ RSpec.describe FileDatabase do
 
   describe '#update' do
     it 'updates the indexed contact in file with a feild/value pair provided' do
-      database.create(test_details)
+      file.write create_json_contact(test_details)
 
       database.update(0, { name: 'John' })
 
@@ -86,17 +85,16 @@ RSpec.describe FileDatabase do
 
   describe '#delete' do
     it 'deletes contact in index from file' do
-      database.create(test_details)
-      database.create(second_contact)
+      file.write create_json_contact(test_details, second_contact)
 
       database.delete(0)
 
-      expect(database.all[0]).to_not eq(test_details)
+      expect(database.all.first).to eq(second_contact)
     end
   end
 
-  def create_json_contact
-    JSON.generate([test_details])
+  def create_json_contact(*contact_hash)
+    JSON.generate(contact_hash)
   end
 
   def test_details

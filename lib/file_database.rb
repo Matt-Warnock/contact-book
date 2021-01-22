@@ -37,7 +37,9 @@ class FileDatabase
   end
 
   def delete(index)
-    file_array = all.delete_at(index)
+    file_array = all
+
+    file_array.delete_at(index)
     write_to_file(file_array)
   end
 
