@@ -74,6 +74,16 @@ RSpec.describe FileDatabase do
     end
   end
 
+  describe '#update' do
+    it 'updates the indexed contact in file with a feild/value pair provided' do
+      database.create(test_details)
+
+      database.update(0, { name: 'John' })
+
+      expect(database.contact_at(0).values).to include('John')
+    end
+  end
+
   def create_json_contact
     JSON.generate([test_details])
   end
