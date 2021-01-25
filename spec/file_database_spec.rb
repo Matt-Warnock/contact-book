@@ -14,7 +14,7 @@ RSpec.describe FileDatabase do
 
   describe '#all' do
     it 'reads all contacts in a json file to ruby' do
-      file.write create_json_contact(test_details)
+      file << [test_details].to_json
 
       expect(database.all).to eq([test_details])
     end
@@ -26,7 +26,7 @@ RSpec.describe FileDatabase do
 
   describe '#database_empty?' do
     it 'returns false when contacts are present' do
-      file.write create_json_contact(test_details)
+      file << [test_details].to_json
 
       expect(database.database_empty?).to eq(false)
     end
@@ -38,11 +38,10 @@ RSpec.describe FileDatabase do
 
   describe '#create' do
     it 'adds a contact to the database file in valid json' do
-      json_contact = create_json_contact(test_details)
       database.create(test_details)
       file.rewind
 
-      expect(file.read).to eq(json_contact)
+      expect(file.read).to eq([test_details].to_json)
     end
 
     it 'adds contact to the end of the files array' do
@@ -55,7 +54,7 @@ RSpec.describe FileDatabase do
 
   describe '#count' do
     it 'returns the size of file array as a number' do
-      file.write create_json_contact(test_details, second_contact)
+      file << [test_details, second_contact].to_json
 
       expect(database.count).to eq(2)
     end
@@ -67,7 +66,7 @@ RSpec.describe FileDatabase do
 
   describe '#contact_at' do
     it 'takes an index and returns the contact in that index' do
-      file.write create_json_contact(test_details, second_contact)
+      file << [test_details, second_contact].to_json
 
       expect(database.contact_at(0)).to eq(test_details)
     end
@@ -75,7 +74,7 @@ RSpec.describe FileDatabase do
 
   describe '#update' do
     it 'updates the indexed contact in file with a feild/value pair provided' do
-      file.write create_json_contact(test_details)
+      file << [test_details].to_json
 
       database.update(0, { name: 'John' })
 
@@ -85,7 +84,7 @@ RSpec.describe FileDatabase do
 
   describe '#delete' do
     it 'deletes contact in index from file' do
-      file.write create_json_contact(test_details, second_contact)
+      file << [test_details, second_contact].to_json
 
       database.delete(0)
 
@@ -103,16 +102,20 @@ RSpec.describe FileDatabase do
         notes: 'amazing drummer'
       }
 
-      file.write create_json_contact(test_details, second_contact, third_contact)
+      file << [test_details, second_contact, third_contact].to_json
 
       result = database.search('oscar')
 
       expect(result).to eq([test_details, second_contact])
     end
-  end
 
-  def create_json_contact(*contact_hash)
-    JSON.generate(contact_hash)
+    it 'returns an empty array when no matches are found' do
+      file << [test_details].to_json
+
+      result = database.search('irrelevant')
+
+      expect(result).to eq([])
+    end
   end
 
   def test_details
