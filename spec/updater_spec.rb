@@ -2,13 +2,29 @@
 
 require 'array_database'
 require 'constants'
+require 'file_database'
 require 'updater'
 require 'user_interface'
 require 'validator'
 
-RSpec.describe Updater do
+RSpec.shared_examples 'an Updater' do |database_class, argument|
+  let(:database) { argument ? database_class.new(argument) : database_class.new }
   let(:output) { StringIO.new }
   let(:quick_exit_responces) { "0\nname\nirrelevant\nn\nn\n" }
+
+  after(:each) do
+    if argument
+      argument.truncate(0)
+      argument.rewind
+    end
+  end
+
+  after(:all) do
+    if argument
+      argument.close
+      argument.unlink
+    end
+  end
 
   describe '#run' do
     it 'displays that no contacts are found if database is empty' do
@@ -77,17 +93,15 @@ RSpec.describe Updater do
   def run_updater_with_input(string)
     user_interface = UserInterface.new(StringIO.new(string), output, Validator.new)
 
-    database = ArrayDatabase.new
     database.create(test_details)
 
-    described_class.new(user_interface, database).run
+    Updater.new(user_interface, database).run
   end
 
   def run_updater_with_empty_database
     user_interface = UserInterface.new(StringIO.new("\n"), output, Validator.new)
-    database = ArrayDatabase.new
 
-    described_class.new(user_interface, database).run
+    Updater.new(user_interface, database).run
   end
 
   def test_details
@@ -99,4 +113,12 @@ RSpec.describe Updater do
       notes: 'I think he has an Oscar'
     }
   end
+end
+
+RSpec.describe 'with Array Database' do
+  it_behaves_like 'an Updater', [ArrayDatabase, nil]
+end
+
+RSpec.describe 'with File Database' do
+  it_behaves_like 'an Updater', [FileDatabase, Tempfile.new('test')]
 end
