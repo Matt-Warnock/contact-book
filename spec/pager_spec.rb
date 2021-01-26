@@ -2,17 +2,32 @@
 
 require 'array_database'
 require 'constants'
+require 'file_database'
 require 'pager'
 require 'user_interface'
 require 'validator'
 
-RSpec.describe Pager do
-  let(:database) { ArrayDatabase.new }
+RSpec.shared_examples 'a Pager' do |database_class, argument|
+  let(:database) { argument ? database_class.new(argument) : database_class.new }
   let(:input) { StringIO.new }
   let(:output) { StringIO.new }
   let(:pager) { Pager.new(user_interface, database) }
   let(:user_interface) { UserInterface.new(input, output, validator) }
   let(:validator) { Validator.new }
+
+  after(:each) do
+    if argument
+      argument.truncate(0)
+      argument.rewind
+    end
+  end
+
+  after(:all) do
+    if argument
+      argument.close
+      argument.unlink
+    end
+  end
 
   describe '#run' do
     it 'prints a message to the user if the database is empty' do
@@ -93,4 +108,12 @@ RSpec.describe Pager do
         .to match(/#{Constants::NO_CONTACTS_MESSAGE}\n#{Constants::CONTINUE_MESSAGE}/)
     end
   end
+end
+
+RSpec.describe 'with Array Database' do
+  it_behaves_like 'a Pager', [ArrayDatabase, nil]
+end
+
+RSpec.describe 'with File Database' do
+  it_behaves_like 'a Pager', [FileDatabase, Tempfile.new('test')]
 end
