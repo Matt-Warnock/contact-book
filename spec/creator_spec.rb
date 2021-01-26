@@ -3,7 +3,6 @@
 require 'array_database'
 require 'creator'
 require 'file_database'
-require 'tempfile'
 
 RSpec.shared_examples 'a Creator' do |database_class, argument|
   describe '#run' do
