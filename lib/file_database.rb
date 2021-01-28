@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
+require 'database_interface'
 require 'json'
 
-class FileDatabase
+class FileDatabase < DatabaseInterface
   def initialize(file)
     @file = file
   end
