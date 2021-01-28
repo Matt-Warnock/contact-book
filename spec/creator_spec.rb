@@ -2,16 +2,31 @@
 
 require 'array_database'
 require 'creator'
+require 'file_database'
 
-RSpec.describe Creator do
+RSpec.shared_examples 'a Creator' do |database_class, argument|
   describe '#run' do
-    let(:creator) { described_class.new(ui, database) }
-    let(:database) { ArrayDatabase.new }
+    let(:creator) { Creator.new(ui, database) }
+    let(:database) { argument ? database_class.new(argument) : database_class.new }
     let(:ui) do
       double('UserInterface',
              ask_for_fields: test_details,
              display_contact: nil,
              add_another_contact?: false)
+    end
+
+    after(:each) do
+      if argument
+        argument.truncate(0)
+        argument.rewind
+      end
+    end
+
+    after(:all) do
+      if argument
+        argument.close
+        argument.unlink
+      end
     end
 
     it 'tells the UI to ask for contact details' do
@@ -60,4 +75,12 @@ RSpec.describe Creator do
       notes: 'I think he has an Oscar'
     }
   end
+end
+
+RSpec.describe 'with Array Database' do
+  it_behaves_like 'a Creator', [ArrayDatabase, nil]
+end
+
+RSpec.describe 'with File Database' do
+  it_behaves_like 'a Creator', [FileDatabase, Tempfile.new('test')]
 end

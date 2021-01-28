@@ -2,15 +2,31 @@
 
 require 'array_database'
 require 'constants'
+require 'file_database'
 require 'finder'
 require 'user_interface'
 require 'validator'
 
-RSpec.describe Finder do
+RSpec.shared_examples 'a Finder' do |database_class, argument|
   describe '#run' do
-    let(:database) { ArrayDatabase.new }
+    let(:database) { argument ? database_class.new(argument) : database_class.new }
+    let(:described_class) { Finder }
     let(:output) { StringIO.new }
     let(:validator) { Validator.new }
+
+    after(:each) do
+      if argument
+        argument.truncate(0)
+        argument.rewind
+      end
+    end
+
+    after(:all) do
+      if argument
+        argument.close
+        argument.unlink
+      end
+    end
 
     it 'askes user for a search_term' do
       input = StringIO.new("term\nn\n")
@@ -80,4 +96,12 @@ RSpec.describe Finder do
       notes: 'I think he has an Oscar'
     }
   end
+end
+
+RSpec.describe 'with Array Database' do
+  it_behaves_like 'a Finder', [ArrayDatabase, nil]
+end
+
+RSpec.describe 'with File Database' do
+  it_behaves_like 'a Finder', [FileDatabase, Tempfile.new('test')]
 end

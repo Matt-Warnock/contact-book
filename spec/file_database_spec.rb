@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'file_database'
-require 'tempfile'
 
 RSpec.describe FileDatabase do
   let(:file) { Tempfile.open('test') }
