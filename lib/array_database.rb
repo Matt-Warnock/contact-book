@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-class ArrayDatabase
+require 'database_interface'
+
+class ArrayDatabase < DatabaseInterface
   attr_reader :all
 
   def initialize
