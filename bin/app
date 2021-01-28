@@ -6,6 +6,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require 'array_database'
 require 'controler'
 require 'creator'
+require 'file_database'
 require 'finder'
 require 'io/console'
 require 'null_action'
@@ -15,15 +16,17 @@ require 'updater'
 require 'user_interface'
 require 'validator'
 
-array_database = ArrayDatabase.new
+file = File.new('contacts.json', 'r+')
+file_database = FileDatabase.new(file)
 user_interface = UserInterface.new($stdin, $stdout, Validator.new)
 actions = [
-  Pager.new(user_interface, array_database),
-  Creator.new(user_interface, array_database),
-  Finder.new(user_interface, array_database),
-  Updater.new(user_interface, array_database),
-  Terminator.new(user_interface, array_database),
+  Pager.new(user_interface, file_database),
+  Creator.new(user_interface, file_database),
+  Finder.new(user_interface, file_database),
+  Updater.new(user_interface, file_database),
+  Terminator.new(user_interface, file_database),
   NullAction.new
 ]
 
 Controler.new(user_interface, actions).start
+file.close
