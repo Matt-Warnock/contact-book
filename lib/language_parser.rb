@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'pathname'
+require 'yaml'
 
 class LanguageParser
   def initialize(file_path)
@@ -9,6 +10,7 @@ class LanguageParser
 
   def language
     validate_file
+    JSON.parse(YAML.load_file(file).to_json, object_class: OpenStruct)
   end
 
   private
