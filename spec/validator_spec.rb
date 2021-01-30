@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
+require 'language_parser'
 require 'validator'
 
 RSpec.describe Validator do
-  let(:validator) { described_class.new }
+  let(:messages) { LanguageParser.new(Pathname.new('en.yml')).messages }
+  let(:validator) { described_class.new(messages) }
 
   describe '#valid_choice?' do
     it 'returns true on avaible choices' do

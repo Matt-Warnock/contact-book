@@ -9,16 +9,21 @@ require 'creator'
 require 'file_database'
 require 'finder'
 require 'io/console'
+require 'language_parser'
 require 'null_action'
 require 'pager'
+require 'pathname'
 require 'terminator'
 require 'updater'
 require 'user_interface'
 require 'validator'
 
+messages_object = LanguageParser.new(Pathname.new('en.yml')).messages
+
 file = File.new('contacts.json', 'r+')
 file_database = FileDatabase.new(file)
-user_interface = UserInterface.new($stdin, $stdout, Validator.new)
+
+user_interface = UserInterface.new($stdin, $stdout, Validator.new(messages_object), messages_object)
 actions = [
   Pager.new(user_interface, file_database),
   Creator.new(user_interface, file_database),
@@ -28,5 +33,5 @@ actions = [
   NullAction.new
 ]
 
-Controler.new(user_interface, actions).start
+Controler.new(user_interface, actions, messages_object).start
 file.close

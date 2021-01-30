@@ -3,9 +3,10 @@
 require 'constants'
 
 class Controler
-  def initialize(user_interface, actions)
+  def initialize(user_interface, actions, messages)
     @user_interface = user_interface
     @actions = actions
+    @messages = messages
   end
 
   def start
@@ -19,5 +20,5 @@ class Controler
 
   private
 
-  attr_reader :user_interface, :actions
+  attr_reader :user_interface, :actions, :messages
 end

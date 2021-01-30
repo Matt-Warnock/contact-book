@@ -3,12 +3,14 @@
 require 'array_database'
 require 'constants'
 require 'file_database'
+require 'language_parser'
 require 'updater'
 require 'user_interface'
 require 'validator'
 
 RSpec.shared_examples 'an Updater' do |database_class, argument|
   let(:database) { argument ? database_class.new(argument) : database_class.new }
+  let(:messages) { LanguageParser.new(Pathname.new('en.yml')).messages }
   let(:output) { StringIO.new }
   let(:quick_exit_responces) { "0\nname\nirrelevant\nn\nn\n" }
 
@@ -91,7 +93,7 @@ RSpec.shared_examples 'an Updater' do |database_class, argument|
   end
 
   def run_updater_with_input(string)
-    user_interface = UserInterface.new(StringIO.new(string), output, Validator.new)
+    user_interface = UserInterface.new(StringIO.new(string), output, Validator.new(messages), messages)
 
     database.create(test_details)
 
@@ -99,7 +101,7 @@ RSpec.shared_examples 'an Updater' do |database_class, argument|
   end
 
   def run_updater_with_empty_database
-    user_interface = UserInterface.new(StringIO.new("\n"), output, Validator.new)
+    user_interface = UserInterface.new(StringIO.new("\n"), output, Validator.new(messages), messages)
 
     Updater.new(user_interface, database).run
   end

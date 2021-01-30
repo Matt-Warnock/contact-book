@@ -4,6 +4,7 @@ require 'array_database'
 require 'constants'
 require 'file_database'
 require 'finder'
+require 'language_parser'
 require 'user_interface'
 require 'validator'
 
@@ -11,8 +12,9 @@ RSpec.shared_examples 'a Finder' do |database_class, argument|
   describe '#run' do
     let(:database) { argument ? database_class.new(argument) : database_class.new }
     let(:described_class) { Finder }
+    let(:messages) { LanguageParser.new(Pathname.new('en.yml')).messages }
     let(:output) { StringIO.new }
-    let(:validator) { Validator.new }
+    let(:validator) { Validator.new(messages) }
 
     after(:each) do
       if argument
@@ -30,7 +32,7 @@ RSpec.shared_examples 'a Finder' do |database_class, argument|
 
     it 'askes user for a search_term' do
       input = StringIO.new("term\nn\n")
-      user_interface = UserInterface.new(input, output, validator)
+      user_interface = UserInterface.new(input, output, validator, messages)
       finder = described_class.new(user_interface, database)
 
       finder.run
@@ -40,7 +42,7 @@ RSpec.shared_examples 'a Finder' do |database_class, argument|
 
     it 'prints message if no contacts are found' do
       input = StringIO.new("term\nn\n")
-      user_interface = UserInterface.new(input, output, validator)
+      user_interface = UserInterface.new(input, output, validator, messages)
       finder = described_class.new(user_interface, database)
 
       database.create(test_contact)
@@ -52,7 +54,7 @@ RSpec.shared_examples 'a Finder' do |database_class, argument|
 
     it 'does not print a no contacts message if contacts are found' do
       input = StringIO.new("damon\nn\n")
-      user_interface = UserInterface.new(input, output, validator)
+      user_interface = UserInterface.new(input, output, validator, messages)
       finder = described_class.new(user_interface, database)
 
       database.create(test_contact)
@@ -64,7 +66,7 @@ RSpec.shared_examples 'a Finder' do |database_class, argument|
 
     it 'prints the contacts that are found' do
       input = StringIO.new("damon\nn\n")
-      user_interface = UserInterface.new(input, output, validator)
+      user_interface = UserInterface.new(input, output, validator, messages)
       finder = described_class.new(user_interface, database)
 
       database.create(test_contact)
@@ -76,7 +78,7 @@ RSpec.shared_examples 'a Finder' do |database_class, argument|
 
     it 'keeps asking user if they want to add another contact until they say no' do
       input = StringIO.new("term\ny\ndamon\ny\nterm\nn\n")
-      user_interface = UserInterface.new(input, output, validator)
+      user_interface = UserInterface.new(input, output, validator, messages)
       finder = described_class.new(user_interface, database)
 
       database.create(test_contact)

@@ -3,10 +3,11 @@
 require 'constants'
 
 class UserInterface # rubocop:disable Metrics/ClassLength
-  def initialize(input, output, validator)
+  def initialize(input, output, validator, messages)
     @input = input
     @output = output
     @validator = validator
+    @messages = messages
   end
 
   def menu_choice
@@ -136,5 +137,5 @@ class UserInterface # rubocop:disable Metrics/ClassLength
     end
   end
 
-  attr_reader :input, :output, :validator
+  attr_reader :input, :output, :validator, :messages
 end

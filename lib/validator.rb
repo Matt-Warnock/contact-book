@@ -3,6 +3,10 @@
 require 'constants'
 
 class Validator
+  def initialize(messages)
+    @messages = messages
+  end
+
   def valid_choice?(option, max_choice)
     option.match?(/^[1-#{max_choice}]$/)
   end
@@ -31,6 +35,8 @@ class Validator
   end
 
   private
+
+  attr_reader :messages
 
   def valid_phone?(value)
     value.match?(/^\d{11}$/)

@@ -2,6 +2,7 @@
 
 require 'array_database'
 require 'file_database'
+require 'language_parser'
 require 'terminator'
 require 'user_interface'
 require 'validator'
@@ -9,6 +10,7 @@ require 'validator'
 RSpec.shared_examples 'a Terminator' do |database_class, argument|
   describe '#run' do
     let(:database) { argument ? database_class.new(argument) : database_class.new }
+    let(:messages) { LanguageParser.new(Pathname.new('en.yml')).messages }
     let(:output) { StringIO.new }
     let(:delete_one_contact_input) { "0\ny\nn\n" }
     let(:delete_both_contacts_input) { "0\ny\ny\n0\ny\n" }
@@ -107,7 +109,7 @@ RSpec.shared_examples 'a Terminator' do |database_class, argument|
   end
 
   def run_terminator_with_input(input)
-    user_interface = UserInterface.new(StringIO.new(input), output, Validator.new)
+    user_interface = UserInterface.new(StringIO.new(input), output, Validator.new(messages), messages)
 
     database.create(test_details)
     database.create(second_contact)
@@ -116,7 +118,7 @@ RSpec.shared_examples 'a Terminator' do |database_class, argument|
   end
 
   def run_terminator_without_contacts
-    user_interface = UserInterface.new(StringIO.new, output, Validator.new)
+    user_interface = UserInterface.new(StringIO.new, output, Validator.new(messages), messages)
 
     Terminator.new(user_interface, database).run
   end
