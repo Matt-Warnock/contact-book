@@ -55,7 +55,7 @@ RSpec.describe Validator do
 
   describe '#valid_yes_no_answer?' do
     it 'returns true on a valid yes or no reponse by user' do
-      expect(validator.valid_yes_no_answer?(Constants::YES_REPLY)).to eq(true)
+      expect(validator.valid_yes_no_answer?(messages.YES_REPLY)).to eq(true)
     end
 
     it 'returns false on an invalid reponse by user' do

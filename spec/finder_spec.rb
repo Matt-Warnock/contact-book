@@ -37,7 +37,7 @@ RSpec.shared_examples 'a Finder' do |database_class, argument|
 
       finder.run
 
-      expect(output.string).to include(Constants::SEARCH_MESSAGE)
+      expect(output.string).to include(messages.SEARCH_MESSAGE)
     end
 
     it 'prints message if no contacts are found' do
@@ -49,7 +49,7 @@ RSpec.shared_examples 'a Finder' do |database_class, argument|
 
       finder.run
 
-      expect(output.string).to include(Constants::NO_CONTACTS_MESSAGE)
+      expect(output.string).to include(messages.NO_CONTACTS_MESSAGE)
     end
 
     it 'does not print a no contacts message if contacts are found' do
@@ -61,7 +61,7 @@ RSpec.shared_examples 'a Finder' do |database_class, argument|
 
       finder.run
 
-      expect(output.string).not_to include(Constants::NO_CONTACTS_MESSAGE)
+      expect(output.string).not_to include(messages.NO_CONTACTS_MESSAGE)
     end
 
     it 'prints the contacts that are found' do
@@ -85,7 +85,7 @@ RSpec.shared_examples 'a Finder' do |database_class, argument|
 
       finder.run
 
-      expect(output.string.scan(Constants::ANOTHER_SEARCH_PROMPT).length).to eq(3)
+      expect(output.string.scan(messages.ANOTHER_SEARCH_PROMPT).length).to eq(3)
     end
   end
 

@@ -14,7 +14,7 @@ class Controler
       user_choice = user_interface.menu_choice
 
       actions[user_choice - 1].run
-      break if user_choice == Constants::EXIT_CHOICE
+      break if user_choice == messages.EXIT_CHOICE
     end
   end
 

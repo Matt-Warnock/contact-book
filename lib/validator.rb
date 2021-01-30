@@ -12,7 +12,7 @@ class Validator
   end
 
   def valid_yes_no_answer?(value)
-    value.match?(Constants::VALID_YES_NO_REPLY)
+    value.match?(Constants::VALID_YES_NO_REPLY )
   end
 
   def valid_string?(string)

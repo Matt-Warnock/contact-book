@@ -7,8 +7,8 @@ require 'user_interface'
 require 'validator'
 
 RSpec.describe Controler do
-  let(:actions) { Array.new(Constants::ACTIONS_COUNT, NullAction.new) }
-  let(:exit_choice) { Constants::EXIT_CHOICE }
+  let(:actions) { Array.new(messages.ACTIONS_COUNT, NullAction.new) }
+  let(:exit_choice) { messages.EXIT_CHOICE }
   let(:messages) { LanguageParser.new(Pathname.new('en.yml')).messages }
   let(:output) { StringIO.new }
 
@@ -19,7 +19,7 @@ RSpec.describe Controler do
 
     controler.start
 
-    expect(output.string.scan(Constants::MENU_MESSAGE).length).to eq(2)
+    expect(output.string.scan(messages.MENU_MESSAGE).length).to eq(2)
   end
 
   it 'receives the input from the user interface' do
@@ -34,7 +34,7 @@ RSpec.describe Controler do
   it 'runs the actions chosen' do
     null_action = double('NullAction', run: nil)
     ui = UserInterface.new(StringIO.new("1\n#{exit_choice}\n"), output, Validator.new(messages), messages)
-    controler = described_class.new(ui, Array.new(Constants::ACTIONS_COUNT, null_action), messages)
+    controler = described_class.new(ui, Array.new(messages.ACTIONS_COUNT, null_action), messages)
 
     controler.start
 

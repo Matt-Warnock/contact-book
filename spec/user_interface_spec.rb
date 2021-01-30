@@ -8,7 +8,7 @@ RSpec.describe UserInterface do
   let(:output) { StringIO.new }
   let(:messages) { LanguageParser.new(Pathname.new('en.yml')).messages }
   let(:validator) { Validator.new(messages) }
-  let(:yes_reply) { Constants::YES_REPLY + "\n" }
+  let(:yes_reply) { messages.YES_REPLY + "\n" }
 
   describe '#menu_choice' do
     let(:valid_input) { StringIO.new("1\n") }
@@ -18,7 +18,7 @@ RSpec.describe UserInterface do
 
       ui.menu_choice
 
-      expect(output.string).to include(Constants::MENU_MESSAGE)
+      expect(output.string).to include(messages.MENU_MESSAGE)
     end
 
     it 'clears the screen before printing the menu' do
@@ -26,7 +26,7 @@ RSpec.describe UserInterface do
 
       ui.menu_choice
 
-      expect(output.string).to include("\033[H\033[2J" + Constants::MENU_MESSAGE)
+      expect(output.string).to include("\033[H\033[2J" + messages.MENU_MESSAGE)
     end
 
     it 'reads an input from the user' do
@@ -47,12 +47,12 @@ RSpec.describe UserInterface do
     end
 
     it 'repeats printing error message untill valid input is entered' do
-      input = StringIO.new("yes\n0\n#{Constants::ACTIONS_COUNT + 1}\n1\n")
+      input = StringIO.new("yes\n0\n#{messages.ACTIONS_COUNT + 1}\n1\n")
       ui = described_class.new(input, output, validator, messages)
 
       ui.menu_choice
 
-      expect(output.string.scan(Constants::ERROR_MESSAGE).length).to eq(3)
+      expect(output.string.scan(messages.ERROR_MESSAGE).length).to eq(3)
     end
 
     it 'returns a valid input' do
@@ -84,7 +84,7 @@ RSpec.describe UserInterface do
 
       ui.ask_for_fields
 
-      expect(output.string).to include(Constants::ERROR_MESSAGE)
+      expect(output.string).to include(messages.ERROR_MESSAGE)
     end
 
     it 'prints error if email is invalid' do
@@ -93,7 +93,7 @@ RSpec.describe UserInterface do
 
       ui.ask_for_fields
 
-      expect(output.string).to include(Constants::ERROR_MESSAGE)
+      expect(output.string).to include(messages.ERROR_MESSAGE)
     end
   end
 
@@ -123,7 +123,7 @@ Notes:   I think he has an Oscar
 
       ui.add_another_contact?
 
-      expect(output.string).to include(Constants::ANOTHER_CONTACT_PROMPT)
+      expect(output.string).to include(messages.ANOTHER_CONTACT_PROMPT)
     end
 
     it 'returns true if user wants to add another contact' do
@@ -150,7 +150,7 @@ Notes:   I think he has an Oscar
 
       ui.add_another_contact?
 
-      expect(output.string).to include(Constants::ERROR_MESSAGE)
+      expect(output.string).to include(messages.ERROR_MESSAGE)
     end
   end
 
@@ -161,7 +161,7 @@ Notes:   I think he has an Oscar
 
       ui.display_no_contacts_message
 
-      expect(output.string).to include(Constants::NO_CONTACTS_MESSAGE)
+      expect(output.string).to include(messages.NO_CONTACTS_MESSAGE)
     end
   end
 
@@ -200,7 +200,7 @@ Notes:   I think he has an Oscar
 
       ui.continue
 
-      expect(output.string).to eq(Constants::CONTINUE_MESSAGE)
+      expect(output.string).to eq(messages.CONTINUE_MESSAGE)
     end
 
     it 'returns single character entered by user' do
@@ -218,7 +218,7 @@ Notes:   I think he has an Oscar
 
       ui.search_term
 
-      expect(output.string).to include(Constants::SEARCH_MESSAGE)
+      expect(output.string).to include(messages.SEARCH_MESSAGE)
     end
 
     it 'returns the search term typed by user' do
@@ -234,7 +234,7 @@ Notes:   I think he has an Oscar
 
       ui.search_term
 
-      expect(output.string).to include(Constants::ERROR_MESSAGE)
+      expect(output.string).to include(messages.ERROR_MESSAGE)
     end
   end
 
@@ -245,7 +245,7 @@ Notes:   I think he has an Oscar
 
       ui.search_again?
 
-      expect(output.string).to include(Constants::ANOTHER_SEARCH_PROMPT)
+      expect(output.string).to include(messages.ANOTHER_SEARCH_PROMPT)
     end
 
     it 'returns true if user wants to search another contact' do
@@ -268,7 +268,7 @@ Notes:   I think he has an Oscar
 
       ui.search_again?
 
-      expect(output.string).to include(Constants::ERROR_MESSAGE)
+      expect(output.string).to include(messages.ERROR_MESSAGE)
     end
   end
 
@@ -291,7 +291,7 @@ Notes:   I think he has an Oscar
 
       ui.choose_contact([test_details])
 
-      expect(output.string).to include(Constants::CONTACT_INDEX_PROMPT)
+      expect(output.string).to include(messages.CONTACT_INDEX_PROMPT)
     end
 
     it 'returns a vaild index choice' do
@@ -308,7 +308,7 @@ Notes:   I think he has an Oscar
 
       ui.choose_contact([test_details])
 
-      expect(output.string).to include(Constants::ERROR_MESSAGE)
+      expect(output.string).to include(messages.ERROR_MESSAGE)
     end
   end
 
@@ -319,7 +319,7 @@ Notes:   I think he has an Oscar
 
       ui.edit_field
 
-      expect(output.string).to include(Constants::FIELD_CHOICE_PROMPT)
+      expect(output.string).to include(messages.FIELD_CHOICE_PROMPT)
     end
 
     it 'only takes a vaild field name' do
@@ -328,7 +328,7 @@ Notes:   I think he has an Oscar
 
       ui.edit_field
 
-      expect(output.string).to include(Constants::ERROR_MESSAGE)
+      expect(output.string).to include(messages.ERROR_MESSAGE)
     end
 
     it 'asks the user for the new value for field given' do
@@ -346,7 +346,7 @@ Notes:   I think he has an Oscar
 
       ui.edit_field
 
-      expect(output.string).to include(Constants::ERROR_MESSAGE)
+      expect(output.string).to include(messages.ERROR_MESSAGE)
     end
 
     it 'returns a hash with new value entered' do
@@ -366,7 +366,7 @@ Notes:   I think he has an Oscar
 
       ui.update_another_field?
 
-      expect(output.string).to include(Constants::ANOTHER_EDIT_PROMPT)
+      expect(output.string).to include(messages.ANOTHER_EDIT_PROMPT)
     end
 
     it 'returns true if user wants to add another field' do
@@ -389,7 +389,7 @@ Notes:   I think he has an Oscar
 
       ui.update_another_field?
 
-      expect(output.string).to include(Constants::ERROR_MESSAGE)
+      expect(output.string).to include(messages.ERROR_MESSAGE)
     end
   end
 
@@ -400,7 +400,7 @@ Notes:   I think he has an Oscar
 
       ui.update_another_contact?
 
-      expect(output.string).to include(Constants::ANOTHER_UPDATE_PROMPT)
+      expect(output.string).to include(messages.ANOTHER_UPDATE_PROMPT)
     end
 
     it 'returns true if user wants to add another field' do
@@ -423,7 +423,7 @@ Notes:   I think he has an Oscar
 
       ui.update_another_contact?
 
-      expect(output.string).to include(Constants::ERROR_MESSAGE)
+      expect(output.string).to include(messages.ERROR_MESSAGE)
     end
   end
 
@@ -434,7 +434,7 @@ Notes:   I think he has an Oscar
 
       ui.delete?(test_details)
 
-      expect(output.string).to include(Constants::DELETE_CONTACT_PROMPT)
+      expect(output.string).to include(messages.DELETE_CONTACT_PROMPT)
     end
 
     it 'prints the contact after delete prompt' do
@@ -443,7 +443,7 @@ Notes:   I think he has an Oscar
 
       ui.delete?(test_details)
 
-      expect(output.string).to include(Constants::DELETE_CONTACT_PROMPT + "\nName:    Matt Damon")
+      expect(output.string).to include(messages.DELETE_CONTACT_PROMPT + "\nName:    Matt Damon")
     end
 
     it 'returns true if user wants to delete the contact' do
@@ -466,7 +466,7 @@ Notes:   I think he has an Oscar
 
       ui.delete?(test_details)
 
-      expect(output.string).to include(Constants::ERROR_MESSAGE)
+      expect(output.string).to include(messages.ERROR_MESSAGE)
     end
   end
 
@@ -477,7 +477,7 @@ Notes:   I think he has an Oscar
 
       ui.display_deletion_message
 
-      expect(output.string).to include(Constants::CONTACT_DELETED_MESSAGE)
+      expect(output.string).to include(messages.CONTACT_DELETED_MESSAGE)
     end
   end
 
@@ -488,7 +488,7 @@ Notes:   I think he has an Oscar
 
       ui.delete_another_contact?
 
-      expect(output.string).to include(Constants::ANOTHER_DELETE_PROMPT)
+      expect(output.string).to include(messages.ANOTHER_DELETE_PROMPT)
     end
 
     it 'returns true if user wants to delete another contact' do
@@ -511,7 +511,7 @@ Notes:   I think he has an Oscar
 
       ui.delete_another_contact?
 
-      expect(output.string).to include(Constants::ERROR_MESSAGE)
+      expect(output.string).to include(messages.ERROR_MESSAGE)
     end
   end
 

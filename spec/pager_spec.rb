@@ -35,7 +35,7 @@ RSpec.shared_examples 'a Pager' do |database_class, argument|
     it 'prints a message to the user if the database is empty' do
       pager.run
 
-      expect(output.string).to include(Constants::NO_CONTACTS_MESSAGE)
+      expect(output.string).to include(messages.NO_CONTACTS_MESSAGE)
     end
 
     it 'does not prints a message if the database has any contacts' do
@@ -43,7 +43,7 @@ RSpec.shared_examples 'a Pager' do |database_class, argument|
 
       pager.run
 
-      expect(output.string).to_not include(Constants::NO_CONTACTS_MESSAGE)
+      expect(output.string).to_not include(messages.NO_CONTACTS_MESSAGE)
     end
 
     it 'sorts contacts into aphabetical order according to name' do
@@ -100,14 +100,14 @@ RSpec.shared_examples 'a Pager' do |database_class, argument|
 
       pager.run
 
-      expect(output.string).to match(/(Adam Smith)#{gap}#{Constants::CONTINUE_MESSAGE}/)
+      expect(output.string).to match(/(Adam Smith)#{gap}#{messages.CONTINUE_MESSAGE}/)
     end
 
     it 'prompts user to press a key before continuing after no contacts message' do
       pager.run
 
       expect(output.string)
-        .to match(/#{Constants::NO_CONTACTS_MESSAGE}\n#{Constants::CONTINUE_MESSAGE}/)
+        .to match(/#{messages.NO_CONTACTS_MESSAGE}\n#{messages.CONTINUE_MESSAGE}/)
     end
   end
 end

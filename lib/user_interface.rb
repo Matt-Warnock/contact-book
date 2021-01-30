@@ -11,8 +11,8 @@ class UserInterface # rubocop:disable Metrics/ClassLength
   end
 
   def menu_choice
-    output.print Constants::CLEAR_COMMAND, Constants::MENU_MESSAGE
-    collect_valid_input { |user_input| validator.valid_choice?(user_input, Constants::ACTIONS_COUNT) }.to_i
+    output.print messages.CLEAR_COMMAND, messages.MENU_MESSAGE
+    collect_valid_input { |user_input| validator.valid_choice?(user_input, messages.ACTIONS_COUNT) }.to_i
   end
 
   def ask_for_fields
@@ -32,11 +32,11 @@ class UserInterface # rubocop:disable Metrics/ClassLength
   end
 
   def add_another_contact?
-    boolean_choice?(Constants::ANOTHER_CONTACT_PROMPT)
+    boolean_choice?(messages.ANOTHER_CONTACT_PROMPT)
   end
 
   def display_no_contacts_message
-    output.puts Constants::NO_CONTACTS_MESSAGE
+    output.puts messages.NO_CONTACTS_MESSAGE
   end
 
   def display_letter_header(letter)
@@ -48,17 +48,17 @@ class UserInterface # rubocop:disable Metrics/ClassLength
   end
 
   def continue
-    output.print Constants::CONTINUE_MESSAGE
+    output.print messages.CONTINUE_MESSAGE
     input.getch
   end
 
   def search_term
-    output.print Constants::SEARCH_MESSAGE
+    output.print messages.SEARCH_MESSAGE
     collect_valid_input { |user_input| validator.valid_string?(user_input) }
   end
 
   def search_again?
-    boolean_choice?(Constants::ANOTHER_SEARCH_PROMPT)
+    boolean_choice?(messages.ANOTHER_SEARCH_PROMPT)
   end
 
   def choose_contact(contacts)
@@ -67,7 +67,7 @@ class UserInterface # rubocop:disable Metrics/ClassLength
   end
 
   def edit_field
-    output.print Constants::FIELD_CHOICE_PROMPT
+    output.print messages.FIELD_CHOICE_PROMPT
 
     field = collect_field_name
     output.print Constants::FIELDS_TO_PROMPTS[field]
@@ -76,29 +76,29 @@ class UserInterface # rubocop:disable Metrics/ClassLength
   end
 
   def update_another_field?
-    boolean_choice?(Constants::ANOTHER_EDIT_PROMPT)
+    boolean_choice?(messages.ANOTHER_EDIT_PROMPT)
   end
 
   def update_another_contact?
-    boolean_choice?(Constants::ANOTHER_UPDATE_PROMPT)
+    boolean_choice?(messages.ANOTHER_UPDATE_PROMPT)
   end
 
   def delete?(contact)
-    boolean_choice?(Constants::DELETE_CONTACT_PROMPT) { display_contact(contact) }
+    boolean_choice?(messages.DELETE_CONTACT_PROMPT) { display_contact(contact) }
   end
 
   def display_deletion_message
-    output.print Constants::CONTACT_DELETED_MESSAGE
+    output.print messages.CONTACT_DELETED_MESSAGE
   end
 
   def delete_another_contact?
-    boolean_choice?(Constants::ANOTHER_DELETE_PROMPT)
+    boolean_choice?(messages.ANOTHER_DELETE_PROMPT)
   end
 
   private
 
   def ask_for_index(array_length)
-    output.print Constants::CONTACT_INDEX_PROMPT
+    output.print messages.CONTACT_INDEX_PROMPT
     collect_valid_input { |user_input| validator.valid_index?(user_input, array_length) }
   end
 
@@ -125,7 +125,7 @@ class UserInterface # rubocop:disable Metrics/ClassLength
   def boolean_choice?(prompt)
     output.print prompt
     yield if block_given?
-    collect_valid_input { |user_input| validator.valid_yes_no_answer?(user_input) }.downcase == Constants::YES_REPLY
+    collect_valid_input { |user_input| validator.valid_yes_no_answer?(user_input) }.downcase == messages.YES_REPLY
   end
 
   def collect_valid_input
@@ -133,7 +133,7 @@ class UserInterface # rubocop:disable Metrics/ClassLength
       user_input = input.gets.chomp
       break user_input if yield user_input
 
-      output.print Constants::ERROR_MESSAGE
+      output.print messages.ERROR_MESSAGE
     end
   end
 
