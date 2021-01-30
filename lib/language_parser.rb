@@ -7,7 +7,7 @@ class LanguageParser
     @file = file_path_object
   end
 
-  def language
+  def messages
     JSON.parse(YAML.load_file(file).to_json, object_class: OpenStruct)
   rescue Errno::ENOENT
     raise 'Invalid or missing .yml file'
