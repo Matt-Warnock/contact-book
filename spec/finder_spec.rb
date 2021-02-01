@@ -13,7 +13,7 @@ RSpec.shared_examples 'a Finder' do |database_class, argument|
     let(:described_class) { Finder }
     let(:messages) { LanguageParser.new(Pathname.new('en.yml')).messages }
     let(:output) { StringIO.new }
-    let(:validator) { Validator.new(messages) }
+    let(:validator) { Validator.new }
 
     after(:each) do
       if argument

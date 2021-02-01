@@ -109,7 +109,7 @@ RSpec.shared_examples 'a Terminator' do |database_class, argument|
   end
 
   def run_terminator_with_input(input)
-    user_interface = UserInterface.new(StringIO.new(input), output, Validator.new(messages), messages)
+    user_interface = UserInterface.new(StringIO.new(input), output, Validator.new, messages)
 
     database.create(test_details)
     database.create(second_contact)
@@ -118,7 +118,7 @@ RSpec.shared_examples 'a Terminator' do |database_class, argument|
   end
 
   def run_terminator_without_contacts
-    user_interface = UserInterface.new(StringIO.new, output, Validator.new(messages), messages)
+    user_interface = UserInterface.new(StringIO.new, output, Validator.new, messages)
 
     Terminator.new(user_interface, database).run
   end

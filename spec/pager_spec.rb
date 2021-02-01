@@ -14,7 +14,7 @@ RSpec.shared_examples 'a Pager' do |database_class, argument|
   let(:output) { StringIO.new }
   let(:pager) { Pager.new(user_interface, database) }
   let(:user_interface) { UserInterface.new(input, output, validator, messages) }
-  let(:validator) { Validator.new(messages) }
+  let(:validator) { Validator.new }
 
   after(:each) do
     if argument

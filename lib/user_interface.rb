@@ -109,7 +109,9 @@ class UserInterface # rubocop:disable Metrics/ClassLength
   end
 
   def collect_field_name
-    field_name = collect_valid_input { |user_input| validator.valid_field_name?(user_input) }
+    field_name = collect_valid_input do |user_input|
+      validator.valid_field_name?(user_input, messages.fields_to_display_names.to_h)
+    end
     convert_name_to_key(field_name)
   end
 
@@ -124,7 +126,10 @@ class UserInterface # rubocop:disable Metrics/ClassLength
   def boolean_choice?(prompt)
     output.print prompt
     yield if block_given?
-    collect_valid_input { |user_input| validator.valid_yes_no_answer?(user_input) }.downcase == messages.yes_reply
+
+    collect_valid_input do |user_input|
+      validator.valid_yes_no_answer?(user_input, messages.valid_yes_no_reply)
+    end.downcase == messages.yes_reply
   end
 
   def collect_valid_input

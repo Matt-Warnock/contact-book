@@ -7,7 +7,7 @@ require 'validator'
 RSpec.describe UserInterface do
   let(:output) { StringIO.new }
   let(:messages) { LanguageParser.new(Pathname.new('en.yml')).messages }
-  let(:validator) { Validator.new(messages) }
+  let(:validator) { Validator.new }
   let(:yes_reply) { messages.yes_reply + "\n" }
 
   describe '#menu_choice' do

@@ -23,7 +23,7 @@ messages_object = LanguageParser.new(Pathname.new('en.yml')).messages
 file = File.new('contacts.json', 'r+')
 file_database = FileDatabase.new(file)
 
-user_interface = UserInterface.new($stdin, $stdout, Validator.new(messages_object), messages_object)
+user_interface = UserInterface.new($stdin, $stdout, Validator.new, messages_object)
 actions = [
   Pager.new(user_interface, file_database),
   Creator.new(user_interface, file_database),

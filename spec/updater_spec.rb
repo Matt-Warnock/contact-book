@@ -92,7 +92,7 @@ RSpec.shared_examples 'an Updater' do |database_class, argument|
   end
 
   def run_updater_with_input(string)
-    user_interface = UserInterface.new(StringIO.new(string), output, Validator.new(messages), messages)
+    user_interface = UserInterface.new(StringIO.new(string), output, Validator.new, messages)
 
     database.create(test_details)
 
@@ -100,7 +100,7 @@ RSpec.shared_examples 'an Updater' do |database_class, argument|
   end
 
   def run_updater_with_empty_database
-    user_interface = UserInterface.new(StringIO.new("\n"), output, Validator.new(messages), messages)
+    user_interface = UserInterface.new(StringIO.new("\n"), output, Validator.new, messages)
 
     Updater.new(user_interface, database).run
   end

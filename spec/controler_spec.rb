@@ -14,7 +14,7 @@ RSpec.describe Controler do
 
   it 'prints the menu before the action is run and after unless exit is chosen' do
     input = StringIO.new("1\n#{exit_choice}\n")
-    ui = UserInterface.new(input, output, Validator.new(messages), messages)
+    ui = UserInterface.new(input, output, Validator.new, messages)
     controler = described_class.new(ui, actions, messages)
 
     controler.start
@@ -33,7 +33,7 @@ RSpec.describe Controler do
 
   it 'runs the actions chosen' do
     null_action = double('NullAction', run: nil)
-    ui = UserInterface.new(StringIO.new("1\n#{exit_choice}\n"), output, Validator.new(messages), messages)
+    ui = UserInterface.new(StringIO.new("1\n#{exit_choice}\n"), output, Validator.new, messages)
     controler = described_class.new(ui, Array.new(messages.actions_count, null_action), messages)
 
     controler.start
