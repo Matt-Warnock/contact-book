@@ -1,20 +1,20 @@
-ACTIONS_COUNT: 6
-ANOTHER_CONTACT_PROMPT: 'Add another contact? (y/n): '
-ANOTHER_EDIT_PROMPT: 'Update another detail? (y/n): '
-ANOTHER_DELETE_PROMPT: 'Delete another contact? (y/n): '
-ANOTHER_SEARCH_PROMPT: 'Search again? (y/n): '
-ANOTHER_UPDATE_PROMPT: 'Update another contact? (y/n): '
-CLEAR_COMMAND: "\e[H\e[2J"
-CONTACT_DELETED_MESSAGE: 'Contact was deleted. '
-CONTACT_INDEX_PROMPT: 'Enter contact index: '
-CONTINUE_MESSAGE: 'Press any key to continue '
-DELETE_CONTACT_PROMPT: 'Do you want to delete the contact below? (y/n): '
-EXIT_CHOICE: 6
-FIELD_CHOICE_PROMPT: 'Which detail of the contact would you like to edit? '
-ERROR_MESSAGE: 'Wrong input. Please try again: '
-NO_CONTACTS_MESSAGE: 'No contacts were found.'
-SEARCH_MESSAGE: 'Type search term: '
-MENU_MESSAGE: |
+actions_count: 6
+another_contact_prompt: 'Add another contact? (y/n): '
+another_edit_prompt: 'Update another detail? (y/n): '
+another_delete_prompt: 'Delete another contact? (y/n): '
+another_search_prompt: 'Search again? (y/n): '
+another_update_prompt: 'Update another contact? (y/n): '
+clear_command: "\e[H\e[2J"
+contact_deleted_message: 'Contact was deleted. '
+contact_index_prompt: 'Enter contact index: '
+continue_message: 'Press any key to continue '
+delete_contact_prompt: 'Do you want to delete the contact below? (y/n): '
+exit_choice: 6
+field_choice_prompt: 'Which detail of the contact would you like to edit? '
+error_message: 'Wrong input. Please try again: '
+no_contacts_message: No contacts were found.
+search_message: 'Type search term: '
+menu_message: |
 
     ---------------------
 
@@ -31,4 +31,17 @@ MENU_MESSAGE: |
     6) Exit the program
 
     Choose a menu option:
-YES_REPLY: 'y'
+fields_to_display_names:
+  name: 'Name: '
+  address: 'Address: '
+  phone: 'Phone: '
+  email: 'Email: '
+  notes: 'Notes: '
+fields_to_prompts:
+  name: 'Contact name: '
+  address: 'Contact address: '
+  phone: 'Contact phone: '
+  email: 'Contact email: '
+  notes: 'Contact notes: '
+yes_reply: y
+valid_yes_no_reply: yn

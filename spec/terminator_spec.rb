@@ -32,25 +32,25 @@ RSpec.shared_examples 'a Terminator' do |database_class, argument|
     it 'prints there is no contacts if the database is empty' do
       run_terminator_without_contacts
 
-      expect(output.string).to include(messages.NO_CONTACTS_MESSAGE)
+      expect(output.string).to include(messages.no_contacts_message)
     end
 
     it 'asks the user to press any key to continue' do
       run_terminator_without_contacts
 
-      expect(output.string).to include(messages.CONTINUE_MESSAGE)
+      expect(output.string).to include(messages.continue_message)
     end
 
     it 'exits if the database is empty' do
       run_terminator_without_contacts
 
-      expect(output.string).to_not include(messages.CONTACT_INDEX_PROMPT)
+      expect(output.string).to_not include(messages.contact_index_prompt)
     end
 
     it 'asks user to choose a contact' do
       run_terminator_with_input(delete_one_contact_input)
 
-      expect(output.string).to include(messages.CONTACT_INDEX_PROMPT)
+      expect(output.string).to include(messages.contact_index_prompt)
     end
 
     it 'prints the contact the user has chosen to delete' do
@@ -62,7 +62,7 @@ RSpec.shared_examples 'a Terminator' do |database_class, argument|
     it 'asks the user for confirmation to delete' do
       run_terminator_with_input(delete_one_contact_input)
 
-      expect(output.string).to include(messages.DELETE_CONTACT_PROMPT)
+      expect(output.string).to include(messages.delete_contact_prompt)
     end
 
     it 'does not delete contact if user chooses not to delete' do
@@ -80,31 +80,31 @@ RSpec.shared_examples 'a Terminator' do |database_class, argument|
     it 'prints confirmation that contact was deleted if user chooses to delete' do
       run_terminator_with_input(delete_one_contact_input)
 
-      expect(output.string).to include(messages.CONTACT_DELETED_MESSAGE)
+      expect(output.string).to include(messages.contact_deleted_message)
     end
 
     it 'asks the user if they would like to delete another contact' do
       run_terminator_with_input(delete_one_contact_input)
 
-      expect(output.string).to include(messages.ANOTHER_DELETE_PROMPT)
+      expect(output.string).to include(messages.another_delete_prompt)
     end
 
     it 'displays no contacts message if user wants to delete another contact and the database is empty' do
       run_terminator_with_input(delete_both_contacts_input + "y\n")
 
-      expect(output.string).to include(messages.NO_CONTACTS_MESSAGE)
+      expect(output.string).to include(messages.no_contacts_message)
     end
 
     it 'asks the user for another contact index if they want to delete another contact' do
       run_terminator_with_input(delete_both_contacts_input + "n\n")
 
-      expect(output.string.scan(messages.CONTACT_INDEX_PROMPT).length).to eq(2)
+      expect(output.string.scan(messages.contact_index_prompt).length).to eq(2)
     end
 
     it 'exits if they no not want to delete another contact' do
       run_terminator_with_input(delete_one_contact_input)
 
-      expect(output.string.scan(messages.CONTACT_INDEX_PROMPT).length).to eq(1)
+      expect(output.string.scan(messages.contact_index_prompt).length).to eq(1)
     end
   end
 

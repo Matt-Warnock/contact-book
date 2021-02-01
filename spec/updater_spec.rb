@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'array_database'
-require 'constants'
 require 'file_database'
 require 'language_parser'
 require 'updater'
@@ -32,19 +31,19 @@ RSpec.shared_examples 'an Updater' do |database_class, argument|
     it 'displays that no contacts are found if database is empty' do
       run_updater_with_empty_database
 
-      expect(output.string).to include(messages.NO_CONTACTS_MESSAGE)
+      expect(output.string).to include(messages.no_contacts_message)
     end
 
     it 'does not ask updating prompt if database is empty' do
       run_updater_with_empty_database
 
-      expect(output.string).to_not include(messages.CONTACT_INDEX_PROMPT)
+      expect(output.string).to_not include(messages.contact_index_prompt)
     end
 
     it 'asks the user for a contact to update' do
       run_updater_with_input(quick_exit_responces)
 
-      expect(output.string).to include(messages.CONTACT_INDEX_PROMPT)
+      expect(output.string).to include(messages.contact_index_prompt)
     end
 
     it 'prints contact to be edited' do
@@ -56,7 +55,7 @@ RSpec.shared_examples 'an Updater' do |database_class, argument|
     it 'asks the user which field it wants to update and the value for it' do
       run_updater_with_input(quick_exit_responces)
 
-      expect(output.string).to include(messages.FIELD_CHOICE_PROMPT, Constants::FIELDS_TO_PROMPTS[:name])
+      expect(output.string).to include(messages.field_choice_prompt, messages.fields_to_prompts[:name])
     end
 
     it 'displays the contact with the data updated' do
@@ -68,27 +67,27 @@ RSpec.shared_examples 'an Updater' do |database_class, argument|
     it 'asks the user if they want to edit another field' do
       run_updater_with_input(quick_exit_responces)
 
-      expect(output.string).to include(messages.ANOTHER_EDIT_PROMPT)
+      expect(output.string).to include(messages.another_edit_prompt)
     end
 
     it 'collects another field and value if they want to edit another field' do
       input = "0\nname\nirrelevant\ny\naddress\nirrelevant\nn\nn\n"
       run_updater_with_input(input)
 
-      expect(output.string.scan(messages.FIELD_CHOICE_PROMPT).length).to eq(2)
+      expect(output.string.scan(messages.field_choice_prompt).length).to eq(2)
     end
 
     it 'asks if they want to edit another contact if they do not want to edit another field' do
       run_updater_with_input(quick_exit_responces)
 
-      expect(output.string).to include(messages.ANOTHER_UPDATE_PROMPT)
+      expect(output.string).to include(messages.another_update_prompt)
     end
 
     it 'asks for another contact index if they want to edit another contact' do
       input = "0\nname\nirrelevant\ny\naddress\nirrelevant\nn\ny\n" + quick_exit_responces
       run_updater_with_input(input)
 
-      expect(output.string.scan(messages.CONTACT_INDEX_PROMPT).length).to eq(2)
+      expect(output.string.scan(messages.contact_index_prompt).length).to eq(2)
     end
   end
 

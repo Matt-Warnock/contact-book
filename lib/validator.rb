@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'constants'
-
 class Validator
   def initialize(messages)
     @messages = messages
@@ -12,7 +10,7 @@ class Validator
   end
 
   def valid_yes_no_answer?(value)
-    value.match?(Constants::VALID_YES_NO_REPLY )
+    value.match?(/^[#{messages.valid_yes_no_reply}]$/i)
   end
 
   def valid_string?(string)
@@ -31,7 +29,7 @@ class Validator
   end
 
   def valid_field_name?(value)
-    Constants::FIELDS_TO_DISPLAY_NAMES.any? { |_, name| name.match?(/^#{value}\b/i) }
+    messages.fields_to_display_names.to_h.any? { |_, name| name.match?(/^#{value}\b/i) }
   end
 
   private
