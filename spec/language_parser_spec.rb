@@ -28,25 +28,25 @@ RSpec.describe LanguageParser do
     end
 
     it 'does not raises error if pathname object contains a vaild yaml' do
-      language_parser = described_class.new(file)
+      language_parser = described_class.new(file.path)
 
       expect { language_parser.messages }.not_to raise_error
     end
 
     it 'parses the yaml file and returns strings' do
-      language_parser = described_class.new(file)
+      language_parser = described_class.new(file.path)
 
       expect(language_parser.messages.string).to eq('Add another contact? (y/n): ')
     end
 
     it 'returns integers' do
-      language_parser = described_class.new(file)
+      language_parser = described_class.new(file.path)
 
       expect(language_parser.messages.integer).to eq(23)
     end
 
     it 'returns hashs' do
-      language_parser = described_class.new(file)
+      language_parser = described_class.new(file.path)
 
       expect(language_parser.messages.hash.to_h).to eq({ name: 'John', address: 'Westview' })
     end
