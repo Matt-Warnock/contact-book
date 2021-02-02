@@ -44,4 +44,4 @@ fields_to_prompts:
   email: 'Contact email: '
   notes: 'Contact notes: '
 yes_reply: y
-valid_yes_no_reply: yn
+valid_yes_no_reply: y|n

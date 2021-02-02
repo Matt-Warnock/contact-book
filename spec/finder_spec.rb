@@ -11,7 +11,7 @@ RSpec.shared_examples 'a Finder' do |database_class, argument|
   describe '#run' do
     let(:database) { argument ? database_class.new(argument) : database_class.new }
     let(:described_class) { Finder }
-    let(:messages) { LanguageParser.new(Pathname.new('en.yml')).messages }
+    let(:messages) { LanguageParser.new('en.yml').messages }
     let(:output) { StringIO.new }
     let(:validator) { Validator.new }
 

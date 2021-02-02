@@ -127,9 +127,8 @@ class UserInterface # rubocop:disable Metrics/ClassLength
     output.print prompt
     yield if block_given?
 
-    collect_valid_input do |user_input|
-      validator.valid_yes_no_answer?(user_input, messages.valid_yes_no_reply)
-    end.downcase == messages.yes_reply
+    valid = collect_valid_input { |user_input| validator.valid_yes_no_answer?(user_input, messages.valid_yes_no_reply) }
+    valid.downcase == messages.yes_reply
   end
 
   def collect_valid_input

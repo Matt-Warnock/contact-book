@@ -10,7 +10,7 @@ require 'validator'
 RSpec.shared_examples 'a Pager' do |database_class, argument|
   let(:database) { argument ? database_class.new(argument) : database_class.new }
   let(:input) { StringIO.new }
-  let(:messages) { LanguageParser.new(Pathname.new('en.yml')).messages }
+  let(:messages) { LanguageParser.new('en.yml').messages }
   let(:output) { StringIO.new }
   let(:pager) { Pager.new(user_interface, database) }
   let(:user_interface) { UserInterface.new(input, output, validator, messages) }

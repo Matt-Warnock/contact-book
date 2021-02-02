@@ -4,7 +4,7 @@ require 'language_parser'
 require 'validator'
 
 RSpec.describe Validator do
-  let(:messages) { LanguageParser.new(Pathname.new('en.yml')).messages }
+  let(:messages) { LanguageParser.new('en.yml').messages }
   let(:validator) { described_class.new }
 
   describe '#valid_choice?' do
