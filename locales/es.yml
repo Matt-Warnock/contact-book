@@ -1,0 +1,47 @@
+actions_count: 6
+another_contact_prompt: '¿Añadir otro contacto? (s/n): '
+another_edit_prompt: '¿Actualizar otro campo? (s/n): '
+another_delete_prompt: '¿Eliminar otro contacto? (s/n): '
+another_search_prompt: '¿Buscar otra vez? (s/n): '
+another_update_prompt: '¿Actualizar otro contacto? (s/n): '
+clear_command: "\e[H\e[2J"
+contact_deleted_message: 'Contacto eliminado. '
+contact_index_prompt: 'Indice de contacto: '
+continue_message: 'Presiona cualquier tecla para continuar '
+delete_contact_prompt: '¿Quieres borrar este contacto? (s/n): '
+exit_choice: 6
+field_choice_prompt: '¿Qué campo del contacto deseas editar? '
+error_message: 'Valor incorrecto. Por favor inténtalo de nuevo: '
+no_contacts_message: No se encontró ningún contacto.
+search_message: 'Escribe un término de búsqueda: '
+menu_message: |
+
+    ----------------------
+
+     LIBRETA DE CONTACTOS
+
+    ----------------------
+
+
+    1) Listar contactos
+    2) Añadir contacto
+    3) Buscar contacto
+    4) Actualizar contacto
+    5) Eliminar contacto
+    6) Salir
+
+    Elige una opción:
+fields_to_display_names:
+  name: 'Nombre: '
+  address: 'Dirección: '
+  phone: 'Teléfono: '
+  email: 'Email: '
+  notes: 'Notas: '
+fields_to_prompts:
+  name: 'Nombre del contacto: '
+  address: 'Dirección del contacto: '
+  phone: 'Teléfono del contacto: '
+  email: 'Email del contacto: '
+  notes: 'Notas: '
+yes_reply: s
+valid_yes_no_reply: s|n
