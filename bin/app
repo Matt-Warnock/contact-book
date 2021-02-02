@@ -18,7 +18,7 @@ require 'updater'
 require 'user_interface'
 require 'validator'
 
-messages = LanguageParser.new('en.yml').messages
+messages = LanguageParser.new('locales/en.yml').messages
 
 file = File.new('contacts.json', 'a+')
 file_database = FileDatabase.new(file)

@@ -9,7 +9,7 @@ require 'validator'
 RSpec.describe Controler do
   let(:actions) { Array.new(messages.actions_count, NullAction.new) }
   let(:exit_choice) { messages.exit_choice }
-  let(:messages) { LanguageParser.new('en.yml').messages }
+  let(:messages) { LanguageParser.new('locales/en.yml').messages }
   let(:output) { StringIO.new }
 
   it 'prints the menu before the action is run and after unless exit is chosen' do

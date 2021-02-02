@@ -9,7 +9,7 @@ require 'validator'
 
 RSpec.shared_examples 'an Updater' do |database_class, argument|
   let(:database) { argument ? database_class.new(argument) : database_class.new }
-  let(:messages) { LanguageParser.new('en.yml').messages }
+  let(:messages) { LanguageParser.new('locales/en.yml').messages }
   let(:output) { StringIO.new }
   let(:quick_exit_responces) { "0\nname\nirrelevant\nn\nn\n" }
 

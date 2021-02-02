@@ -10,7 +10,7 @@ require 'validator'
 RSpec.shared_examples 'a Terminator' do |database_class, argument|
   describe '#run' do
     let(:database) { argument ? database_class.new(argument) : database_class.new }
-    let(:messages) { LanguageParser.new('en.yml').messages }
+    let(:messages) { LanguageParser.new('locales/en.yml').messages }
     let(:output) { StringIO.new }
     let(:delete_one_contact_input) { "0\ny\nn\n" }
     let(:delete_both_contacts_input) { "0\ny\ny\n0\ny\n" }
