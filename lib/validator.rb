@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
-require 'constants'
-
 class Validator
   def valid_choice?(option, max_choice)
     option.match?(/^[1-#{max_choice}]$/)
   end
 
-  def valid_yes_no_answer?(value)
-    value.match?(Constants::VALID_YES_NO_REPLY)
+  def valid_yes_no_answer?(value, valid_yes_no_reply)
+    value.match?(/^[#{valid_yes_no_reply}]$/i)
   end
 
   def valid_string?(string)
@@ -26,8 +24,8 @@ class Validator
     value.match?(/^\d{1,2}$/) && value.to_i < max_index
   end
 
-  def valid_field_name?(value)
-    Constants::FIELDS_TO_DISPLAY_NAMES.any? { |_, name| name.match?(/^#{value}\b/i) }
+  def valid_field_name?(value, fields_to_display_names)
+    fields_to_display_names.any? { |_, name| name.match?(/^#{value}\b/i) }
   end
 
   private

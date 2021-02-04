@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 require 'array_database'
-require 'constants'
 require 'file_database'
+require 'language_parser'
 require 'updater'
 require 'user_interface'
 require 'validator'
 
 RSpec.shared_examples 'an Updater' do |database_class, argument|
   let(:database) { argument ? database_class.new(argument) : database_class.new }
+  let(:messages) { LanguageParser.new('locales/en.yml').messages }
   let(:output) { StringIO.new }
   let(:quick_exit_responces) { "0\nname\nirrelevant\nn\nn\n" }
 
@@ -30,19 +31,19 @@ RSpec.shared_examples 'an Updater' do |database_class, argument|
     it 'displays that no contacts are found if database is empty' do
       run_updater_with_empty_database
 
-      expect(output.string).to include(Constants::NO_CONTACTS_MESSAGE)
+      expect(output.string).to include(messages.no_contacts_message)
     end
 
     it 'does not ask updating prompt if database is empty' do
       run_updater_with_empty_database
 
-      expect(output.string).to_not include(Constants::CONTACT_INDEX_PROMPT)
+      expect(output.string).to_not include(messages.contact_index_prompt)
     end
 
     it 'asks the user for a contact to update' do
       run_updater_with_input(quick_exit_responces)
 
-      expect(output.string).to include(Constants::CONTACT_INDEX_PROMPT)
+      expect(output.string).to include(messages.contact_index_prompt)
     end
 
     it 'prints contact to be edited' do
@@ -54,7 +55,7 @@ RSpec.shared_examples 'an Updater' do |database_class, argument|
     it 'asks the user which field it wants to update and the value for it' do
       run_updater_with_input(quick_exit_responces)
 
-      expect(output.string).to include(Constants::FIELD_CHOICE_PROMPT, Constants::FIELDS_TO_PROMPTS[:name])
+      expect(output.string).to include(messages.field_choice_prompt, messages.fields_to_prompts[:name])
     end
 
     it 'displays the contact with the data updated' do
@@ -66,32 +67,32 @@ RSpec.shared_examples 'an Updater' do |database_class, argument|
     it 'asks the user if they want to edit another field' do
       run_updater_with_input(quick_exit_responces)
 
-      expect(output.string).to include(Constants::ANOTHER_EDIT_PROMPT)
+      expect(output.string).to include(messages.another_edit_prompt)
     end
 
     it 'collects another field and value if they want to edit another field' do
       input = "0\nname\nirrelevant\ny\naddress\nirrelevant\nn\nn\n"
       run_updater_with_input(input)
 
-      expect(output.string.scan(Constants::FIELD_CHOICE_PROMPT).length).to eq(2)
+      expect(output.string.scan(messages.field_choice_prompt).length).to eq(2)
     end
 
     it 'asks if they want to edit another contact if they do not want to edit another field' do
       run_updater_with_input(quick_exit_responces)
 
-      expect(output.string).to include(Constants::ANOTHER_UPDATE_PROMPT)
+      expect(output.string).to include(messages.another_update_prompt)
     end
 
     it 'asks for another contact index if they want to edit another contact' do
       input = "0\nname\nirrelevant\ny\naddress\nirrelevant\nn\ny\n" + quick_exit_responces
       run_updater_with_input(input)
 
-      expect(output.string.scan(Constants::CONTACT_INDEX_PROMPT).length).to eq(2)
+      expect(output.string.scan(messages.contact_index_prompt).length).to eq(2)
     end
   end
 
   def run_updater_with_input(string)
-    user_interface = UserInterface.new(StringIO.new(string), output, Validator.new)
+    user_interface = UserInterface.new(StringIO.new(string), output, Validator.new, messages)
 
     database.create(test_details)
 
@@ -99,7 +100,7 @@ RSpec.shared_examples 'an Updater' do |database_class, argument|
   end
 
   def run_updater_with_empty_database
-    user_interface = UserInterface.new(StringIO.new("\n"), output, Validator.new)
+    user_interface = UserInterface.new(StringIO.new("\n"), output, Validator.new, messages)
 
     Updater.new(user_interface, database).run
   end

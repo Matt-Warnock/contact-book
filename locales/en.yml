@@ -1,0 +1,47 @@
+actions_count: 6
+another_contact_prompt: 'Add another contact? (y/n): '
+another_edit_prompt: 'Update another detail? (y/n): '
+another_delete_prompt: 'Delete another contact? (y/n): '
+another_search_prompt: 'Search again? (y/n): '
+another_update_prompt: 'Update another contact? (y/n): '
+clear_command: "\e[H\e[2J"
+contact_deleted_message: 'Contact was deleted. '
+contact_index_prompt: 'Enter contact index: '
+continue_message: 'Press any key to continue '
+delete_contact_prompt: 'Do you want to delete the contact below? (y/n): '
+exit_choice: 6
+field_choice_prompt: 'Which detail of the contact would you like to edit? '
+error_message: 'Wrong input. Please try again: '
+no_contacts_message: No contacts were found.
+search_message: 'Type search term: '
+menu_message: |
+
+    ---------------------
+
+        CONTACT BOOK
+
+    ---------------------
+
+
+    1) List contacts
+    2) Add contact
+    3) Search contact
+    4) Update contact
+    5) Delete contact
+    6) Exit the program
+
+    Choose a menu option:
+fields_to_display_names:
+  name: 'Name: '
+  address: 'Address: '
+  phone: 'Phone: '
+  email: 'Email: '
+  notes: 'Notes: '
+fields_to_prompts:
+  name: 'Contact name: '
+  address: 'Contact address: '
+  phone: 'Contact phone: '
+  email: 'Contact email: '
+  notes: 'Contact notes: '
+yes_reply: y
+valid_yes_no_reply: y|n

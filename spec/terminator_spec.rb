@@ -2,6 +2,7 @@
 
 require 'array_database'
 require 'file_database'
+require 'language_parser'
 require 'terminator'
 require 'user_interface'
 require 'validator'
@@ -9,6 +10,7 @@ require 'validator'
 RSpec.shared_examples 'a Terminator' do |database_class, argument|
   describe '#run' do
     let(:database) { argument ? database_class.new(argument) : database_class.new }
+    let(:messages) { LanguageParser.new('locales/en.yml').messages }
     let(:output) { StringIO.new }
     let(:delete_one_contact_input) { "0\ny\nn\n" }
     let(:delete_both_contacts_input) { "0\ny\ny\n0\ny\n" }
@@ -30,25 +32,25 @@ RSpec.shared_examples 'a Terminator' do |database_class, argument|
     it 'prints there is no contacts if the database is empty' do
       run_terminator_without_contacts
 
-      expect(output.string).to include(Constants::NO_CONTACTS_MESSAGE)
+      expect(output.string).to include(messages.no_contacts_message)
     end
 
     it 'asks the user to press any key to continue' do
       run_terminator_without_contacts
 
-      expect(output.string).to include(Constants::CONTINUE_MESSAGE)
+      expect(output.string).to include(messages.continue_message)
     end
 
     it 'exits if the database is empty' do
       run_terminator_without_contacts
 
-      expect(output.string).to_not include(Constants::CONTACT_INDEX_PROMPT)
+      expect(output.string).to_not include(messages.contact_index_prompt)
     end
 
     it 'asks user to choose a contact' do
       run_terminator_with_input(delete_one_contact_input)
 
-      expect(output.string).to include(Constants::CONTACT_INDEX_PROMPT)
+      expect(output.string).to include(messages.contact_index_prompt)
     end
 
     it 'prints the contact the user has chosen to delete' do
@@ -60,7 +62,7 @@ RSpec.shared_examples 'a Terminator' do |database_class, argument|
     it 'asks the user for confirmation to delete' do
       run_terminator_with_input(delete_one_contact_input)
 
-      expect(output.string).to include(Constants::DELETE_CONTACT_PROMPT)
+      expect(output.string).to include(messages.delete_contact_prompt)
     end
 
     it 'does not delete contact if user chooses not to delete' do
@@ -78,36 +80,36 @@ RSpec.shared_examples 'a Terminator' do |database_class, argument|
     it 'prints confirmation that contact was deleted if user chooses to delete' do
       run_terminator_with_input(delete_one_contact_input)
 
-      expect(output.string).to include(Constants::CONTACT_DELETED_MESSAGE)
+      expect(output.string).to include(messages.contact_deleted_message)
     end
 
     it 'asks the user if they would like to delete another contact' do
       run_terminator_with_input(delete_one_contact_input)
 
-      expect(output.string).to include(Constants::ANOTHER_DELETE_PROMPT)
+      expect(output.string).to include(messages.another_delete_prompt)
     end
 
     it 'displays no contacts message if user wants to delete another contact and the database is empty' do
       run_terminator_with_input(delete_both_contacts_input + "y\n")
 
-      expect(output.string).to include(Constants::NO_CONTACTS_MESSAGE)
+      expect(output.string).to include(messages.no_contacts_message)
     end
 
     it 'asks the user for another contact index if they want to delete another contact' do
       run_terminator_with_input(delete_both_contacts_input + "n\n")
 
-      expect(output.string.scan(Constants::CONTACT_INDEX_PROMPT).length).to eq(2)
+      expect(output.string.scan(messages.contact_index_prompt).length).to eq(2)
     end
 
     it 'exits if they no not want to delete another contact' do
       run_terminator_with_input(delete_one_contact_input)
 
-      expect(output.string.scan(Constants::CONTACT_INDEX_PROMPT).length).to eq(1)
+      expect(output.string.scan(messages.contact_index_prompt).length).to eq(1)
     end
   end
 
   def run_terminator_with_input(input)
-    user_interface = UserInterface.new(StringIO.new(input), output, Validator.new)
+    user_interface = UserInterface.new(StringIO.new(input), output, Validator.new, messages)
 
     database.create(test_details)
     database.create(second_contact)
@@ -116,7 +118,7 @@ RSpec.shared_examples 'a Terminator' do |database_class, argument|
   end
 
   def run_terminator_without_contacts
-    user_interface = UserInterface.new(StringIO.new, output, Validator.new)
+    user_interface = UserInterface.new(StringIO.new, output, Validator.new, messages)
 
     Terminator.new(user_interface, database).run
   end

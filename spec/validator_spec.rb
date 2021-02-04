@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+require 'language_parser'
 require 'validator'
 
 RSpec.describe Validator do
+  let(:messages) { LanguageParser.new('locales/en.yml').messages }
   let(:validator) { described_class.new }
 
   describe '#valid_choice?' do
@@ -53,11 +55,13 @@ RSpec.describe Validator do
 
   describe '#valid_yes_no_answer?' do
     it 'returns true on a valid yes or no reponse by user' do
-      expect(validator.valid_yes_no_answer?(Constants::YES_REPLY)).to eq(true)
+      result = validator.valid_yes_no_answer?(messages.yes_reply, messages.valid_yes_no_reply)
+      expect(result).to eq(true)
     end
 
     it 'returns false on an invalid reponse by user' do
-      expect(validator.valid_yes_no_answer?('tomato')).to eq(false)
+      result = validator.valid_yes_no_answer?('tomato', messages.valid_yes_no_reply)
+      expect(result).to eq(false)
     end
   end
 
@@ -87,11 +91,15 @@ RSpec.describe Validator do
 
   describe '#valid_field_name?' do
     it 'returns true on a vaild case insenitive field name spelling' do
-      expect(validator.valid_field_name?('PHONE')).to eq(true)
+      result = validator.valid_field_name?('PHONE', messages.fields_to_display_names.to_h)
+
+      expect(result).to eq(true)
     end
 
     it 'returns false on incorrect field name spelling' do
-      expect(validator.valid_field_name?('telephone')).to eq(false)
+      result = validator.valid_field_name?('telephone', messages.fields_to_display_names.to_h)
+
+      expect(result).to eq(false)
     end
   end
 end
