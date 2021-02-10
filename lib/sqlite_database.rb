@@ -18,6 +18,15 @@ class SQLiteDatabase < DatabaseInterface
     contacts
   end
 
+  def database_empty?
+    all.empty?
+  end
+
+  def create(contact)
+    db.execute('INSERT INTO contacts (name, address, phone, email, notes)
+                VALUES (?, ?, ?, ?, ?)', contact.values)
+  end
+
   private
 
   attr_reader :db

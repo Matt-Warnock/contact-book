@@ -32,27 +32,29 @@ RSpec.describe SQLiteDatabase do
   end
 
   describe '#database_empty?' do
-    xit 'returns false when contacts are present' do
+    it 'returns false when contacts are present' do
       add_contact_to_file(test_details)
 
       expect(database.database_empty?).to eq(false)
     end
 
-    xit 'returns true when no contacts are present' do
+    it 'returns true when no contacts are present' do
       expect(database.database_empty?).to eq(true)
     end
   end
 
   describe '#create' do
-    xit 'adds a contact to the sql file' do
+    it 'adds a contact to the sql file' do
       database.create(test_details)
 
-      result = file.execute 'SELECT * FROM contacts'
+      result = file.query 'SELECT * FROM contacts' do |table|
+        table.next_hash.transform_keys(&:to_sym)
+      end
 
       expect(result).to eq(test_details)
     end
 
-    xit 'appends contacts to file' do
+    it 'appends contacts to file' do
       database.create({ name: 'Matt' })
       database.create({ name: 'John' })
 
