@@ -47,8 +47,8 @@ RSpec.describe SQLiteDatabase do
     it 'adds a contact to the sql file' do
       database.create(test_details)
 
-      result = file.query 'SELECT * FROM contacts' do |table|
-        table.next_hash.transform_keys(&:to_sym)
+      result = file.query 'SELECT * FROM contacts' do |row|
+        row.next_hash.transform_keys(&:to_sym)
       end
 
       expect(result).to eq(test_details)
@@ -63,20 +63,20 @@ RSpec.describe SQLiteDatabase do
   end
 
   describe '#count' do
-    xit 'returns the size of file array as a number' do
+    it 'returns the number of contacts in file as a number' do
       add_contact_to_file(test_details)
       add_contact_to_file(second_contact)
 
       expect(database.count).to eq(2)
     end
 
-    xit 'returns zero integer when array is empty' do
+    it 'returns zero integer when file is empty' do
       expect(database.count).to eq(0)
     end
   end
 
   describe '#contact_at' do
-    xit 'takes an index and returns the contact in that index' do
+    it 'takes an index and returns the contact in that index' do
       add_contact_to_file(test_details)
       add_contact_to_file(second_contact)
 

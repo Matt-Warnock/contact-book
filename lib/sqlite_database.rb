@@ -12,8 +12,8 @@ class SQLiteDatabase < DatabaseInterface
 
   def all
     contacts = []
-    db.query 'SELECT * FROM contacts' do |table|
-      table.each_hash { |contact| contacts << contact.transform_keys(&:to_sym) }
+    db.query 'SELECT * FROM contacts' do |row|
+      row.each_hash { |contact| contacts << contact.transform_keys(&:to_sym) }
     end
     contacts
   end
@@ -25,6 +25,16 @@ class SQLiteDatabase < DatabaseInterface
   def create(contact)
     db.execute('INSERT INTO contacts (name, address, phone, email, notes)
                 VALUES (?, ?, ?, ?, ?)', contact.values)
+  end
+
+  def count
+    all.length
+  end
+
+  def contact_at(index)
+    db.query('SELECT * FROM contacts WHERE rowid = ?', (index + 1)) do |row|
+      row.next_hash.transform_keys(&:to_sym)
+    end
   end
 
   private
