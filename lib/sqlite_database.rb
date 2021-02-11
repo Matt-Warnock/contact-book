@@ -23,8 +23,8 @@ class SQLiteDatabase < DatabaseInterface
   end
 
   def create(contact)
-    db.execute('INSERT INTO contacts (name, address, phone, email, notes)
-                VALUES (?, ?, ?, ?, ?)', contact.values)
+    row = contact.values_at(:name, :address, :phone, :email, :notes)
+    db.execute('INSERT INTO contacts VALUES (?, ?, ?, ?, ?)', row)
   end
 
   def count

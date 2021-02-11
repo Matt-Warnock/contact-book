@@ -134,8 +134,8 @@ RSpec.describe SQLiteDatabase do
   end
 
   def add_contact_to_file(contact)
-    file.execute('INSERT INTO contacts (name, address, phone, email, notes)
-                  VALUES (?, ?, ?, ?, ?)', contact.values)
+    row = contact.values_at(:name, :address, :phone, :email, :notes)
+    file.execute('INSERT INTO contacts VALUES (?, ?, ?, ?, ?)', row)
   end
 
   def test_details
