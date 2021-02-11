@@ -91,7 +91,7 @@ RSpec.describe SQLiteDatabase do
   end
 
   describe '#delete' do
-    xit 'deletes contact in index from file' do
+    it 'deletes contact in index from file' do
       add_contact_to_file(test_details)
       add_contact_to_file(second_contact)
 
@@ -102,7 +102,7 @@ RSpec.describe SQLiteDatabase do
   end
 
   describe '#search' do
-    xit 'returns any contacts that matches string given' do
+    it 'returns any contacts that matches string given' do
       third_contact = {
         name: 'Matt Camron',
         address: 'Seattle',
@@ -120,7 +120,7 @@ RSpec.describe SQLiteDatabase do
       expect(result).to eq([test_details, second_contact])
     end
 
-    xit 'returns an empty array when no matches are found' do
+    it 'returns an empty array when no matches are found' do
       add_contact_to_file(test_details)
 
       result = database.search('irrelevant')

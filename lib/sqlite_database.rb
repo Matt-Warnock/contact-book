@@ -46,7 +46,27 @@ class SQLiteDatabase < DatabaseInterface
     end
   end
 
+  def delete(index)
+    db.execute('DELETE FROM contacts WHERE rowid = ?', index + 1)
+  end
+
+  def search(term)
+    query_results_to_hash_array(''"SELECT * FROM contacts WHERE name LIKE '%#{term}%' OR
+                                                                address LIKE '%#{term}%' OR
+                                                                phone LIKE '%#{term}%' OR
+                                                                email LIKE '%#{term}%' OR
+                                                                notes LIKE '%#{term}%';"'')
+  end
+
   private
+
+  def query_results_to_hash_array(sql)
+    contacts = []
+    db.query sql do |row|
+      row.each_hash { |contact| contacts << contact.transform_keys(&:to_sym) }
+    end
+    contacts
+  end
 
   attr_reader :db
 end
