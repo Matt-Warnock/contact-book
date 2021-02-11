@@ -6,8 +6,11 @@ require 'sqlite3'
 class SQLiteDatabase < DatabaseInterface
   def initialize(file_path)
     @db = SQLite3::Database.new(file_path)
-    db.execute 'CREATE TABLE IF NOT EXISTS contacts
-                (name TEXT, address TEXT, phone TEXT, email TEXT, notes TEXT);'
+    db.execute 'CREATE TABLE IF NOT EXISTS contacts(name VARCHAR(10) NOT NULL,
+                                                    address VARCHAR(30),
+                                                    phone VARCHAR(11),
+                                                    email VARCHAR(15) UNIQUE,
+                                                    notes VARCHAR(50));'
   end
 
   def all
