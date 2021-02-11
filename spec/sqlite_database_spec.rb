@@ -6,11 +6,7 @@ RSpec.describe SQLiteDatabase do
   let(:database) { described_class.new('file::memory:?cache=shared') }
   let(:file) { SQLite3::Database.open('file::memory:?cache=shared') }
 
-  before(:each) do
-    file.execute 'CREATE TABLE IF NOT EXISTS contacts
-                  (name TEXT, address TEXT, phone TEXT, email TEXT, notes TEXT);'
-  end
-
+  before(:each) { database }
   after(:each) { file.execute 'DROP TABLE contacts' }
 
   describe '#all' do
