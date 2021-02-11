@@ -14,11 +14,7 @@ class SQLiteDatabase < DatabaseInterface
   end
 
   def all
-    contacts = []
-    db.query 'SELECT * FROM contacts' do |row|
-      row.each_hash { |contact| contacts << contact.transform_keys(&:to_sym) }
-    end
-    contacts
+    query_results_to_hash_array('SELECT * FROM contacts')
   end
 
   def database_empty?
