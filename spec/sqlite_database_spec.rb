@@ -81,7 +81,7 @@ RSpec.describe SQLiteDatabase do
   end
 
   describe '#update' do
-    xit 'updates the indexed contact in file with a feild/value pair provided' do
+    it 'updates the indexed contact in file with a feild/value pair provided' do
       add_contact_to_file(test_details)
 
       database.update(0, { name: 'John' })

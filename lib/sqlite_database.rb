@@ -40,6 +40,12 @@ class SQLiteDatabase < DatabaseInterface
     end
   end
 
+  def update(index, new_data)
+    new_data.each do |key, value|
+      db.execute(''"UPDATE contacts SET #{key} = ? WHERE rowid = ?;"'', [value, index + 1])
+    end
+  end
+
   private
 
   attr_reader :db
