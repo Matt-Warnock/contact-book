@@ -6,7 +6,8 @@ require 'sqlite3'
 class SQLiteDatabase < DatabaseInterface
   def initialize(file_path)
     @db = SQLite3::Database.new(file_path)
-    db.execute 'CREATE TABLE IF NOT EXISTS contacts(name VARCHAR(10) NOT NULL,
+    db.execute 'CREATE TABLE IF NOT EXISTS contacts(id INTEGER PRIMARY KEY,
+                                                    name VARCHAR(10) NOT NULL,
                                                     address VARCHAR(30),
                                                     phone VARCHAR(11),
                                                     email VARCHAR(15) UNIQUE,
@@ -23,7 +24,8 @@ class SQLiteDatabase < DatabaseInterface
 
   def create(contact)
     row = contact.values_at(:name, :address, :phone, :email, :notes)
-    db.execute('INSERT INTO contacts VALUES (?, ?, ?, ?, ?)', row)
+    db.execute('INSERT INTO contacts(name, address, phone, email, notes)
+                VALUES(?, ?, ?, ?, ?)', row)
   end
 
   def count
@@ -31,19 +33,19 @@ class SQLiteDatabase < DatabaseInterface
   end
 
   def contact_at(index)
-    db.query('SELECT * FROM contacts WHERE rowid = ?', (index + 1)) do |row|
+    db.query('SELECT * FROM contacts WHERE id = ?', index_to_id(index)) do |row|
       row.next_hash.transform_keys(&:to_sym)
     end
   end
 
   def update(index, new_data)
     new_data.each do |key, value|
-      db.execute(''"UPDATE contacts SET #{key} = ? WHERE rowid = ?;"'', [value, index + 1])
+      db.execute(''"UPDATE contacts SET #{key} = ? WHERE id = ?;"'', [value, index_to_id(index)])
     end
   end
 
   def delete(index)
-    db.execute('DELETE FROM contacts WHERE rowid = ?', index + 1)
+    db.execute('DELETE FROM contacts WHERE id = ?', index_to_id(index))
   end
 
   def search(term)
@@ -55,6 +57,10 @@ class SQLiteDatabase < DatabaseInterface
   end
 
   private
+
+  def index_to_id(index)
+    all[index][:id]
+  end
 
   def query_results_to_hash_array(sql)
     contacts = []

@@ -78,6 +78,15 @@ RSpec.describe SQLiteDatabase do
 
       expect(database.contact_at(0)).to eq(test_details)
     end
+
+    it 'returns correct contact when order in contacts has changed' do
+      add_contact_to_file(test_details)
+      add_contact_to_file(second_contact)
+
+      database.delete(0)
+
+      expect(database.contact_at(0)).to eq(second_contact)
+    end
   end
 
   describe '#update' do
@@ -131,11 +140,13 @@ RSpec.describe SQLiteDatabase do
 
   def add_contact_to_file(contact)
     row = contact.values_at(:name, :address, :phone, :email, :notes)
-    file.execute('INSERT INTO contacts VALUES (?, ?, ?, ?, ?)', row)
+    file.execute('INSERT INTO contacts(name, address, phone, email, notes)
+                  VALUES (?, ?, ?, ?, ?)', row)
   end
 
   def test_details
     {
+      id: 1,
       name: 'Matt Damon',
       address: 'Some address',
       phone: '08796564231',
@@ -146,6 +157,7 @@ RSpec.describe SQLiteDatabase do
 
   def second_contact
     {
+      id: 2,
       name: 'oscar wilde',
       address: 'Paris',
       phone: '00000000000',
