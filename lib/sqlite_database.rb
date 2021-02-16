@@ -10,7 +10,7 @@ class SQLiteDatabase < DatabaseInterface
                                                     name VARCHAR(10) NOT NULL,
                                                     address VARCHAR(30),
                                                     phone VARCHAR(11),
-                                                    email VARCHAR(15) UNIQUE,
+                                                    email VARCHAR(15),
                                                     notes VARCHAR(50));'
   end
 
@@ -23,6 +23,7 @@ class SQLiteDatabase < DatabaseInterface
   end
 
   def create(contact)
+    contact.default = ''
     row = contact.values_at(:name, :address, :phone, :email, :notes)
     db.execute('INSERT INTO contacts(name, address, phone, email, notes)
                 VALUES(?, ?, ?, ?, ?)', row)
