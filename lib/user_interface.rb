@@ -26,7 +26,7 @@ class UserInterface # rubocop:disable Metrics/ClassLength
 
     output.print "\n"
     contact.each do |field, value|
-      output.puts display_names[field].ljust(longest_display_name.length) + value
+      output.puts display_names[field].ljust(longest_display_name.length) + value unless field == :id
     end
   end
 

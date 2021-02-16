@@ -98,6 +98,8 @@ RSpec.describe UserInterface do
   end
 
   describe '#display_contact' do
+    before(:each) { test_details[:id] = 1 }
+
     it 'prints an empty line then all fields of a contact hash' do
       input = StringIO.new
       ui = described_class.new(input, output, validator, messages)
@@ -274,6 +276,7 @@ Notes:   I think he has an Oscar
 
   describe '#choose_contact' do
     let(:input) { StringIO.new("0\n") }
+    before(:each) { test_details[:id] = 1 }
 
     it 'prints all the contacts with an index' do
       ui = described_class.new(input, output, validator, messages)
@@ -428,6 +431,8 @@ Notes:   I think he has an Oscar
   end
 
   describe '#delete?' do
+    before(:each) { test_details[:id] = 1 }
+
     it 'prints a prompt to user asking if they want to delete the contact' do
       input = StringIO.new(yes_reply)
       ui = described_class.new(input, output, validator, messages)
