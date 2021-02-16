@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'yaml'
+require 'json'
 
 class LanguageParser
   def initialize(file_path)
