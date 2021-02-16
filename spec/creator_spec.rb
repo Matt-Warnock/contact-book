@@ -3,6 +3,7 @@
 require 'array_database'
 require 'creator'
 require 'file_database'
+require 'sqlite_database'
 
 RSpec.shared_examples 'a Creator' do |database_class, argument|
   describe '#run' do
@@ -16,14 +17,14 @@ RSpec.shared_examples 'a Creator' do |database_class, argument|
     end
 
     after(:each) do
-      if argument
+      if argument.instance_of?(Tempfile)
         argument.truncate(0)
         argument.rewind
       end
     end
 
     after(:all) do
-      if argument
+      if argument.instance_of?(Tempfile)
         argument.close
         argument.unlink
       end
@@ -38,7 +39,7 @@ RSpec.shared_examples 'a Creator' do |database_class, argument|
     it 'tells the database to add the contact returned by the UI' do
       creator.run
 
-      expect(database.all.first).to eq(test_details)
+      expect(database.all.first).to include(test_details)
     end
 
     it 'tells the user interface to display the contact that was added' do
@@ -55,6 +56,7 @@ RSpec.shared_examples 'a Creator' do |database_class, argument|
 
     it 'repeats the previous steps if the user wants to add another contact' do
       allow(ui).to receive(:add_another_contact?).and_return(true, false)
+      allow(ui).to receive(:ask_for_fields).and_return(test_details, second_contact)
 
       creator.run
 
@@ -75,6 +77,16 @@ RSpec.shared_examples 'a Creator' do |database_class, argument|
       notes: 'I think he has an Oscar'
     }
   end
+
+  def second_contact
+    {
+      name: 'oscar wilde',
+      address: 'Paris',
+      phone: '00000000000',
+      email: 'oscar@wilde.com',
+      notes: 'I think he has an oscar'
+    }
+  end
 end
 
 RSpec.describe 'with Array Database' do
@@ -83,4 +95,8 @@ end
 
 RSpec.describe 'with File Database' do
   it_behaves_like 'a Creator', [FileDatabase, Tempfile.new('test')]
+end
+
+RSpec.describe 'with sqlite3 database' do
+  it_behaves_like 'a Creator', [SQLiteDatabase, ':memory:']
 end
