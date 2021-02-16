@@ -13,6 +13,7 @@ require 'language_parser'
 require 'null_action'
 require 'pager'
 require 'pathname'
+require 'sqlite_database'
 require 'terminator'
 require 'updater'
 require 'user_interface'
@@ -20,18 +21,16 @@ require 'validator'
 
 messages = LanguageParser.new('locales/en.yml').messages
 
-file = File.new('contacts.json', 'a+')
-file_database = FileDatabase.new(file)
+sql_database = SQLiteDatabase.new('contacts.db')
 
 user_interface = UserInterface.new($stdin, $stdout, Validator.new, messages)
 actions = [
-  Pager.new(user_interface, file_database),
-  Creator.new(user_interface, file_database),
-  Finder.new(user_interface, file_database),
-  Updater.new(user_interface, file_database),
-  Terminator.new(user_interface, file_database),
+  Pager.new(user_interface, sql_database),
+  Creator.new(user_interface, sql_database),
+  Finder.new(user_interface, sql_database),
+  Updater.new(user_interface, sql_database),
+  Terminator.new(user_interface, sql_database),
   NullAction.new
 ]
 
 Controler.new(user_interface, actions, messages).start
-file.close
