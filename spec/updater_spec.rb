@@ -3,6 +3,7 @@
 require 'array_database'
 require 'file_database'
 require 'language_parser'
+require 'sqlite_database'
 require 'updater'
 require 'user_interface'
 require 'validator'
@@ -14,14 +15,14 @@ RSpec.shared_examples 'an Updater' do |database_class, argument|
   let(:quick_exit_responces) { "0\nname\nirrelevant\nn\nn\n" }
 
   after(:each) do
-    if argument
+    if argument.instance_of?(Tempfile)
       argument.truncate(0)
       argument.rewind
     end
   end
 
   after(:all) do
-    if argument
+    if argument.instance_of?(Tempfile)
       argument.close
       argument.unlink
     end
@@ -122,4 +123,8 @@ end
 
 RSpec.describe 'with File Database' do
   it_behaves_like 'an Updater', [FileDatabase, Tempfile.new('test')]
+end
+
+RSpec.describe 'with SQLite3 Database' do
+  it_behaves_like 'an Updater', [SQLiteDatabase, ':memory:']
 end
