@@ -6,12 +6,7 @@ require 'sqlite3'
 class SQLiteDatabase < DatabaseInterface
   def initialize(file_path)
     @db = SQLite3::Database.new(file_path)
-    db.execute 'CREATE TABLE IF NOT EXISTS contacts(id INTEGER PRIMARY KEY,
-                                                    name VARCHAR(10) NOT NULL,
-                                                    address VARCHAR(30),
-                                                    phone VARCHAR(11),
-                                                    email VARCHAR(15),
-                                                    notes VARCHAR(50));'
+    create_table
   end
 
   def all
@@ -40,9 +35,9 @@ class SQLiteDatabase < DatabaseInterface
   end
 
   def update(index, new_data)
-    new_data.each do |key, value|
-      db.execute(''"UPDATE contacts SET #{key} = ? WHERE id = ?;"'', [value, index_to_id(index)])
-    end
+    db.execute("UPDATE contacts
+                SET #{new_data.keys.first} = ?
+                WHERE id = ?;", [new_data.values.first, index_to_id(index)])
   end
 
   def delete(index)
@@ -50,14 +45,27 @@ class SQLiteDatabase < DatabaseInterface
   end
 
   def search(term)
-    query_results_to_hash_array(''"SELECT * FROM contacts WHERE name LIKE '%#{term}%' OR
-                                                                address LIKE '%#{term}%' OR
-                                                                phone LIKE '%#{term}%' OR
-                                                                email LIKE '%#{term}%' OR
-                                                                notes LIKE '%#{term}%';"'')
+    query_results_to_hash_array("SELECT *
+                                 FROM contacts
+                                 WHERE name LIKE '%#{term}%'
+                                 OR address LIKE '%#{term}%'
+                                 OR phone LIKE '%#{term}%'
+                                 OR email LIKE '%#{term}%'
+                                 OR notes LIKE '%#{term}%';")
   end
 
   private
+
+  def create_table
+    db.execute 'CREATE TABLE IF NOT EXISTS contacts(
+      id INTEGER PRIMARY KEY,
+      name VARCHAR(10) NOT NULL,
+      address VARCHAR(30),
+      phone VARCHAR(11),
+      email VARCHAR(15),
+      notes VARCHAR(50)
+      );'
+  end
 
   def index_to_id(index)
     all[index][:id]
@@ -65,8 +73,8 @@ class SQLiteDatabase < DatabaseInterface
 
   def query_results_to_hash_array(sql)
     contacts = []
-    db.query sql do |row|
-      row.each_hash { |contact| contacts << contact.transform_keys(&:to_sym) }
+    db.query sql do |rows|
+      rows.each_hash { |contact| contacts << contact.transform_keys(&:to_sym) }
     end
     contacts
   end

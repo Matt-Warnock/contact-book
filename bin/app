@@ -21,15 +21,15 @@ require 'validator'
 
 messages = LanguageParser.new('locales/en.yml').messages
 
-sql_database = SQLiteDatabase.new('contacts.db')
+database = SQLiteDatabase.new('contacts.db')
 
 user_interface = UserInterface.new($stdin, $stdout, Validator.new, messages)
 actions = [
-  Pager.new(user_interface, sql_database),
-  Creator.new(user_interface, sql_database),
-  Finder.new(user_interface, sql_database),
-  Updater.new(user_interface, sql_database),
-  Terminator.new(user_interface, sql_database),
+  Pager.new(user_interface, database),
+  Creator.new(user_interface, database),
+  Finder.new(user_interface, database),
+  Updater.new(user_interface, database),
+  Terminator.new(user_interface, database),
   NullAction.new
 ]
 

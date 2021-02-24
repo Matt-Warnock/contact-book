@@ -4,10 +4,10 @@ require 'sqlite_database'
 
 RSpec.describe SQLiteDatabase do
   let(:database) { described_class.new('file::memory:?cache=shared') }
-  let(:file) { SQLite3::Database.open('file::memory:?cache=shared') }
+  let(:sqlite) { SQLite3::Database.open('file::memory:?cache=shared') }
 
   before(:each) { database }
-  after(:each) { file.execute 'DROP TABLE contacts' }
+  after(:each) { sqlite.execute 'DROP TABLE contacts' }
 
   describe '#all' do
     it 'return an empty array if invalid file path is given' do
@@ -15,7 +15,7 @@ RSpec.describe SQLiteDatabase do
       expect(database.all).to eq([])
     end
 
-    it 'returns all contacts in a sqlite file as array of hashs' do
+    it 'returns all contacts in a sqlite database as array of hashs' do
       add_contact_to_file(test_details)
       add_contact_to_file(second_contact)
 
@@ -43,8 +43,8 @@ RSpec.describe SQLiteDatabase do
     it 'adds a contact to the sql file' do
       database.create(test_details)
 
-      result = file.query 'SELECT * FROM contacts' do |row|
-        row.next_hash.transform_keys(&:to_sym)
+      result = sqlite.query 'SELECT * FROM contacts' do |rows|
+        rows.next_hash.transform_keys(&:to_sym)
       end
 
       expect(result).to eq(test_details)
@@ -140,7 +140,7 @@ RSpec.describe SQLiteDatabase do
 
   def add_contact_to_file(contact)
     row = contact.values_at(:name, :address, :phone, :email, :notes)
-    file.execute('INSERT INTO contacts(name, address, phone, email, notes)
+    sqlite.execute('INSERT INTO contacts(name, address, phone, email, notes)
                   VALUES (?, ?, ?, ?, ?)', row)
   end
 
