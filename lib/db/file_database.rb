@@ -4,7 +4,7 @@ require 'db/database_interface'
 require 'json'
 
 module DB
-  class FileDatabase < DB::DatabaseInterface
+  class FileDatabase < DatabaseInterface
     def initialize(file)
       @file = file
     end

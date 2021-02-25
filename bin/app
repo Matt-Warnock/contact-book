@@ -23,14 +23,14 @@ messages = CLI::LanguageParser.new('locales/en.yml').messages
 
 database = DB::SQLiteDatabase.new('contacts.db')
 
-user_interface = CLI::UserInterface.new($stdin, $stdout, CLI::Validator.new, messages)
+user_interface = CLI::UserInterface.new($stdin, $stdout, Validator.new, messages)
 actions = [
-  Actions::Pager.new(user_interface, database),
-  Actions::Creator.new(user_interface, database),
-  Actions::Finder.new(user_interface, database),
-  Actions::Updater.new(user_interface, database),
-  Actions::Terminator.new(user_interface, database),
-  Actions::NullAction.new
+  Pager.new(user_interface, database),
+  Creator.new(user_interface, database),
+  Finder.new(user_interface, database),
+  Updater.new(user_interface, database),
+  Terminator.new(user_interface, database),
+  NullAction.new
 ]
 
 Actions::Controler.new(user_interface, actions, messages).start

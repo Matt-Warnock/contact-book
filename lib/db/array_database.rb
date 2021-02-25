@@ -3,7 +3,7 @@
 require 'db/database_interface'
 
 module DB
-  class ArrayDatabase < DB::DatabaseInterface
+  class ArrayDatabase < DatabaseInterface
     attr_reader :all
 
     def initialize

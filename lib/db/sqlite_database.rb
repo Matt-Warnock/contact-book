@@ -4,7 +4,7 @@ require 'db/database_interface'
 require 'sqlite3'
 
 module DB
-  class SQLiteDatabase < DB::DatabaseInterface
+  class SQLiteDatabase < DatabaseInterface
     def initialize(file_path)
       @db = SQLite3::Database.new(file_path)
       create_table
