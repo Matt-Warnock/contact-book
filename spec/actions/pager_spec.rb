@@ -8,7 +8,7 @@ require 'db/sqlite_database'
 require 'cli/user_interface'
 require 'cli/validator'
 
-RSpec.shared_examples 'a Actions::Pager' do |database_class, argument|
+RSpec.shared_examples 'a Pager' do |database_class, argument|
   let(:database) { argument ? database_class.new(argument) : database_class.new }
   let(:input) { StringIO.new }
   let(:messages) { CLI::LanguageParser.new('locales/en.yml').messages }
@@ -113,13 +113,13 @@ RSpec.shared_examples 'a Actions::Pager' do |database_class, argument|
 end
 
 RSpec.describe 'with Array Database' do
-  it_behaves_like 'a Actions::Pager', [DB::ArrayDatabase, nil]
+  it_behaves_like 'a Pager', [DB::ArrayDatabase, nil]
 end
 
 RSpec.describe 'with File Database' do
-  it_behaves_like 'a Actions::Pager', [DB::FileDatabase, Tempfile.new('test')]
+  it_behaves_like 'a Pager', [DB::FileDatabase, Tempfile.new('test')]
 end
 
 RSpec.describe 'with SQLite3 Database' do
-  it_behaves_like 'a Actions::Pager', [DB::SQLiteDatabase, ':memory:']
+  it_behaves_like 'a Pager', [DB::SQLiteDatabase, ':memory:']
 end
