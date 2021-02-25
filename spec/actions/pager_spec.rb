@@ -2,20 +2,20 @@
 
 require 'db/array_database'
 require 'db/file_database'
-require 'language_parser'
+require 'cli/language_parser'
 require 'actions/pager'
 require 'db/sqlite_database'
-require 'user_interface'
-require 'validator'
+require 'cli/user_interface'
+require 'cli/validator'
 
 RSpec.shared_examples 'a Actions::Pager' do |database_class, argument|
   let(:database) { argument ? database_class.new(argument) : database_class.new }
   let(:input) { StringIO.new }
-  let(:messages) { LanguageParser.new('locales/en.yml').messages }
+  let(:messages) { CLI::LanguageParser.new('locales/en.yml').messages }
   let(:output) { StringIO.new }
   let(:pager) { Actions::Pager.new(user_interface, database) }
-  let(:user_interface) { UserInterface.new(input, output, validator, messages) }
-  let(:validator) { Validator.new }
+  let(:user_interface) { CLI::UserInterface.new(input, output, validator, messages) }
+  let(:validator) { CLI::Validator.new }
 
   after(:each) do
     if argument.instance_of?(Tempfile)

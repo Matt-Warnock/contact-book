@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'language_parser'
+require 'cli/language_parser'
 
-RSpec.describe LanguageParser do
+RSpec.describe CLI::LanguageParser do
   describe '#messages' do
     let(:file) { Tempfile.new(['test', '.yml']) }
     let(:data) do

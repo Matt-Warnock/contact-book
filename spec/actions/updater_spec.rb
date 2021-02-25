@@ -5,8 +5,8 @@ require 'db/file_database'
 require 'cli/language_parser'
 require 'db/sqlite_database'
 require 'actions/updater'
-require 'user_interface'
-require 'validator'
+require 'cli/user_interface'
+require 'cli/validator'
 
 RSpec.shared_examples 'an Actions::Updater' do |database_class, argument|
   let(:database) { argument ? database_class.new(argument) : database_class.new }
@@ -93,7 +93,7 @@ RSpec.shared_examples 'an Actions::Updater' do |database_class, argument|
   end
 
   def run_updater_with_input(string)
-    user_interface = UserInterface.new(StringIO.new(string), output, Validator.new, messages)
+    user_interface = CLI::UserInterface.new(StringIO.new(string), output, CLI::Validator.new, messages)
 
     database.create(test_details)
 
@@ -101,7 +101,7 @@ RSpec.shared_examples 'an Actions::Updater' do |database_class, argument|
   end
 
   def run_updater_with_empty_database
-    user_interface = UserInterface.new(StringIO.new("\n"), output, Validator.new, messages)
+    user_interface = CLI::UserInterface.new(StringIO.new("\n"), output, CLI::Validator.new, messages)
 
     Actions::Updater.new(user_interface, database).run
   end

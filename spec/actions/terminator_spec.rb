@@ -2,16 +2,16 @@
 
 require 'db/array_database'
 require 'db/file_database'
-require 'language_parser'
+require 'cli/language_parser'
 require 'actions/terminator'
 require 'db/sqlite_database'
-require 'user_interface'
-require 'validator'
+require 'cli/user_interface'
+require 'cli/validator'
 
 RSpec.shared_examples 'a Actions::Terminator' do |database_class, argument|
   describe '#run' do
     let(:database) { argument ? database_class.new(argument) : database_class.new }
-    let(:messages) { LanguageParser.new('locales/en.yml').messages }
+    let(:messages) { CLI::LanguageParser.new('locales/en.yml').messages }
     let(:output) { StringIO.new }
     let(:delete_one_contact_input) { "0\ny\nn\n" }
     let(:delete_both_contacts_input) { "0\ny\ny\n0\ny\n" }
@@ -110,7 +110,7 @@ RSpec.shared_examples 'a Actions::Terminator' do |database_class, argument|
   end
 
   def run_terminator_with_input(input)
-    user_interface = UserInterface.new(StringIO.new(input), output, Validator.new, messages)
+    user_interface = CLI::UserInterface.new(StringIO.new(input), output, CLI::Validator.new, messages)
 
     database.create(test_details)
     database.create(second_contact)
@@ -119,7 +119,7 @@ RSpec.shared_examples 'a Actions::Terminator' do |database_class, argument|
   end
 
   def run_terminator_without_contacts
-    user_interface = UserInterface.new(StringIO.new, output, Validator.new, messages)
+    user_interface = CLI::UserInterface.new(StringIO.new, output, CLI::Validator.new, messages)
 
     Actions::Terminator.new(user_interface, database).run
   end

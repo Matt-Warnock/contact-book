@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'language_parser'
-require 'validator'
+require 'cli/language_parser'
+require 'cli/validator'
 
-RSpec.describe Validator do
-  let(:messages) { LanguageParser.new('locales/en.yml').messages }
+RSpec.describe CLI::Validator do
+  let(:messages) { CLI::LanguageParser.new('locales/en.yml').messages }
   let(:validator) { described_class.new }
 
   describe '#valid_choice?' do
