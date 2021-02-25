@@ -4,6 +4,7 @@ require 'array_database'
 require 'file_database'
 require 'language_parser'
 require 'terminator'
+require 'sqlite_database'
 require 'user_interface'
 require 'validator'
 
@@ -16,14 +17,14 @@ RSpec.shared_examples 'a Terminator' do |database_class, argument|
     let(:delete_both_contacts_input) { "0\ny\ny\n0\ny\n" }
 
     after(:each) do
-      if argument
+      if argument.instance_of?(Tempfile)
         argument.truncate(0)
         argument.rewind
       end
     end
 
     after(:all) do
-      if argument
+      if argument.instance_of?(Tempfile)
         argument.close
         argument.unlink
       end
@@ -68,13 +69,13 @@ RSpec.shared_examples 'a Terminator' do |database_class, argument|
     it 'does not delete contact if user chooses not to delete' do
       run_terminator_with_input("0\nn\nn\n")
 
-      expect(database.all).to include(test_details)
+      expect(database.all.first).to include(test_details)
     end
 
     it 'deletes contact if user chooses to delete' do
       run_terminator_with_input(delete_one_contact_input)
 
-      expect(database.all).to_not include(test_details)
+      expect(database.all.first).to_not include(test_details)
     end
 
     it 'prints confirmation that contact was deleted if user chooses to delete' do
@@ -150,4 +151,8 @@ end
 
 RSpec.describe 'with File Database' do
   it_behaves_like 'a Terminator', [FileDatabase, Tempfile.new('test')]
+end
+
+RSpec.describe 'with SQLite3 Database' do
+  it_behaves_like 'a Terminator', [SQLiteDatabase, ':memory:']
 end

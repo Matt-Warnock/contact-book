@@ -4,6 +4,7 @@ require 'array_database'
 require 'file_database'
 require 'language_parser'
 require 'pager'
+require 'sqlite_database'
 require 'user_interface'
 require 'validator'
 
@@ -17,14 +18,14 @@ RSpec.shared_examples 'a Pager' do |database_class, argument|
   let(:validator) { Validator.new }
 
   after(:each) do
-    if argument
+    if argument.instance_of?(Tempfile)
       argument.truncate(0)
       argument.rewind
     end
   end
 
   after(:all) do
-    if argument
+    if argument.instance_of?(Tempfile)
       argument.close
       argument.unlink
     end
@@ -117,4 +118,8 @@ end
 
 RSpec.describe 'with File Database' do
   it_behaves_like 'a Pager', [FileDatabase, Tempfile.new('test')]
+end
+
+RSpec.describe 'with SQLite3 Database' do
+  it_behaves_like 'a Pager', [SQLiteDatabase, ':memory:']
 end
