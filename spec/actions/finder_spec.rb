@@ -2,16 +2,16 @@
 
 require 'db/array_database'
 require 'db/file_database'
-require 'finder'
+require 'actions/finder'
 require 'language_parser'
 require 'db/sqlite_database'
 require 'user_interface'
 require 'validator'
 
-RSpec.shared_examples 'a Finder' do |database_class, argument|
+RSpec.shared_examples 'a Actions::Finder' do |database_class, argument|
   describe '#run' do
     let(:database) { argument ? database_class.new(argument) : database_class.new }
-    let(:described_class) { Finder }
+    let(:described_class) { Actions::Finder }
     let(:messages) { LanguageParser.new('locales/en.yml').messages }
     let(:output) { StringIO.new }
     let(:validator) { Validator.new }
@@ -101,13 +101,13 @@ RSpec.shared_examples 'a Finder' do |database_class, argument|
 end
 
 RSpec.describe 'with Array Database' do
-  it_behaves_like 'a Finder', [DB::ArrayDatabase, nil]
+  it_behaves_like 'a Actions::Finder', [DB::ArrayDatabase, nil]
 end
 
 RSpec.describe 'with File Database' do
-  it_behaves_like 'a Finder', [DB::FileDatabase, Tempfile.new('test')]
+  it_behaves_like 'a Actions::Finder', [DB::FileDatabase, Tempfile.new('test')]
 end
 
 RSpec.describe 'with SQLite3 Database' do
-  it_behaves_like 'a Finder', [DB::SQLiteDatabase, ':memory:']
+  it_behaves_like 'a Actions::Finder', [DB::SQLiteDatabase, ':memory:']
 end

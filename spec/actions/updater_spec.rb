@@ -2,15 +2,15 @@
 
 require 'db/array_database'
 require 'db/file_database'
-require 'language_parser'
+require 'cli/language_parser'
 require 'db/sqlite_database'
-require 'updater'
+require 'actions/updater'
 require 'user_interface'
 require 'validator'
 
-RSpec.shared_examples 'an Updater' do |database_class, argument|
+RSpec.shared_examples 'an Actions::Updater' do |database_class, argument|
   let(:database) { argument ? database_class.new(argument) : database_class.new }
-  let(:messages) { LanguageParser.new('locales/en.yml').messages }
+  let(:messages) { CLI::LanguageParser.new('locales/en.yml').messages }
   let(:output) { StringIO.new }
   let(:quick_exit_responces) { "0\nname\nirrelevant\nn\nn\n" }
 
@@ -97,13 +97,13 @@ RSpec.shared_examples 'an Updater' do |database_class, argument|
 
     database.create(test_details)
 
-    Updater.new(user_interface, database).run
+    Actions::Updater.new(user_interface, database).run
   end
 
   def run_updater_with_empty_database
     user_interface = UserInterface.new(StringIO.new("\n"), output, Validator.new, messages)
 
-    Updater.new(user_interface, database).run
+    Actions::Updater.new(user_interface, database).run
   end
 
   def test_details
@@ -118,13 +118,13 @@ RSpec.shared_examples 'an Updater' do |database_class, argument|
 end
 
 RSpec.describe 'with Array Database' do
-  it_behaves_like 'an Updater', [DB::ArrayDatabase, nil]
+  it_behaves_like 'an Actions::Updater', [DB::ArrayDatabase, nil]
 end
 
 RSpec.describe 'with File Database' do
-  it_behaves_like 'an Updater', [DB::FileDatabase, Tempfile.new('test')]
+  it_behaves_like 'an Actions::Updater', [DB::FileDatabase, Tempfile.new('test')]
 end
 
 RSpec.describe 'with SQLite3 Database' do
-  it_behaves_like 'an Updater', [DB::SQLiteDatabase, ':memory:']
+  it_behaves_like 'an Actions::Updater', [DB::SQLiteDatabase, ':memory:']
 end

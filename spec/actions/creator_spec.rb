@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 require 'db/array_database'
-require 'creator'
+require 'actions/creator'
 require 'db/file_database'
 require 'db/sqlite_database'
 
-RSpec.shared_examples 'a Creator' do |database_class, argument|
+RSpec.shared_examples 'a Actions::Creator' do |database_class, argument|
   describe '#run' do
-    let(:creator) { Creator.new(ui, database) }
+    let(:creator) { Actions::Creator.new(ui, database) }
     let(:database) { argument ? database_class.new(argument) : database_class.new }
     let(:ui) do
       double('UserInterface',
@@ -90,13 +90,13 @@ RSpec.shared_examples 'a Creator' do |database_class, argument|
 end
 
 RSpec.describe 'with Array Database' do
-  it_behaves_like 'a Creator', [DB::ArrayDatabase, nil]
+  it_behaves_like 'a Actions::Creator', [DB::ArrayDatabase, nil]
 end
 
 RSpec.describe 'with File Database' do
-  it_behaves_like 'a Creator', [DB::FileDatabase, Tempfile.new('test')]
+  it_behaves_like 'a Actions::Creator', [DB::FileDatabase, Tempfile.new('test')]
 end
 
 RSpec.describe 'with sqlite3 database' do
-  it_behaves_like 'a Creator', [DB::SQLiteDatabase, ':memory:']
+  it_behaves_like 'a Actions::Creator', [DB::SQLiteDatabase, ':memory:']
 end

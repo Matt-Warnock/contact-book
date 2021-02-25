@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require 'controler'
+require 'actions/controler'
 require 'language_parser'
-require 'null_action'
+require 'actions/null_action'
 require 'user_interface'
 require 'validator'
 
-RSpec.describe Controler do
-  let(:actions) { Array.new(messages.actions_count, NullAction.new) }
+RSpec.describe Actions::Controler do
+  let(:actions) { Array.new(messages.actions_count, Actions::NullAction.new) }
   let(:exit_choice) { messages.exit_choice }
   let(:messages) { LanguageParser.new('locales/en.yml').messages }
   let(:output) { StringIO.new }

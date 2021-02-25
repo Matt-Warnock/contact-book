@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'null_action'
+require 'actions/null_action'
 
-RSpec.describe NullAction do
+RSpec.describe Actions::NullAction do
   it 'returns nil' do
     null_action = described_class.new
 
