@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'db/array_database'
-require 'file_database'
+require 'db/file_database'
 require 'language_parser'
-require 'sqlite_database'
+require 'db/sqlite_database'
 require 'updater'
 require 'user_interface'
 require 'validator'
@@ -122,9 +122,9 @@ RSpec.describe 'with Array Database' do
 end
 
 RSpec.describe 'with File Database' do
-  it_behaves_like 'an Updater', [FileDatabase, Tempfile.new('test')]
+  it_behaves_like 'an Updater', [DB::FileDatabase, Tempfile.new('test')]
 end
 
 RSpec.describe 'with SQLite3 Database' do
-  it_behaves_like 'an Updater', [SQLiteDatabase, ':memory:']
+  it_behaves_like 'an Updater', [DB::SQLiteDatabase, ':memory:']
 end

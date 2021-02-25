@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'database_interface'
+require 'db/database_interface'
 
 module DB
-  class ArrayDatabase < DatabaseInterface
+  class ArrayDatabase < DB::DatabaseInterface
     attr_reader :all
 
     def initialize

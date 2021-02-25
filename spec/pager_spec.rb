@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 require 'db/array_database'
-require 'file_database'
+require 'db/file_database'
 require 'language_parser'
 require 'pager'
-require 'sqlite_database'
+require 'db/sqlite_database'
 require 'user_interface'
 require 'validator'
 
@@ -117,9 +117,9 @@ RSpec.describe 'with Array Database' do
 end
 
 RSpec.describe 'with File Database' do
-  it_behaves_like 'a Pager', [FileDatabase, Tempfile.new('test')]
+  it_behaves_like 'a Pager', [DB::FileDatabase, Tempfile.new('test')]
 end
 
 RSpec.describe 'with SQLite3 Database' do
-  it_behaves_like 'a Pager', [SQLiteDatabase, ':memory:']
+  it_behaves_like 'a Pager', [DB::SQLiteDatabase, ':memory:']
 end
