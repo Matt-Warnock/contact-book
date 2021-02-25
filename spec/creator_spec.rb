@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'array_database'
+require 'db/array_database'
 require 'creator'
 require 'file_database'
 require 'sqlite_database'
@@ -90,7 +90,7 @@ RSpec.shared_examples 'a Creator' do |database_class, argument|
 end
 
 RSpec.describe 'with Array Database' do
-  it_behaves_like 'a Creator', [ArrayDatabase, nil]
+  it_behaves_like 'a Creator', [DB::ArrayDatabase, nil]
 end
 
 RSpec.describe 'with File Database' do

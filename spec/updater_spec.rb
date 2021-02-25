@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'array_database'
+require 'db/array_database'
 require 'file_database'
 require 'language_parser'
 require 'sqlite_database'
@@ -118,7 +118,7 @@ RSpec.shared_examples 'an Updater' do |database_class, argument|
 end
 
 RSpec.describe 'with Array Database' do
-  it_behaves_like 'an Updater', [ArrayDatabase, nil]
+  it_behaves_like 'an Updater', [DB::ArrayDatabase, nil]
 end
 
 RSpec.describe 'with File Database' do

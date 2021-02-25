@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'array_database'
+require 'db/array_database'
 require 'file_database'
 require 'language_parser'
 require 'terminator'
@@ -146,7 +146,7 @@ RSpec.shared_examples 'a Terminator' do |database_class, argument|
 end
 
 RSpec.describe 'with Array Database' do
-  it_behaves_like 'a Terminator', [ArrayDatabase, nil]
+  it_behaves_like 'a Terminator', [DB::ArrayDatabase, nil]
 end
 
 RSpec.describe 'with File Database' do

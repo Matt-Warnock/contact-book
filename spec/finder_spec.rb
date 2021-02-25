@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'array_database'
+require 'db/array_database'
 require 'file_database'
 require 'finder'
 require 'language_parser'
@@ -101,7 +101,7 @@ RSpec.shared_examples 'a Finder' do |database_class, argument|
 end
 
 RSpec.describe 'with Array Database' do
-  it_behaves_like 'a Finder', [ArrayDatabase, nil]
+  it_behaves_like 'a Finder', [DB::ArrayDatabase, nil]
 end
 
 RSpec.describe 'with File Database' do
