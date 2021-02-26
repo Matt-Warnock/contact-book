@@ -2,12 +2,12 @@
 
 require 'language_parser'
 require 'cli/user_interface'
-require 'cli/validator'
+require 'validator'
 
 RSpec.describe CLI::UserInterface do
   let(:output) { StringIO.new }
   let(:messages) { LanguageParser.new('locales/en.yml').messages }
-  let(:validator) { CLI::Validator.new }
+  let(:validator) { Validator.new }
   let(:yes_reply) { messages.yes_reply + "\n" }
 
   describe '#menu_choice' do

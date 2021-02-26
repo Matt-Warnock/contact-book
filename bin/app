@@ -17,7 +17,7 @@ require 'db/sqlite_database'
 require 'actions/terminator'
 require 'actions/updater'
 require 'cli/user_interface'
-require 'cli/validator'
+require 'validator'
 
 messages = LanguageParser.new('locales/en.yml').messages
 

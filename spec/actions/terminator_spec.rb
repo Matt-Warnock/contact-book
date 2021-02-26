@@ -6,7 +6,7 @@ require 'language_parser'
 require 'actions/terminator'
 require 'db/sqlite_database'
 require 'cli/user_interface'
-require 'cli/validator'
+require 'validator'
 
 RSpec.shared_examples 'a Terminator' do |database_class, argument|
   describe '#run' do
@@ -110,7 +110,7 @@ RSpec.shared_examples 'a Terminator' do |database_class, argument|
   end
 
   def run_terminator_with_input(input)
-    user_interface = CLI::UserInterface.new(StringIO.new(input), output, CLI::Validator.new, messages)
+    user_interface = CLI::UserInterface.new(StringIO.new(input), output, Validator.new, messages)
 
     database.create(test_details)
     database.create(second_contact)
@@ -119,7 +119,7 @@ RSpec.shared_examples 'a Terminator' do |database_class, argument|
   end
 
   def run_terminator_without_contacts
-    user_interface = CLI::UserInterface.new(StringIO.new, output, CLI::Validator.new, messages)
+    user_interface = CLI::UserInterface.new(StringIO.new, output, Validator.new, messages)
 
     Actions::Terminator.new(user_interface, database).run
   end

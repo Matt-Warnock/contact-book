@@ -4,7 +4,7 @@ require 'cli/controler'
 require 'language_parser'
 require 'actions/null_action'
 require 'cli/user_interface'
-require 'cli/validator'
+require 'validator'
 
 RSpec.describe CLI::Controler do
   let(:actions) { Array.new(messages.actions_count, Actions::NullAction.new) }
@@ -14,7 +14,7 @@ RSpec.describe CLI::Controler do
 
   it 'prints the menu before the action is run and after unless exit is chosen' do
     input = StringIO.new("1\n#{exit_choice}\n")
-    ui = CLI::UserInterface.new(input, output, CLI::Validator.new, messages)
+    ui = CLI::UserInterface.new(input, output, Validator.new, messages)
     controler = described_class.new(ui, actions, messages)
 
     controler.start
@@ -33,7 +33,7 @@ RSpec.describe CLI::Controler do
 
   it 'runs the actions chosen' do
     null_action = double('NullAction', run: nil)
-    ui = CLI::UserInterface.new(StringIO.new("1\n#{exit_choice}\n"), output, CLI::Validator.new, messages)
+    ui = CLI::UserInterface.new(StringIO.new("1\n#{exit_choice}\n"), output, Validator.new, messages)
     controler = described_class.new(ui, Array.new(messages.actions_count, null_action), messages)
 
     controler.start

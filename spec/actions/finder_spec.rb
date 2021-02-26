@@ -6,7 +6,7 @@ require 'actions/finder'
 require 'language_parser'
 require 'db/sqlite_database'
 require 'cli/user_interface'
-require 'cli/validator'
+require 'validator'
 
 RSpec.shared_examples 'a Finder' do |database_class, argument|
   describe '#run' do
@@ -14,7 +14,7 @@ RSpec.shared_examples 'a Finder' do |database_class, argument|
     let(:described_class) { Actions::Finder }
     let(:messages) { LanguageParser.new('locales/en.yml').messages }
     let(:output) { StringIO.new }
-    let(:validator) { CLI::Validator.new }
+    let(:validator) { Validator.new }
 
     after(:each) do
       if argument.instance_of?(Tempfile)

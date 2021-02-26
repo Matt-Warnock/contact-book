@@ -6,7 +6,7 @@ require 'language_parser'
 require 'actions/pager'
 require 'db/sqlite_database'
 require 'cli/user_interface'
-require 'cli/validator'
+require 'validator'
 
 RSpec.shared_examples 'a Pager' do |database_class, argument|
   let(:database) { argument ? database_class.new(argument) : database_class.new }
@@ -15,7 +15,7 @@ RSpec.shared_examples 'a Pager' do |database_class, argument|
   let(:output) { StringIO.new }
   let(:pager) { Actions::Pager.new(user_interface, database) }
   let(:user_interface) { CLI::UserInterface.new(input, output, validator, messages) }
-  let(:validator) { CLI::Validator.new }
+  let(:validator) { Validator.new }
 
   after(:each) do
     if argument.instance_of?(Tempfile)
