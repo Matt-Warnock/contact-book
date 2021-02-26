@@ -4,12 +4,12 @@
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'db/array_database'
-require 'actions/controler'
+require 'cli/controler'
 require 'actions/creator'
 require 'db/file_database'
 require 'actions/finder'
 require 'io/console'
-require 'cli/language_parser'
+require 'language_parser'
 require 'actions/null_action'
 require 'actions/pager'
 require 'pathname'
@@ -19,18 +19,18 @@ require 'actions/updater'
 require 'cli/user_interface'
 require 'cli/validator'
 
-messages = CLI::LanguageParser.new('locales/en.yml').messages
+messages = LanguageParser.new('locales/en.yml').messages
 
 database = DB::SQLiteDatabase.new('contacts.db')
 
 user_interface = CLI::UserInterface.new($stdin, $stdout, Validator.new, messages)
 actions = [
-  Pager.new(user_interface, database),
-  Creator.new(user_interface, database),
-  Finder.new(user_interface, database),
-  Updater.new(user_interface, database),
-  Terminator.new(user_interface, database),
-  NullAction.new
+  Actions::Pager.new(user_interface, database),
+  Actions::Creator.new(user_interface, database),
+  Actions::Finder.new(user_interface, database),
+  Actions::Updater.new(user_interface, database),
+  Actions::Terminator.new(user_interface, database),
+  Actions::NullAction.new
 ]
 
-Actions::Controler.new(user_interface, actions, messages).start
+CLI::Controler.new(user_interface, actions, messages).start

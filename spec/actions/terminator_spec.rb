@@ -2,7 +2,7 @@
 
 require 'db/array_database'
 require 'db/file_database'
-require 'cli/language_parser'
+require 'language_parser'
 require 'actions/terminator'
 require 'db/sqlite_database'
 require 'cli/user_interface'
@@ -11,7 +11,7 @@ require 'cli/validator'
 RSpec.shared_examples 'a Terminator' do |database_class, argument|
   describe '#run' do
     let(:database) { argument ? database_class.new(argument) : database_class.new }
-    let(:messages) { CLI::LanguageParser.new('locales/en.yml').messages }
+    let(:messages) { LanguageParser.new('locales/en.yml').messages }
     let(:output) { StringIO.new }
     let(:delete_one_contact_input) { "0\ny\nn\n" }
     let(:delete_both_contacts_input) { "0\ny\ny\n0\ny\n" }

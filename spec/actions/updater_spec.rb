@@ -2,7 +2,7 @@
 
 require 'db/array_database'
 require 'db/file_database'
-require 'cli/language_parser'
+require 'language_parser'
 require 'db/sqlite_database'
 require 'actions/updater'
 require 'cli/user_interface'
@@ -10,7 +10,7 @@ require 'cli/validator'
 
 RSpec.shared_examples 'an Updater' do |database_class, argument|
   let(:database) { argument ? database_class.new(argument) : database_class.new }
-  let(:messages) { CLI::LanguageParser.new('locales/en.yml').messages }
+  let(:messages) { LanguageParser.new('locales/en.yml').messages }
   let(:output) { StringIO.new }
   let(:quick_exit_responces) { "0\nname\nirrelevant\nn\nn\n" }
 

@@ -3,7 +3,7 @@
 require 'db/array_database'
 require 'db/file_database'
 require 'actions/finder'
-require 'cli/language_parser'
+require 'language_parser'
 require 'db/sqlite_database'
 require 'cli/user_interface'
 require 'cli/validator'
@@ -12,7 +12,7 @@ RSpec.shared_examples 'a Finder' do |database_class, argument|
   describe '#run' do
     let(:database) { argument ? database_class.new(argument) : database_class.new }
     let(:described_class) { Actions::Finder }
-    let(:messages) { CLI::LanguageParser.new('locales/en.yml').messages }
+    let(:messages) { LanguageParser.new('locales/en.yml').messages }
     let(:output) { StringIO.new }
     let(:validator) { CLI::Validator.new }
 

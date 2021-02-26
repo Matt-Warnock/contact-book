@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-require 'actions/controler'
-require 'cli/language_parser'
+require 'cli/controler'
+require 'language_parser'
 require 'actions/null_action'
 require 'cli/user_interface'
 require 'cli/validator'
 
-RSpec.describe Actions::Controler do
+RSpec.describe CLI::Controler do
   let(:actions) { Array.new(messages.actions_count, Actions::NullAction.new) }
   let(:exit_choice) { messages.exit_choice }
-  let(:messages) { CLI::LanguageParser.new('locales/en.yml').messages }
+  let(:messages) { LanguageParser.new('locales/en.yml').messages }
   let(:output) { StringIO.new }
 
   it 'prints the menu before the action is run and after unless exit is chosen' do

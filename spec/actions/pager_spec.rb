@@ -2,7 +2,7 @@
 
 require 'db/array_database'
 require 'db/file_database'
-require 'cli/language_parser'
+require 'language_parser'
 require 'actions/pager'
 require 'db/sqlite_database'
 require 'cli/user_interface'
@@ -11,7 +11,7 @@ require 'cli/validator'
 RSpec.shared_examples 'a Pager' do |database_class, argument|
   let(:database) { argument ? database_class.new(argument) : database_class.new }
   let(:input) { StringIO.new }
-  let(:messages) { CLI::LanguageParser.new('locales/en.yml').messages }
+  let(:messages) { LanguageParser.new('locales/en.yml').messages }
   let(:output) { StringIO.new }
   let(:pager) { Actions::Pager.new(user_interface, database) }
   let(:user_interface) { CLI::UserInterface.new(input, output, validator, messages) }

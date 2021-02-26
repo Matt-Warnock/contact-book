@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'cli/language_parser'
+require 'language_parser'
 require 'cli/user_interface'
 require 'cli/validator'
 
 RSpec.describe CLI::UserInterface do
   let(:output) { StringIO.new }
-  let(:messages) { CLI::LanguageParser.new('locales/en.yml').messages }
+  let(:messages) { LanguageParser.new('locales/en.yml').messages }
   let(:validator) { CLI::Validator.new }
   let(:yes_reply) { messages.yes_reply + "\n" }
 

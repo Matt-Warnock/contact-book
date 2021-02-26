@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Actions
+module CLI
   class Controler
     def initialize(user_interface, actions, messages)
       @user_interface = user_interface
