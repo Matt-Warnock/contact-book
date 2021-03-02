@@ -3,34 +3,34 @@
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
-require 'array_database'
-require 'controler'
-require 'creator'
-require 'file_database'
-require 'finder'
+require 'db/array_database'
+require 'cli/controler'
+require 'actions/creator'
+require 'db/file_database'
+require 'actions/finder'
 require 'io/console'
 require 'language_parser'
-require 'null_action'
-require 'pager'
+require 'actions/null_action'
+require 'actions/pager'
 require 'pathname'
-require 'sqlite_database'
-require 'terminator'
-require 'updater'
-require 'user_interface'
+require 'db/sqlite_database'
+require 'actions/terminator'
+require 'actions/updater'
+require 'cli/user_interface'
 require 'validator'
 
 messages = LanguageParser.new('locales/en.yml').messages
 
-database = SQLiteDatabase.new('contacts.db')
+database = DB::SQLiteDatabase.new('contacts.db')
 
-user_interface = UserInterface.new($stdin, $stdout, Validator.new, messages)
+user_interface = CLI::UserInterface.new($stdin, $stdout, Validator.new, messages)
 actions = [
-  Pager.new(user_interface, database),
-  Creator.new(user_interface, database),
-  Finder.new(user_interface, database),
-  Updater.new(user_interface, database),
-  Terminator.new(user_interface, database),
-  NullAction.new
+  Actions::Pager.new(user_interface, database),
+  Actions::Creator.new(user_interface, database),
+  Actions::Finder.new(user_interface, database),
+  Actions::Updater.new(user_interface, database),
+  Actions::Terminator.new(user_interface, database),
+  Actions::NullAction.new
 ]
 
-Controler.new(user_interface, actions, messages).start
+CLI::Controler.new(user_interface, actions, messages).start

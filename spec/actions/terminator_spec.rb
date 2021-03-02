@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'array_database'
-require 'file_database'
+require 'db/array_database'
+require 'db/file_database'
 require 'language_parser'
-require 'terminator'
-require 'sqlite_database'
-require 'user_interface'
+require 'actions/terminator'
+require 'db/sqlite_database'
+require 'cli/user_interface'
 require 'validator'
 
 RSpec.shared_examples 'a Terminator' do |database_class, argument|
@@ -110,18 +110,18 @@ RSpec.shared_examples 'a Terminator' do |database_class, argument|
   end
 
   def run_terminator_with_input(input)
-    user_interface = UserInterface.new(StringIO.new(input), output, Validator.new, messages)
+    user_interface = CLI::UserInterface.new(StringIO.new(input), output, Validator.new, messages)
 
     database.create(test_details)
     database.create(second_contact)
 
-    Terminator.new(user_interface, database).run
+    Actions::Terminator.new(user_interface, database).run
   end
 
   def run_terminator_without_contacts
-    user_interface = UserInterface.new(StringIO.new, output, Validator.new, messages)
+    user_interface = CLI::UserInterface.new(StringIO.new, output, Validator.new, messages)
 
-    Terminator.new(user_interface, database).run
+    Actions::Terminator.new(user_interface, database).run
   end
 
   def test_details
@@ -146,13 +146,13 @@ RSpec.shared_examples 'a Terminator' do |database_class, argument|
 end
 
 RSpec.describe 'with Array Database' do
-  it_behaves_like 'a Terminator', [ArrayDatabase, nil]
+  it_behaves_like 'a Terminator', [DB::ArrayDatabase, nil]
 end
 
 RSpec.describe 'with File Database' do
-  it_behaves_like 'a Terminator', [FileDatabase, Tempfile.new('test')]
+  it_behaves_like 'a Terminator', [DB::FileDatabase, Tempfile.new('test')]
 end
 
 RSpec.describe 'with SQLite3 Database' do
-  it_behaves_like 'a Terminator', [SQLiteDatabase, ':memory:']
+  it_behaves_like 'a Terminator', [DB::SQLiteDatabase, ':memory:']
 end

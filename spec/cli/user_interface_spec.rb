@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 require 'language_parser'
-require 'user_interface'
+require 'cli/user_interface'
 require 'validator'
 
-RSpec.describe UserInterface do
+RSpec.describe CLI::UserInterface do
   let(:output) { StringIO.new }
   let(:messages) { LanguageParser.new('locales/en.yml').messages }
   let(:validator) { Validator.new }

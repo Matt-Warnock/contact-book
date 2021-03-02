@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'array_database'
-require 'file_database'
+require 'db/array_database'
+require 'db/file_database'
 require 'language_parser'
-require 'sqlite_database'
-require 'updater'
-require 'user_interface'
+require 'db/sqlite_database'
+require 'actions/updater'
+require 'cli/user_interface'
 require 'validator'
 
 RSpec.shared_examples 'an Updater' do |database_class, argument|
@@ -93,17 +93,17 @@ RSpec.shared_examples 'an Updater' do |database_class, argument|
   end
 
   def run_updater_with_input(string)
-    user_interface = UserInterface.new(StringIO.new(string), output, Validator.new, messages)
+    user_interface = CLI::UserInterface.new(StringIO.new(string), output, Validator.new, messages)
 
     database.create(test_details)
 
-    Updater.new(user_interface, database).run
+    Actions::Updater.new(user_interface, database).run
   end
 
   def run_updater_with_empty_database
-    user_interface = UserInterface.new(StringIO.new("\n"), output, Validator.new, messages)
+    user_interface = CLI::UserInterface.new(StringIO.new("\n"), output, Validator.new, messages)
 
-    Updater.new(user_interface, database).run
+    Actions::Updater.new(user_interface, database).run
   end
 
   def test_details
@@ -118,13 +118,13 @@ RSpec.shared_examples 'an Updater' do |database_class, argument|
 end
 
 RSpec.describe 'with Array Database' do
-  it_behaves_like 'an Updater', [ArrayDatabase, nil]
+  it_behaves_like 'an Updater', [DB::ArrayDatabase, nil]
 end
 
 RSpec.describe 'with File Database' do
-  it_behaves_like 'an Updater', [FileDatabase, Tempfile.new('test')]
+  it_behaves_like 'an Updater', [DB::FileDatabase, Tempfile.new('test')]
 end
 
 RSpec.describe 'with SQLite3 Database' do
-  it_behaves_like 'an Updater', [SQLiteDatabase, ':memory:']
+  it_behaves_like 'an Updater', [DB::SQLiteDatabase, ':memory:']
 end

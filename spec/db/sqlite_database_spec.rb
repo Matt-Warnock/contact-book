@@ -1,21 +1,25 @@
 # frozen_string_literal: true
 
-require 'file_database'
+require 'db/sqlite_database'
 
-RSpec.describe FileDatabase do
-  let(:file) { Tempfile.open('test') }
-  let(:database) { described_class.new(file) }
+RSpec.describe DB::SQLiteDatabase do
+  let(:database) { described_class.new('file::memory:?cache=shared') }
+  let(:sqlite) { SQLite3::Database.open('file::memory:?cache=shared') }
 
-  after(:each) do
-    file.close
-    file.unlink
-  end
+  before(:each) { database }
+  after(:each) { sqlite.execute 'DROP TABLE contacts' }
 
   describe '#all' do
-    it 'reads all contacts in a json file to ruby' do
-      file << [test_details].to_json
+    it 'return an empty array if invalid file path is given' do
+      database = described_class.new('')
+      expect(database.all).to eq([])
+    end
 
-      expect(database.all).to eq([test_details])
+    it 'returns all contacts in a sqlite database as array of hashs' do
+      add_contact_to_file(test_details)
+      add_contact_to_file(second_contact)
+
+      expect(database.all).to eq([test_details, second_contact])
     end
 
     it 'return an empty array if file is empty' do
@@ -25,7 +29,7 @@ RSpec.describe FileDatabase do
 
   describe '#database_empty?' do
     it 'returns false when contacts are present' do
-      file << [test_details].to_json
+      add_contact_to_file(test_details)
 
       expect(database.database_empty?).to eq(false)
     end
@@ -36,14 +40,17 @@ RSpec.describe FileDatabase do
   end
 
   describe '#create' do
-    it 'adds a contact to the database file in valid json' do
+    it 'adds a contact to the sql file' do
       database.create(test_details)
-      file.rewind
 
-      expect(file.read).to eq([test_details].to_json)
+      result = sqlite.query 'SELECT * FROM contacts' do |rows|
+        rows.next_hash.transform_keys(&:to_sym)
+      end
+
+      expect(result).to eq(test_details)
     end
 
-    it 'adds contact to the end of the files array' do
+    it 'appends contacts to file' do
       database.create({ name: 'Matt' })
       database.create({ name: 'John' })
 
@@ -52,28 +59,39 @@ RSpec.describe FileDatabase do
   end
 
   describe '#count' do
-    it 'returns the size of file array as a number' do
-      file << [test_details, second_contact].to_json
+    it 'returns the number of contacts in file as a number' do
+      add_contact_to_file(test_details)
+      add_contact_to_file(second_contact)
 
       expect(database.count).to eq(2)
     end
 
-    it 'returns zero integer when array is empty' do
+    it 'returns zero integer when file is empty' do
       expect(database.count).to eq(0)
     end
   end
 
   describe '#contact_at' do
     it 'takes an index and returns the contact in that index' do
-      file << [test_details, second_contact].to_json
+      add_contact_to_file(test_details)
+      add_contact_to_file(second_contact)
 
       expect(database.contact_at(0)).to eq(test_details)
+    end
+
+    it 'returns correct contact when order in contacts has changed' do
+      add_contact_to_file(test_details)
+      add_contact_to_file(second_contact)
+
+      database.delete(0)
+
+      expect(database.contact_at(0)).to eq(second_contact)
     end
   end
 
   describe '#update' do
     it 'updates the indexed contact in file with a feild/value pair provided' do
-      file << [test_details].to_json
+      add_contact_to_file(test_details)
 
       database.update(0, { name: 'John' })
 
@@ -83,7 +101,8 @@ RSpec.describe FileDatabase do
 
   describe '#delete' do
     it 'deletes contact in index from file' do
-      file << [test_details, second_contact].to_json
+      add_contact_to_file(test_details)
+      add_contact_to_file(second_contact)
 
       database.delete(0)
 
@@ -101,7 +120,9 @@ RSpec.describe FileDatabase do
         notes: 'amazing drummer'
       }
 
-      file << [test_details, second_contact, third_contact].to_json
+      add_contact_to_file(test_details)
+      add_contact_to_file(second_contact)
+      add_contact_to_file(third_contact)
 
       result = database.search('oscar')
 
@@ -109,7 +130,7 @@ RSpec.describe FileDatabase do
     end
 
     it 'returns an empty array when no matches are found' do
-      file << [test_details].to_json
+      add_contact_to_file(test_details)
 
       result = database.search('irrelevant')
 
@@ -117,8 +138,15 @@ RSpec.describe FileDatabase do
     end
   end
 
+  def add_contact_to_file(contact)
+    row = contact.values_at(:name, :address, :phone, :email, :notes)
+    sqlite.execute('INSERT INTO contacts(name, address, phone, email, notes)
+                  VALUES (?, ?, ?, ?, ?)', row)
+  end
+
   def test_details
     {
+      id: 1,
       name: 'Matt Damon',
       address: 'Some address',
       phone: '08796564231',
@@ -129,6 +157,7 @@ RSpec.describe FileDatabase do
 
   def second_contact
     {
+      id: 2,
       name: 'oscar wilde',
       address: 'Paris',
       phone: '00000000000',

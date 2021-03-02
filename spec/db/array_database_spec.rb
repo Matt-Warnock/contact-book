@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'array_database'
+require 'db/array_database'
 
-RSpec.describe ArrayDatabase do
+RSpec.describe DB::ArrayDatabase do
   describe '#create' do
     it 'collects a contact into the array' do
       array_database = described_class.new

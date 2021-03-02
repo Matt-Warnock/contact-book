@@ -6,7 +6,12 @@
 
 # Readme
 
-Explain your project here.
+Contact Book is an app for storing personal contact details.
+
+## System Diagram
+![Diagram of system](diagram.png)
+
+You can keep the diagram up to date uploading `diagram.xml` to: https://app.diagrams.net/. Then save both `.xml` and `.png` updated diagrams to root project directory.
 
 
 ## Badges

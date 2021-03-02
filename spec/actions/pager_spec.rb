@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'array_database'
-require 'file_database'
+require 'db/array_database'
+require 'db/file_database'
 require 'language_parser'
-require 'pager'
-require 'sqlite_database'
-require 'user_interface'
+require 'actions/pager'
+require 'db/sqlite_database'
+require 'cli/user_interface'
 require 'validator'
 
 RSpec.shared_examples 'a Pager' do |database_class, argument|
@@ -13,8 +13,8 @@ RSpec.shared_examples 'a Pager' do |database_class, argument|
   let(:input) { StringIO.new }
   let(:messages) { LanguageParser.new('locales/en.yml').messages }
   let(:output) { StringIO.new }
-  let(:pager) { Pager.new(user_interface, database) }
-  let(:user_interface) { UserInterface.new(input, output, validator, messages) }
+  let(:pager) { Actions::Pager.new(user_interface, database) }
+  let(:user_interface) { CLI::UserInterface.new(input, output, validator, messages) }
   let(:validator) { Validator.new }
 
   after(:each) do
@@ -113,13 +113,13 @@ RSpec.shared_examples 'a Pager' do |database_class, argument|
 end
 
 RSpec.describe 'with Array Database' do
-  it_behaves_like 'a Pager', [ArrayDatabase, nil]
+  it_behaves_like 'a Pager', [DB::ArrayDatabase, nil]
 end
 
 RSpec.describe 'with File Database' do
-  it_behaves_like 'a Pager', [FileDatabase, Tempfile.new('test')]
+  it_behaves_like 'a Pager', [DB::FileDatabase, Tempfile.new('test')]
 end
 
 RSpec.describe 'with SQLite3 Database' do
-  it_behaves_like 'a Pager', [SQLiteDatabase, ':memory:']
+  it_behaves_like 'a Pager', [DB::SQLiteDatabase, ':memory:']
 end
