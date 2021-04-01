@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/Matt-Warnock/contact-book.svg?branch=master)](https://travis-ci.org/Matt-Warnock/contact-book)
 [![Coverage Status](https://coveralls.io/repos/github/Matt-Warnock/contact-book/badge.svg?branch=master)](https://coveralls.io/github/Matt-Warnock/contact-book?branch=master)
-[![Maintainability](https://api.codeclimate.com/v1/badges/928faf993ccf571770dc/maintainability)](https://codeclimate.com/github/Matt-Warnock/contact-book/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/1cf4ca97881ef640da30/maintainability)](https://codeclimate.com/github/Matt-Warnock/contact-book/maintainability)
 [![Dependency status](https://badges.depfu.com/badges/a5f9aa0eb83998a1a81f7b1298a0b4f8/overview.svg)](https://depfu.com/github/Matt-Warnock/contact-book?project=Bundler)
 
 
