@@ -6,7 +6,7 @@ ruby '3.0.0'
 gem 'sqlite3'
 
 group :test do
-  gem 'coveralls', '~> 0.8', require: false
+  gem 'coveralls_reborn', '~> 0.21.0', require: false
   gem 'pry', '~> 0.12'
   gem 'rake', '~> 12.3', '>= 12.3'
   gem 'rspec', '~> 3.9'
