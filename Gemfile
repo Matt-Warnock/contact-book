@@ -10,5 +10,5 @@ group :test do
   gem 'pry', '~> 0.12'
   gem 'rake', '~> 13.0', '>= 12.3'
   gem 'rspec', '~> 3.9'
-  gem 'rubocop', '~> 0.85', require: false
+  gem 'rubocop', '~> 1.15', require: false
 end
